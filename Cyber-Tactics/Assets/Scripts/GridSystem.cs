@@ -4,39 +4,28 @@ using UnityEngine;
 
 public class GridSystem : MonoBehaviour
 {
-    public int width = 0;
-    public int height = 0;
-    public Vector3 origin;
+    public int width = 0;               // Width of the grid via the z-axis
+    public int height = 0;              // Height of the grid via the x-axis
+    public Vector3 origin;              // The original world position the grid's position is based on
+    public GameObject selectedUnit;     // The unit that is currently selected
 
-    public GameObject selectedUnit;
-    //public GameObject selectedUnitsNode;
-
-    private GameObject[,] grid;
+    private GameObject[,] grid;         // A 2D array that holds the nodes that make up the grid system
 
     // Start is called before the first frame update
     void Start()
     {
-        // Create one 2d array that stores all of the grid nodes for board position and valid moves.
-        // Create another 2d array that stores all of the gameobjects on the board (if there is no gameobject on that tile, it is empty.)
-
-
-        // Best Option: 
-        // You use one 2D array that stores grid nodes that hold their world psoition and whatever gameobejct is on them.
-        // GridNode(Vector3(int x, int y, int z), GameObject gameObject, ...)
-        // Node is a script that holds the GameObject and world position, rather than a class so it would have MonoBehaviour
-
-        // The nodes and gameobjects are already in the scene, so you have to find each one in order to place it on the grid.
-        // The GridNodes and GameObjects are already in the scene, so you have to find each node to put in the 2darray Grid<GridNode>
-        // You can place them in the array based on their name, which would just be a number. The GridSystem would be the parent class so you just have to iterate through the children
-
+        // Instantiate a 2D array with the given width and height parameters
         grid = new GameObject[height, width];
         int childIndex = 0;
 
+        // Iterate through grid cells and place each children node one by one in the grid.
         for (int x = 0; x < grid.GetLength(0); x++)
         {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
                 GameObject node = transform.GetChild(childIndex++).gameObject;
+
+                // Offset the node world position by the origin vector, and inform the node of it's position on the grid
                 node.GetComponent<GridNode>().nodeWorldPos = new Vector3(x, 0, y) + origin;
                 node.GetComponent<GridNode>().nodeGridPos = new Vector2(x, y);
                 grid[x, y] = node;
@@ -58,27 +47,30 @@ public class GridSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Input System for Key Presse (Moving on grid)
+        // DISCLAIMER: The controls are based on the axis directions and not the camera perspective, so the controls will be off
         if (Input.GetKeyDown(KeyCode.W))
         {
-            Debug.Log("Move up!");
+            //Debug.Log("Move up!");
             moveSelectedUnit(new Vector3(-1, 0, 0));
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
-            Debug.Log("Move left!");
+            //Debug.Log("Move left!");
             moveSelectedUnit(new Vector3(0, 0, -1));
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            Debug.Log("Move down!");
+            //Debug.Log("Move down!");
             moveSelectedUnit(new Vector3(1, 0, 0));
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            Debug.Log("Move right!");
+            //Debug.Log("Move right!");
             moveSelectedUnit(new Vector3(0, 0, 1));
         }
 
+        // Input System for Mouse Clicks (Selecting Units/Nodes and moving on grid)
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -86,12 +78,12 @@ public class GridSystem : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && hit.transform.tag == "Node")
             {
-                Debug.Log("Node selected.");
+                //Debug.Log("Node selected.");
                 moveSelectedUnitMouseClick(hit.transform.gameObject);
             }
             else if (Input.GetMouseButtonDown(0) && hit.transform.tag == "Unit")
             {
-                Debug.Log("Unit selected.");
+                //Debug.Log("Unit selected.");
                 selectedUnit = hit.transform.gameObject;
             }
         }
@@ -99,7 +91,8 @@ public class GridSystem : MonoBehaviour
 
     public void moveSelectedUnit(Vector3 direction)
     {
-        GameObject oldNode = selectedUnit.GetComponent<Unit>().currentNode;
+        GameObject previousNode = selectedUnit.GetComponent<Unit>().currentNode;
+
         Vector3 nodeGridPos = selectedUnit.GetComponent<Unit>().currentNode.GetComponent<GridNode>().nodeGridPos;
         Vector3 unitOffset = new Vector3(0, selectedUnit.transform.localScale.y, 0);
 
@@ -110,7 +103,8 @@ public class GridSystem : MonoBehaviour
             
             GameObject newNode = grid[(int)(direction.x + nodeGridPos.x), (int)(direction.z + nodeGridPos.y)];
 
-            if (newNode.GetComponent<GridNode>().unit == null)
+            // Check to see if a unit/obstacle GameObject currently occupies that space
+            if (newNode.GetComponent<GridNode>().currentUnit == null)
             {
                 Debug.Log("Valid move!");
 
@@ -118,13 +112,12 @@ public class GridSystem : MonoBehaviour
                 selectedUnit.transform.position = newNode.GetComponent<GridNode>().nodeWorldPos + unitOffset;
 
                 // Transfer the gameobject to the new node
-                newNode.GetComponent<GridNode>().unit = selectedUnit;
+                newNode.GetComponent<GridNode>().currentUnit = selectedUnit;
 
                 // Remove the gameobject from the previous node
-                oldNode.GetComponent<GridNode>().unit = null;
+                previousNode.GetComponent<GridNode>().currentUnit = null;
 
                 // Make the new node location the selectedUnitsNode
-                //selectedUnitsNode = newNode;
                 selectedUnit.GetComponent<Unit>().currentNode = newNode;
             }
             else
@@ -140,11 +133,12 @@ public class GridSystem : MonoBehaviour
 
     public void moveSelectedUnitMouseClick(GameObject newNode)
     {
-        GameObject oldNode = selectedUnit.GetComponent<Unit>().currentNode;
-        Vector3 nodeGridPos = oldNode.GetComponent<GridNode>().nodeGridPos;
+        GameObject previousNode = selectedUnit.GetComponent<Unit>().currentNode;
+        Vector3 nodeGridPos = previousNode.GetComponent<GridNode>().nodeGridPos;
         Vector3 unitOffset = new Vector3(0, selectedUnit.transform.localScale.y, 0);
 
-        if (newNode.GetComponent<GridNode>().unit == null)
+        // Check to see if a unit/obstacle GameObject currently occupies that space
+        if (newNode.GetComponent<GridNode>().currentUnit == null)
         {
             Debug.Log("Valid move!");
 
@@ -152,13 +146,12 @@ public class GridSystem : MonoBehaviour
             selectedUnit.transform.position = newNode.GetComponent<GridNode>().nodeWorldPos + unitOffset;
 
             // Transfer the gameobject to the new node
-            newNode.GetComponent<GridNode>().unit = selectedUnit;
+            newNode.GetComponent<GridNode>().currentUnit = selectedUnit;
 
             // Remove the gameobject from the previous node
-            oldNode.GetComponent<GridNode>().unit = null;
+            previousNode.GetComponent<GridNode>().currentUnit = null;
 
             // Make the new node location the selectedUnitsNode
-            //selectedUnitsNode = newNode;
             selectedUnit.GetComponent<Unit>().currentNode = newNode;
         }
         else

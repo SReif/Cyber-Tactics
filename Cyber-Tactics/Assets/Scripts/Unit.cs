@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public GameObject currentNode;
+    public GameObject currentNode;      // The node this unit is occupying
 
     // Start is called before the first frame update
     void Start()
