@@ -8,9 +8,8 @@ public class GridSystem : MonoBehaviour
     public int height = 0;                      // Height of the grid via the x-axis
     public Vector3 origin;                      // The original world position the grid's position is based on
     public GameObject selectedUnit;             // The unit that is currently selected
-
-    private GameObject[,] grid;                 // A 2D array that holds the nodes that make up the grid system
-    private List<GameObject> validMoveNodes;    // The nodes that the current selected unit can move to
+    public GameObject[,] grid;                  // A 2D array that holds the nodes that make up the grid system
+    public List<GameObject> validMoveNodes;     // The nodes that the current selected unit can move to
 
     // Start is called before the first frame update
     void Start()
@@ -33,12 +32,11 @@ public class GridSystem : MonoBehaviour
                 node.GetComponent<GridNode>().nodeGridPos = new Vector2(x, y);
                 grid[x, y] = node;
 
-
-
                 // Inform the node's current unit of its position on the grid
                 if (node.GetComponent<GridNode>().currentUnit != null)
                 {
-                    if (node.GetComponent<GridNode>().currentUnit.transform.tag == "Unit")
+                    if (node.GetComponent<GridNode>().currentUnit.transform.tag == "PlayerUnit" ||
+                        node.GetComponent<GridNode>().currentUnit.transform.tag == "EnemyUnit")
                     {
                         node.GetComponent<GridNode>().currentUnit.GetComponent<Unit>().unitGridPos = new Vector2(x, y);
                     }
@@ -61,6 +59,13 @@ public class GridSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
+         * Most, if not all, of the code in this section has been moved to the Turn System script to manage how many actions
+         * the player and enemy can take in one turn.
+         * 
+         * I will keep this commented out here until we are comfortable with its current location.
+         */
+
         // NOTE: The Input System for Key Presses is no longer needed because of the functioning mouse click movement.
             // Will remove later once things are finalized.
 
@@ -89,7 +94,9 @@ public class GridSystem : MonoBehaviour
         }
         */
 
+
         // Input System for Mouse Clicks (Selecting Units/Nodes and moving on grid)
+        /*
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -130,6 +137,7 @@ public class GridSystem : MonoBehaviour
                 validMoveNodes = selectedUnit.GetComponent<Unit>().showValidMoves(grid);
             }
         }
+        */
     }
 
     // NOTE: Moving with key presses is no longer needed because of the functioning mouse click movement.

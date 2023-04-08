@@ -7,6 +7,8 @@ public class Unit : MonoBehaviour
     public GameObject currentNode;      // The node this unit is occupying
     public Vector2 unitGridPos;         // The grid position of the unit (Ex. [0, 1] or Vector2(0, 1))
 
+    public bool hasMoved;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,9 +26,9 @@ public class Unit : MonoBehaviour
         List<List<Vector2>> unitMoveset;
         
         //unitMoveset = calculateAdjacentSquareMoveset();
-        //unitMoveset = calculateKingMoveset();
+        unitMoveset = calculateKingMoveset();
         //unitMoveset = calculateKnightMoveset();
-        unitMoveset = calculatePseudoBishopMoveset(grid.GetLength(0), grid.GetLength(1));
+        //unitMoveset = calculatePseudoBishopMoveset(grid.GetLength(0), grid.GetLength(1));
         //unitMoveset = calculatePseudoRookMoveset(grid.GetLength(0), grid.GetLength(1));
         //unitMoveset = calculateTrueRookMoveset(grid.GetLength(0), grid.GetLength(1));
         //unitMoveset = calculateTrueBishopMoveset(grid.GetLength(0), grid.GetLength(1));
