@@ -7,7 +7,7 @@ public class Unit : MonoBehaviour
     public GameObject currentNode;      // The node this unit is occupying
     public Vector2 unitGridPos;         // The grid position of the unit (Ex. [0, 1] or Vector2(0, 1))
 
-    public bool hasMoved;
+    public bool hasMoved;               // Whether the unit has moved or not
 
     // Start is called before the first frame update
     void Start()
@@ -25,8 +25,8 @@ public class Unit : MonoBehaviour
     {
         List<List<Vector2>> unitMoveset;
         
-        //unitMoveset = calculateAdjacentSquareMoveset();
-        unitMoveset = calculateKingMoveset();
+        unitMoveset = calculateAdjacentSquareMoveset();
+        //unitMoveset = calculateKingMoveset();
         //unitMoveset = calculateKnightMoveset();
         //unitMoveset = calculatePseudoBishopMoveset(grid.GetLength(0), grid.GetLength(1));
         //unitMoveset = calculatePseudoRookMoveset(grid.GetLength(0), grid.GetLength(1));
@@ -215,7 +215,7 @@ public class Unit : MonoBehaviour
     {
         // Calculate a unit's moveset such that it can move like a Rook would in Chess, but it can go through units/obstacles
 
-        int maxDistance = (gridWidth < gridHeight) ? gridWidth : gridHeight;
+        int maxDistance = (gridWidth > gridHeight) ? gridWidth : gridHeight;
 
         List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
         List<Vector2> moves = new List<Vector2>();
@@ -237,7 +237,7 @@ public class Unit : MonoBehaviour
     {
         // Calculate a unit's moveset such that it can move like a Rook would in Chess
 
-        int maxDistance = (gridWidth < gridHeight) ? gridWidth : gridHeight;
+        int maxDistance = (gridWidth > gridHeight) ? gridWidth : gridHeight;
 
         List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
 

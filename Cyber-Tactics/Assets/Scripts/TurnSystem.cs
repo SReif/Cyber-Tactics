@@ -8,7 +8,7 @@ public class TurnSystem : MonoBehaviour
     public GameObject playerObject;         // The gameobject for the player
     public GameObject enemyObject;          // The gameobject for the enemy
 
-    //private bool showingValidMoves;         // Determines whether the system has already checked for the moves of the selected unit
+    //private bool showingValidMoves;       // Determines whether the system has already checked for the moves of the selected unit
 
     private GridSystem gridSystem;          // The grid system itself for easier reference
     private List<GameObject> playersUnits;  // The list of units the player controls
