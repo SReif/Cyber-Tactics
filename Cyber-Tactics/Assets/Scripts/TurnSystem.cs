@@ -66,6 +66,12 @@ public class TurnSystem : MonoBehaviour
                 // Switch to the enemy's turn after all units have moved
                 state = State.EnemyTurn;
 
+                // Revert the player's unit colors back to normal
+                for (int i = 0; i < playerObject.transform.childCount; i++)
+                {
+                    playerObject.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                }
+
                 for (int i = 0; i < enemyObject.transform.childCount; i++)
                 {
                     enemyObject.transform.GetChild(i).gameObject.GetComponent<Unit>().hasMoved = false;
@@ -77,18 +83,6 @@ public class TurnSystem : MonoBehaviour
             }
             else
             {
-                // Select the newest unit to move once and only show its valid moves once
-                /*
-                if (!showingValidMoves)
-                {
-                    gridSystem.selectedUnit = playerUnits[0].transform.GetChild(0).gameObject;
-                    gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
-                    gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.grid);
-
-                    showingValidMoves = true;
-                }
-                */
-
                 // Input System for Mouse Clicks (Selecting nodes and moving on grid)
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -113,7 +107,7 @@ public class TurnSystem : MonoBehaviour
                         gridSystem.resetValidMoveNodes();
 
                         // Show the valid moves for the current unit
-                        gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.grid);
+                        gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().showPlayerValidMoves(gridSystem.grid);
                     }
                     else if (Input.GetMouseButtonDown(0) && hit.transform.tag == "Node")
                     {
@@ -122,6 +116,18 @@ public class TurnSystem : MonoBehaviour
                         // Check to see if the unit can move to that node
                         if (hit.transform.gameObject.GetComponent<GridNode>().validMove)
                         {
+                            if (hit.transform.gameObject.GetComponent<GridNode>().currentUnit != null)
+                            {
+                                if (hit.transform.gameObject.GetComponent<GridNode>().currentUnit.tag == "EnemyUnit")
+                                {
+                                    // Defeat the unit (like Chess), remove it from the playersUnit list, and remove it from the game
+                                    enemysUnits.Remove(hit.transform.gameObject.GetComponent<GridNode>().currentUnit);
+                                    Destroy(hit.transform.gameObject.GetComponent<GridNode>().currentUnit);
+
+                                    checkWinLoseCondition();
+                                }
+                            }
+
                             gridSystem.moveSelectedUnitMouseClick(hit.transform.gameObject);
 
                             gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
@@ -129,6 +135,7 @@ public class TurnSystem : MonoBehaviour
 
                             //showingValidMoves = false;
                             gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
+                            gridSystem.selectedUnit.GetComponent<SpriteRenderer>().color = Color.gray;
 
                             playersUnitsMoved++;
                         }
@@ -136,7 +143,32 @@ public class TurnSystem : MonoBehaviour
                         {
                             Debug.Log("Invalid move: Node not in moveset!");
                         }
+                        
                     }
+                    /*
+                    else if (Input.GetMouseButtonDown(0) && hit.transform.tag == "EnemyUnit" && gridSystem.selectedUnit != null)
+                    {
+                        // Check to see if the player unit can move to the enemy unit's node
+                        if (hit.transform.gameObject.GetComponent<Unit>().currentNode.GetComponent<GridNode>().validMove)
+                        {
+                            gridSystem.moveSelectedUnitMouseClick(hit.transform.gameObject);
+
+                            gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
+                            gridSystem.resetValidMoveNodes();
+
+                            // Defeat the unit (like Chess), remove it from the enemysUnit list, and remove it from the game
+                            enemysUnits.Remove(hit.transform.gameObject);
+                            Destroy(hit.transform.gameObject);
+
+                            checkWinLoseCondition();
+
+                            //showingValidMoves = false;
+                            gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
+
+                            playersUnitsMoved++;
+                        }
+                    }
+                    */
                 }
             }
         }
@@ -148,6 +180,12 @@ public class TurnSystem : MonoBehaviour
             {
                 // Switch to the player's turn after all units have moved
                 state = State.PlayerTurn;
+
+                // Revert the enemy's unit colors back to normal
+                for (int i = 0; i < enemyObject.transform.childCount; i++)
+                {
+                    enemyObject.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+                }
 
                 for (int i = 0; i < playerObject.transform.childCount; i++)
                 {
@@ -196,7 +234,7 @@ public class TurnSystem : MonoBehaviour
                         gridSystem.resetValidMoveNodes();
 
                         // Show the valid moves for the current unit
-                        gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.grid);
+                        gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().showEnemyValidMoves(gridSystem.grid);
                     }
                     else if (Input.GetMouseButtonDown(0) && hit.transform.tag == "Node")
                     {
@@ -205,6 +243,18 @@ public class TurnSystem : MonoBehaviour
                         // Check to see if the unit can move to that node
                         if (hit.transform.gameObject.GetComponent<GridNode>().validMove)
                         {
+                            if (hit.transform.gameObject.GetComponent<GridNode>().currentUnit != null)
+                            {
+                                if (hit.transform.gameObject.GetComponent<GridNode>().currentUnit.tag == "PlayerUnit")
+                                {
+                                    // Defeat the unit (like Chess), remove it from the playersUnit list, and remove it from the game
+                                    playersUnits.Remove(hit.transform.gameObject.GetComponent<GridNode>().currentUnit);
+                                    Destroy(hit.transform.gameObject.GetComponent<GridNode>().currentUnit);
+
+                                    checkWinLoseCondition();
+                                }
+                            }
+
                             gridSystem.moveSelectedUnitMouseClick(hit.transform.gameObject);
 
                             gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
@@ -212,6 +262,7 @@ public class TurnSystem : MonoBehaviour
 
                             //showingValidMoves = false;
                             gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
+                            gridSystem.selectedUnit.GetComponent<SpriteRenderer>().color = Color.gray;
 
                             enemysUnitsMoved++;
                         }
@@ -220,8 +271,50 @@ public class TurnSystem : MonoBehaviour
                             Debug.Log("Invalid move: Node not in moveset!");
                         }
                     }
+                    /*
+                    else if (Input.GetMouseButtonDown(0) && hit.transform.tag == "PlayerUnit" && gridSystem.selectedUnit != null)
+                    {
+                        Debug.Log("Enemy attacking!");
+
+                        // Check to see if the enemy unit can move to the player unit's node
+                        if (hit.transform.gameObject.GetComponent<Unit>().currentNode.GetComponent<GridNode>().validMove)
+                        {
+                            Debug.Log("Test!");
+
+                            gridSystem.moveSelectedUnitMouseClick(hit.transform.gameObject);
+
+                            gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
+                            gridSystem.resetValidMoveNodes();
+
+                            // Defeat the unit (like Chess), remove it from the playersUnit list, and remove it from the game
+                            playersUnits.Remove(hit.transform.gameObject);
+                            Destroy(hit.transform.gameObject);
+
+                            checkWinLoseCondition();
+
+                            //showingValidMoves = false;
+                            gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
+
+                            enemysUnitsMoved++;
+                        }
+                    }
+                    */
                 }
             }
+        }
+    }
+
+    private void checkWinLoseCondition()
+    {
+        if (enemysUnits.Count == 0)
+        {
+            //WinLoseManager.Win();
+            print("Player wins!");
+        }
+        else if (playersUnits.Count == 0)
+        {
+            //WinLoseManager.Lose();
+            print("Player loses!");
         }
     }
 }
