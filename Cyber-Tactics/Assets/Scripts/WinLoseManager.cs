@@ -17,8 +17,8 @@ public class WinLoseManager : MonoBehaviour
         uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         //Fill unit arrays
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        allies = GameObject.FindGameObjectsWithTag("Player");
+        enemies = GameObject.FindGameObjectsWithTag("EnemyUnit");
+        allies = GameObject.FindGameObjectsWithTag("PlayerUnit");
     }
 
     // Update is called once per frame
@@ -26,8 +26,8 @@ public class WinLoseManager : MonoBehaviour
     {
         //TEMPORARY CALLS FOR ENEMIES ARRAY AND ALLIES ARRAY. REMOVE EVERYTHING BETWEEN HERE AND THERE.
         //HERE
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        allies = GameObject.FindGameObjectsWithTag("Player");
+        enemies = GameObject.FindGameObjectsWithTag("EnemyUnit");
+        allies = GameObject.FindGameObjectsWithTag("PlayerUnit");
 
         if (enemies.Length == 0)
         {
