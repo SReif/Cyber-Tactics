@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Node
+  - Enemy
+  - PlayerUnit
+  - EnemyUnit
+  - Obstacle
+  - Card
   layers:
   - Default
   - TransparentFX
