@@ -15,11 +15,18 @@ public class UIManager : MonoBehaviour
     public GameObject winPane;
     public GameObject losePane;
 
+    private string unitType;
+
+    [SerializeField] private TurnSystem turnSystem;
+    [SerializeField] private GridSystem gridSystem;
+
     // Start is called before the first frame update
     void Start()
     {
         playerTurn = true;
         paused = false;
+        turnSystem = GameObject.Find("Turn System").GetComponent<TurnSystem>();
+        gridSystem = GameObject.Find("Square Grid System").GetComponent<GridSystem>();
     }
 
     // Update is called once per frame
@@ -34,6 +41,10 @@ public class UIManager : MonoBehaviour
         {
             NextTurn();
         }
+
+        ToggleStatsPane();
+
+        //NextTurn();
     }
     
     public void OpenPanel(GameObject panel)
@@ -63,11 +74,42 @@ public class UIManager : MonoBehaviour
             Time.timeScale = 0;
         }
     }
+    private void ToggleStatsPane()
+    {
+        if (gridSystem.selectedUnit != null)
+        {
+            OpenPanel(unitPane);
+            unitType = gridSystem.selectedUnit.GetComponent<Unit>().unitID;
+            unitPane.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = unitType;
+        }
+
+        if (gridSystem.selectedUnit == null)
+        {
+            ClosePanel(unitPane);
+        }
+    }
 
     //Changes current turn text
+    //Requires Enum State to be Public and State state to be public
     private void NextTurn()
     {
         if(!playerTurn)
+        {
+            TextMeshProUGUI tempText = turnPane.GetComponentInChildren<TextMeshProUGUI>();
+            tempText.text = "Player Turn";
+            tempText.color = Color.red;
+            playerTurn = true;
+        }
+
+        else
+        {
+            TextMeshProUGUI tempText = turnPane.GetComponentInChildren<TextMeshProUGUI>();
+            tempText.text = "Enemy Turn";
+            tempText.color = Color.blue;
+            playerTurn = false;
+        }
+
+        /*if (turnSystem.state == TurnSystem.State.PlayerTurn)
         {
             TextMeshProUGUI tempText = turnPane.GetComponentInChildren<TextMeshProUGUI>();
             tempText.text = "Player Turn";
@@ -81,6 +123,6 @@ public class UIManager : MonoBehaviour
             tempText.text = "Enemy Turn";
             tempText.color = Color.red;
             playerTurn = false;
-        }
+        }*/
     }
 }

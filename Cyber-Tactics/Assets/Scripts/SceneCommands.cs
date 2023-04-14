@@ -13,7 +13,7 @@ public class SceneCommands : MonoBehaviour
     [Tooltip("Enter name of the scene of the end credits scene.")]
     public string creditsSceneName;
 
-    public static SceneCommands Instance
+    /*public static SceneCommands Instance
     {
         get
         {
@@ -36,7 +36,7 @@ public class SceneCommands : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-    }
+    }*/
 
     //Loads the first level of the game when called.
     //First level scene should be placed after the main menu scene or as the second build in the build settings for this
