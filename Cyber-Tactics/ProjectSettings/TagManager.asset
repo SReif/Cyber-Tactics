@@ -9,6 +9,7 @@ TagManager:
   - PlayerUnit
   - EnemyUnit
   - Obstacle
+  - Card
   layers:
   - Default
   - TransparentFX

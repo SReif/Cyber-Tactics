@@ -8,18 +8,18 @@ public class TurnSystem : MonoBehaviour
     public GameObject playerObject;         // The gameobject for the player
     public GameObject enemyObject;          // The gameobject for the enemy
 
+    public State state;                     // The current game state for determining turns
+
     //private bool showingValidMoves;       // Determines whether the system has already checked for the moves of the selected unit
 
     private GridSystem gridSystem;          // The grid system itself for easier reference
     private List<GameObject> playersUnits;  // The list of units the player controls
     private List<GameObject> enemysUnits;   // The list of units the enemy controls
 
-    private int playersUnitsMoved;
-    private int enemysUnitsMoved;
+    private int playersUnitsMoved;          // The number of player units that have already moved
+    private int enemysUnitsMoved;           // The number of enemy units that have already moved
 
-    private State state;                    // The current game state for determining turns
-
-    private enum State
+    public enum State
     {
         PlayerTurn,
         EnemyTurn,

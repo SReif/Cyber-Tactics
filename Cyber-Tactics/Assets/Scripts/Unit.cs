@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    public int maxHP;                   // maximum HP the unit has
+    public int currentHP;               // current HP the unit has
+    public int baseAttack;              // The base attack value that is added to ATK modifier cards
+    public int baseDefense;             // The base defense value that is added to DEF modifier cards
+    public int baseMagic;               // The base magic value that is added to MAG modifier cards
+    public int baseMagicDefense;        // The base magic defense value that is added to MAG DEF modifier cards
+    public List<GameObject> cards;      // The cards that this unit will choose from
+
     public GameObject currentNode;      // The node this unit is occupying
     public Vector2 unitGridPos;         // The grid position of the unit (Ex. [0, 1] or Vector2(0, 1))
     public string unitID;               // The type of unit this unit is (Determines which moveset they use)
