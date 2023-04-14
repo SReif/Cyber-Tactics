@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//This script gets attached to the SceneManager game object
 public class WinLoseManager : MonoBehaviour
 {
-    //This script gets attached to the SceneManager game object
-
     [System.NonSerialized] public GameObject[] enemies; //array of enemy units
     [System.NonSerialized] public GameObject[] allies; //array of player units
 
@@ -14,6 +13,7 @@ public class WinLoseManager : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
+        //Instantiating variables
         uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         //Fill unit arrays
@@ -45,12 +45,14 @@ public class WinLoseManager : MonoBehaviour
     public void Win()
     {
         uiManager.OpenPanel(uiManager.winPane);
+        //uiManager.Pause();
     }
 
     //If lose conditions are met, this function will execute
     public void Lose()
     {
         uiManager.OpenPanel(uiManager.losePane);
+        //uiManager.Pause();
     }
 
 
