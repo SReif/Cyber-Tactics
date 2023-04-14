@@ -26,6 +26,8 @@ public class GridSystem : MonoBehaviour
             for (int y = 0; y < grid.GetLength(1); y++)
             {
                 GameObject node = transform.GetChild(childIndex++).gameObject;
+                node.transform.Find("Valid Move Indicator").GetComponent<MeshRenderer>().enabled = false;
+                node.transform.Find("Valid Attack Indicator").GetComponent<MeshRenderer>().enabled = false;
 
                 // Offset the node world position by the origin vector, and inform the node of its position on the grid
                 node.GetComponent<GridNode>().nodeWorldPos = new Vector3(x, 0, y) + origin;
