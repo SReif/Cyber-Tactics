@@ -27,10 +27,18 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Instantiating variables
+        //Instantiating variables if necessary
         paused = false;
-        turnSystem = GameObject.Find("Turn System").GetComponent<TurnSystem>();
-        gridSystem = GameObject.Find("Square Grid System").GetComponent<GridSystem>();
+        if(GameObject.Find("Turn System") != null)
+        {
+            turnSystem = GameObject.Find("Turn System").GetComponent<TurnSystem>();
+        }
+        
+        if(GameObject.Find("Square Grid System") != null)
+        {
+            gridSystem = GameObject.Find("Square Grid System").GetComponent<GridSystem>();
+        }
+        
     }
 
     // Update is called once per frame
@@ -41,8 +49,11 @@ public class UIManager : MonoBehaviour
             Pause();
         }
 
-        ToggleStatsPane();
-        NextTurn();
+        if(GameObject.Find("Square Grid System") != null)
+        {
+            ToggleStatsPane();
+            NextTurn();
+        }
     }
     
     //Opens specified panel

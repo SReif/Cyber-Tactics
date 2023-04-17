@@ -14,7 +14,10 @@ public class WinLoseManager : MonoBehaviour
     public void Start()
     {
         //Instantiating variables
-        uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if(GameObject.Find("UIManager") != null)
+        {
+            uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        }
 
         //Fill unit arrays
         enemies = GameObject.FindGameObjectsWithTag("EnemyUnit");
@@ -26,6 +29,11 @@ public class WinLoseManager : MonoBehaviour
     {
         //TEMPORARY CALLS FOR ENEMIES ARRAY AND ALLIES ARRAY. REMOVE EVERYTHING BETWEEN HERE AND THERE.
         //HERE
+        if(uiManager == null && GameObject.Find("LevelUI") != null)
+        {
+            uiManager = GameObject.Find("LevelUI").GetComponent<UIManager>();
+        }
+
         enemies = GameObject.FindGameObjectsWithTag("EnemyUnit");
         allies = GameObject.FindGameObjectsWithTag("PlayerUnit");
 
