@@ -44,9 +44,15 @@ public class GridSystem : MonoBehaviour
                     {
                         node.GetComponent<GridNode>().currentUnit.GetComponent<Unit>().unitGridPos = new Vector2(x, y);
                     }
+                    else if (node.GetComponent<GridNode>().currentUnit.transform.tag == "Obstacle")
+                    {
+                        node.GetComponent<SpriteRenderer>().enabled = false;
+                    }
                 }
             }
         }
+
+        Debug.Log("Grid created.");
     }
 
     // Update is called once per frame
@@ -55,7 +61,7 @@ public class GridSystem : MonoBehaviour
         
     }
 
-    public void moveSelectedUnitMouseClick(GameObject newNode)
+    public void moveSelectedUnit(GameObject newNode)
     {
         GameObject previousNode = selectedUnit.GetComponent<Unit>().currentNode;
 
@@ -81,6 +87,8 @@ public class GridSystem : MonoBehaviour
 
         // Stop showing the valid moves for the unit's previous location
         resetValidMoveNodes();
+
+        Debug.Log("Unit moved.");
     }
 
     public void resetValidMoveNodes()
@@ -94,6 +102,9 @@ public class GridSystem : MonoBehaviour
         }
 
         validMoveNodes.Clear();
+
+        Debug.Log("Valid moves for unit reset.");
+
     }
 
     public void resetValidAttackNodes()
@@ -106,5 +117,7 @@ public class GridSystem : MonoBehaviour
         }
 
         validAttackNodes.Clear();
+
+        Debug.Log("Valid attacks for unit reset.");
     }
 }

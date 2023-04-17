@@ -95,10 +95,10 @@ public class UIManager : MonoBehaviour
             OpenPanel(unitPane);
             unitType = gridSystem.selectedUnit.GetComponent<Unit>().unitID;
             unitHp = gridSystem.selectedUnit.GetComponent<Unit>().currentHP;
-            unitPRes = gridSystem.selectedUnit.GetComponent<Unit>().baseDefense;
-            unitMRes = gridSystem.selectedUnit.GetComponent<Unit>().baseMagicDefense;
-            unitPDmg = gridSystem.selectedUnit.GetComponent<Unit>().baseAttack;
-            unitMDmg = gridSystem.selectedUnit.GetComponent<Unit>().baseMagic;
+            unitPRes = gridSystem.selectedUnit.GetComponent<Unit>().basePhysicalDefense;
+            unitMRes = gridSystem.selectedUnit.GetComponent<Unit>().baseMagicalDefense;
+            unitPDmg = gridSystem.selectedUnit.GetComponent<Unit>().basePhysicalAttack;
+            unitMDmg = gridSystem.selectedUnit.GetComponent<Unit>().baseMagicalAttack;
 
             GameObject.Find("Title Text").GetComponent<TextMeshProUGUI>().text = unitType;
             GameObject.Find("Health Number Text").GetComponent<TextMeshProUGUI>().text = "" + unitHp;

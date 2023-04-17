@@ -1183,6 +1183,22 @@ PrefabInstance:
       propertyPath: basePhysicalDefense
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4278649345746195375, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278649345746195375, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278649345746195375, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278649346290536134, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5006709219324455961, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
       propertyPath: baseMagicalAttack
       value: 1
@@ -1264,12 +1280,16 @@ PrefabInstance:
       value: Updated Level Design Starting Template
       objectReference: {fileID: 0}
     - target: {fileID: 7039269021313630197, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039269021313630197, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.701
+      value: 4.636
       objectReference: {fileID: 0}
     - target: {fileID: 7039269021313630197, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.35
+      value: 5.497
       objectReference: {fileID: 0}
     - target: {fileID: 7039269021313630199, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
       propertyPath: m_Enabled

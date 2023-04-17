@@ -44,6 +44,8 @@ public class TurnSystem : MonoBehaviour
             playersUnits.Add(playerObject.transform.GetChild(i).gameObject);
         }
 
+        Debug.Log("Player units retrieved.");
+
         // Retrieve the enemys units
         enemysUnits = new List<GameObject>();
         for (int i = 0; i < enemyObject.transform.childCount; i++)
@@ -51,8 +53,12 @@ public class TurnSystem : MonoBehaviour
             enemysUnits.Add(enemyObject.transform.GetChild(i).gameObject);
         }
 
+        Debug.Log("Enemy units retrieved.");
+
         playersUnitsMoved = 0;
         enemysUnitsMoved = 0;
+
+        Debug.Log("Beginning grid turn system. Player goes first.");
 
         StartCoroutine(GridTurnSystem());
 }
@@ -142,7 +148,7 @@ public class TurnSystem : MonoBehaviour
                             if (hit.transform.gameObject.GetComponent<GridNode>().validMove)
                             {
                                 // Move the unit and disable the move indicators for each node
-                                gridSystem.moveSelectedUnitMouseClick(hit.transform.gameObject);
+                                gridSystem.moveSelectedUnit(hit.transform.gameObject);
                                 gridSystem.resetValidMoveNodes();
 
                                 // Wait a moment so you can't double-click accidentally
@@ -152,7 +158,7 @@ public class TurnSystem : MonoBehaviour
                                 gridSystem.validAttackNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidAttacks(gridSystem.grid, "EnemyUnit");
 
                                 // Choose a unit to attack, if any
-                                yield return StartCoroutine(chooseEnemyUnitToAttack());
+                                yield return StartCoroutine(chooseUnitToAttack("Player"));
 
                                 // Disable the selected unit indicator for the unit, if it still exists
                                 if (gridSystem.selectedUnit != null)
@@ -171,12 +177,9 @@ public class TurnSystem : MonoBehaviour
                                 }
 
                                 gridSystem.resetValidAttackNodes();
-                            }
-                            else
-                            {
-                                Debug.Log("Invalid move: Node not in moveset!");
-                            }
 
+                                Debug.Log("Unit has taken its turn.");
+                            }
                         }
                     }
                 }
@@ -238,7 +241,7 @@ public class TurnSystem : MonoBehaviour
                             if (hit.transform.gameObject.GetComponent<GridNode>().validMove)
                             {
                                 // Move the unit and disable the move indicators for each node
-                                gridSystem.moveSelectedUnitMouseClick(hit.transform.gameObject);
+                                gridSystem.moveSelectedUnit(hit.transform.gameObject);
                                 gridSystem.resetValidMoveNodes();
 
                                 //Wait a moment so you can't double-click accidentally
@@ -248,7 +251,7 @@ public class TurnSystem : MonoBehaviour
                                 gridSystem.validAttackNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidAttacks(gridSystem.grid, "PlayerUnit");
 
                                 // Choose a unit to attack, if any
-                                yield return StartCoroutine(choosePlayerUnitToAttack());
+                                yield return StartCoroutine(chooseUnitToAttack("Enemy"));
 
                                 // Disable the selected unit indicator for the unit, if it still exists
                                 if (gridSystem.selectedUnit != null)
@@ -267,10 +270,8 @@ public class TurnSystem : MonoBehaviour
                                 }
 
                                 gridSystem.resetValidAttackNodes();
-                            }
-                            else
-                            {
-                                Debug.Log("Invalid move: Node not in moveset!");
+
+                                Debug.Log("Unit has taken its turn.");
                             }
                         }
                     }
@@ -283,10 +284,10 @@ public class TurnSystem : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator chooseEnemyUnitToAttack()
+    IEnumerator chooseUnitToAttack(string currentUnitSide)
     {
         yield return new WaitForSeconds(1);
-        
+
         bool hasAttacked = false;
 
         // Check to see if there are any valid attacks
@@ -311,58 +312,29 @@ public class TurnSystem : MonoBehaviour
                         }
                         else
                         {
-                            // Start a battle with that unit, where the player starts first
-                            yield return StartCoroutine(battleSystem.GetComponent<BattleTurnSystem>().Battle(gridSystem.selectedUnit, hit.transform.gameObject.GetComponent<GridNode>().currentUnit, "Player"));
-                            hasAttacked = true;
+                            Debug.Log("Opposing unit detected, commence battle.");
 
-                            checkIfUnitDefeated(gridSystem.selectedUnit, hit.transform.gameObject.GetComponent<GridNode>().currentUnit);
 
-                            checkWinLoseCondition();
-                        }
-                    }
-                }
+                            if (currentUnitSide == "Player")
+                            {
+                                // Start a battle with that unit, where the player starts first
+                                yield return StartCoroutine(battleSystem.GetComponent<BattleTurnSystem>().Battle(gridSystem.selectedUnit, hit.transform.gameObject.GetComponent<GridNode>().currentUnit, "Player"));
 
-                yield return null;
-            }
-        }
+                                hasAttacked = true;
+                                checkIfUnitDefeated(gridSystem.selectedUnit, hit.transform.gameObject.GetComponent<GridNode>().currentUnit);
+                                checkWinLoseCondition();
+                            }
+                            else
+                            {
+                                // Start a battle with that unit, where the player starts first
+                                yield return StartCoroutine(battleSystem.GetComponent<BattleTurnSystem>().Battle(hit.transform.gameObject.GetComponent<GridNode>().currentUnit, gridSystem.selectedUnit, "Enemy"));
 
-        yield return null;
-    }
+                                hasAttacked = true;
+                                checkIfUnitDefeated(hit.transform.gameObject.GetComponent<GridNode>().currentUnit, gridSystem.selectedUnit);
+                                checkWinLoseCondition();
+                            }
 
-    IEnumerator choosePlayerUnitToAttack()
-    {
-        bool hasAttacked = false;
 
-        // Check to see if there are any valid attacks
-        if (gridSystem.validAttackNodes.Count > 0)
-        {
-            // End this loop once the unit has attacked
-            while (!hasAttacked)
-            {
-                var ray = gridViewCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
-                {
-                    // Check to see if a valid node has been clicked on
-                    if (Input.GetMouseButtonDown(0) && hit.transform.tag == "Node" && hit.transform.gameObject.GetComponent<GridNode>().validAttack)
-                    {
-                        // Check to see if the unit wants to attack
-                        if (hit.transform.gameObject.GetComponent<GridNode>().currentUnit == gridSystem.GetComponent<GridSystem>().selectedUnit)
-                        {
-                            // Rather than having to attack an opposing unit, the unit can "click" on itself, forfeiting the attack action this turn
-                            hasAttacked = true;
-                        }
-                        else
-                        {
-                            // Start a battle with that unit, where the player starts first
-                            yield return StartCoroutine(battleSystem.GetComponent<BattleTurnSystem>().Battle(hit.transform.gameObject.GetComponent<GridNode>().currentUnit, gridSystem.selectedUnit, "Enemy"));
-                            hasAttacked = true;
-
-                            // CHECK FOR WIN CONDITION HERE
-                            checkIfUnitDefeated(hit.transform.gameObject.GetComponent<GridNode>().currentUnit, gridSystem.selectedUnit);
-
-                            checkWinLoseCondition();
                         }
                     }
                 }

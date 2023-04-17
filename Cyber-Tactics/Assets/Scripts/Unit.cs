@@ -88,6 +88,8 @@ public class Unit : MonoBehaviour
             }
         }
 
+        Debug.Log("Valid attacks have been calculated.");
+
         return validAttackNodes;
     }
 
@@ -191,6 +193,8 @@ public class Unit : MonoBehaviour
             }
             
         }
+
+        Debug.Log("Valid moves have been calculated.");
 
         return validMoveNodes;
     }
