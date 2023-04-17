@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+//This scripts gets attached to the Canvas game object as it makes calls to the child objects
 public class UIManager : MonoBehaviour
 {
-    //This scripts gets attached to the Canvas game object
     private bool paused;
-    private bool playerTurn;
 
     public GameObject turnPane;
     public GameObject unitPane;
@@ -16,6 +15,11 @@ public class UIManager : MonoBehaviour
     public GameObject losePane;
 
     private string unitType;
+    private int unitHp;
+    private int unitPRes;
+    private int unitMRes;
+    private int unitPDmg;
+    private int unitMDmg;
 
     [SerializeField] private TurnSystem turnSystem;
     [SerializeField] private GridSystem gridSystem;
@@ -23,10 +27,18 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerTurn = true;
+        //Instantiating variables if necessary
         paused = false;
-        turnSystem = GameObject.Find("Turn System").GetComponent<TurnSystem>();
-        gridSystem = GameObject.Find("Square Grid System").GetComponent<GridSystem>();
+        if(GameObject.Find("Turn System") != null)
+        {
+            turnSystem = GameObject.Find("Turn System").GetComponent<TurnSystem>();
+        }
+        
+        if(GameObject.Find("Square Grid System") != null)
+        {
+            gridSystem = GameObject.Find("Square Grid System").GetComponent<GridSystem>();
+        }
+        
     }
 
     // Update is called once per frame
@@ -37,28 +49,27 @@ public class UIManager : MonoBehaviour
             Pause();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(GameObject.Find("Square Grid System") != null)
         {
+            ToggleStatsPane();
             NextTurn();
         }
-
-        ToggleStatsPane();
-
-        //NextTurn();
     }
     
+    //Opens specified panel
     public void OpenPanel(GameObject panel)
     {
         panel.SetActive(true);
     }
     
+    //Closes specified panel
     public void ClosePanel(GameObject panel)
     {
         panel.SetActive(false);
     }
 
     //Pauses game
-    private void Pause()
+    public void Pause()
     {
         if(paused)
         {
@@ -74,13 +85,27 @@ public class UIManager : MonoBehaviour
             Time.timeScale = 0;
         }
     }
+
+    //Toggles the Stats pane on/off depending if a unit is selected or not
+    //Stats pane is filled with seleced unit's attributes
     private void ToggleStatsPane()
     {
         if (gridSystem.selectedUnit != null)
         {
             OpenPanel(unitPane);
             unitType = gridSystem.selectedUnit.GetComponent<Unit>().unitID;
-            unitPane.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = unitType;
+            unitHp = gridSystem.selectedUnit.GetComponent<Unit>().currentHP;
+            unitPRes = gridSystem.selectedUnit.GetComponent<Unit>().baseDefense;
+            unitMRes = gridSystem.selectedUnit.GetComponent<Unit>().baseMagicDefense;
+            unitPDmg = gridSystem.selectedUnit.GetComponent<Unit>().baseAttack;
+            unitMDmg = gridSystem.selectedUnit.GetComponent<Unit>().baseMagic;
+
+            GameObject.Find("Title Text").GetComponent<TextMeshProUGUI>().text = unitType;
+            GameObject.Find("Health Number Text").GetComponent<TextMeshProUGUI>().text = "" + unitHp;
+            GameObject.Find("PR Number Text").GetComponent<TextMeshProUGUI>().text = "" + unitPRes;
+            GameObject.Find("MR Number Text").GetComponent<TextMeshProUGUI>().text = "" + unitMRes;
+            GameObject.Find("PDmg Number Text").GetComponent<TextMeshProUGUI>().text = "" + unitPDmg;
+            GameObject.Find("MDmg Number Text").GetComponent<TextMeshProUGUI>().text = "" + unitMDmg;
         }
 
         if (gridSystem.selectedUnit == null)
@@ -89,16 +114,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    //Changes current turn text
-    //Requires Enum State to be Public and State state to be public
+    //Changes current turn text at top of the game screen to either player/enemy
     private void NextTurn()
     {
-        if(!playerTurn)
+
+        if (turnSystem.state == TurnSystem.State.PlayerTurn)
         {
             TextMeshProUGUI tempText = turnPane.GetComponentInChildren<TextMeshProUGUI>();
             tempText.text = "Player Turn";
             tempText.color = Color.red;
-            playerTurn = true;
         }
 
         else
@@ -106,23 +130,6 @@ public class UIManager : MonoBehaviour
             TextMeshProUGUI tempText = turnPane.GetComponentInChildren<TextMeshProUGUI>();
             tempText.text = "Enemy Turn";
             tempText.color = Color.blue;
-            playerTurn = false;
         }
-
-        /*if (turnSystem.state == TurnSystem.State.PlayerTurn)
-        {
-            TextMeshProUGUI tempText = turnPane.GetComponentInChildren<TextMeshProUGUI>();
-            tempText.text = "Player Turn";
-            tempText.color = Color.blue;
-            playerTurn = true;
-        }
-
-        else
-        {
-            TextMeshProUGUI tempText = turnPane.GetComponentInChildren<TextMeshProUGUI>();
-            tempText.text = "Enemy Turn";
-            tempText.color = Color.red;
-            playerTurn = false;
-        }*/
     }
 }
