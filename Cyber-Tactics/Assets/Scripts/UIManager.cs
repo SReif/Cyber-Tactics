@@ -29,14 +29,14 @@ public class UIManager : MonoBehaviour
     {
         //Instantiating variables if necessary
         paused = false;
-        if(GameObject.Find("Turn System") != null)
+        if(GameObject.Find("Grid Turn System") != null)
         {
-            turnSystem = GameObject.Find("Turn System").GetComponent<TurnSystem>();
+            turnSystem = GameObject.Find("Grid Turn System").GetComponent<TurnSystem>();
         }
         
-        if(GameObject.Find("Square Grid System") != null)
+        if(GameObject.Find("Grid System") != null)
         {
-            gridSystem = GameObject.Find("Square Grid System").GetComponent<GridSystem>();
+            gridSystem = GameObject.Find("Grid System").GetComponent<GridSystem>();
         }
         
     }
@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour
             Pause();
         }
 
-        if(GameObject.Find("Square Grid System") != null)
+        if(GameObject.Find("Grid System") != null)
         {
             ToggleStatsPane();
             NextTurn();
