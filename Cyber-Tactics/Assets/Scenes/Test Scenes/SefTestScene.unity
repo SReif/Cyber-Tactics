@@ -5652,7 +5652,7 @@ MonoBehaviour:
   - {fileID: 4278649347188663118}
   - {fileID: 4278649347188663118}
   - {fileID: 4278649347188663118}
-  currentNode: {fileID: 229009368807151785}
+  currentNode: {fileID: 229009369114679883}
   unitGridPos: {x: 0, y: 0}
   unitID: Soldier
   hasMoved: 0
@@ -10372,7 +10372,7 @@ MonoBehaviour:
   - {fileID: 4278649347188663118}
   - {fileID: 4278649347188663118}
   - {fileID: 4278649347188663118}
-  currentNode: {fileID: 229009368807151785}
+  currentNode: {fileID: 229009368986940536}
   unitGridPos: {x: 0, y: 0}
   unitID: Soldier
   hasMoved: 0
@@ -10500,7 +10500,7 @@ MonoBehaviour:
   - {fileID: 4278649347188663118}
   - {fileID: 4278649347188663118}
   - {fileID: 4278649347188663118}
-  currentNode: {fileID: 229009368807151785}
+  currentNode: {fileID: 229009368542925633}
   unitGridPos: {x: 0, y: 0}
   unitID: Soldier
   hasMoved: 0
@@ -10828,7 +10828,7 @@ MonoBehaviour:
   - {fileID: 4278649346184508842}
   - {fileID: 4278649346496624835}
   - {fileID: 4278649347075366571}
-  currentNode: {fileID: 229009369704953633}
+  currentNode: {fileID: 229009367953728101}
   unitGridPos: {x: 0, y: 0}
   unitID: Soldier
   hasMoved: 0
@@ -11360,7 +11360,7 @@ MonoBehaviour:
   - {fileID: 4278649346184508842}
   - {fileID: 4278649346496624835}
   - {fileID: 4278649347075366571}
-  currentNode: {fileID: 229009369704953633}
+  currentNode: {fileID: 229009368551698854}
   unitGridPos: {x: 0, y: 0}
   unitID: Rook
   hasMoved: 0
