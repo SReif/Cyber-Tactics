@@ -10,11 +10,13 @@ public class GridSystem : MonoBehaviour
     public GameObject selectedUnit;             // The unit that is currently selected
     public GameObject[,] grid;                  // A 2D array that holds the nodes that make up the grid system
     public List<GameObject> validMoveNodes;     // The nodes that the current selected unit can move to
+    public List<GameObject> validAttackNodes;   // The nodes that the current selected unit can attack
 
     // Start is called before the first frame update
     void Start()
     {
         validMoveNodes = new List<GameObject>();
+        validAttackNodes = new List<GameObject>();
 
         // Instantiate a 2D array with the given width and height parameters
         grid = new GameObject[height, width];
@@ -42,9 +44,15 @@ public class GridSystem : MonoBehaviour
                     {
                         node.GetComponent<GridNode>().currentUnit.GetComponent<Unit>().unitGridPos = new Vector2(x, y);
                     }
+                    else if (node.GetComponent<GridNode>().currentUnit.transform.tag == "Obstacle")
+                    {
+                        node.GetComponent<SpriteRenderer>().enabled = false;
+                    }
                 }
             }
         }
+
+        Debug.Log("Grid created.");
     }
 
     // Update is called once per frame
@@ -53,80 +61,63 @@ public class GridSystem : MonoBehaviour
         
     }
 
-    public void moveSelectedUnitMouseClick(GameObject newNode)
+    public void moveSelectedUnit(GameObject newNode)
     {
         GameObject previousNode = selectedUnit.GetComponent<Unit>().currentNode;
-        Vector3 nodeGridPos = previousNode.GetComponent<GridNode>().nodeGridPos;
 
-        Vector3 unitOffset = new Vector3(0, 0.75f, 0);
+        if (previousNode != newNode)
+        {
+            Vector3 nodeGridPos = previousNode.GetComponent<GridNode>().nodeGridPos;
 
-        // Move the GameObject to the new node location, based off its position transform
-        selectedUnit.transform.position = newNode.GetComponent<GridNode>().nodeWorldPos + unitOffset;
+            Vector3 unitOffset = new Vector3(0, 0.75f, 0);
 
-        // Transfer the GameObject to the new node
-        newNode.GetComponent<GridNode>().currentUnit = selectedUnit;
+            // Move the GameObject to the new node location, based off its position transform
+            selectedUnit.transform.position = newNode.GetComponent<GridNode>().nodeWorldPos + unitOffset;
 
-        // Remove the GameObject from the previous node
-        previousNode.GetComponent<GridNode>().currentUnit = null;
+            // Transfer the GameObject to the new node
+            newNode.GetComponent<GridNode>().currentUnit = selectedUnit;
 
-        // Make the new node location the selectedUnitsNode
-        selectedUnit.GetComponent<Unit>().currentNode = newNode;
-        selectedUnit.GetComponent<Unit>().unitGridPos = newNode.GetComponent<GridNode>().nodeGridPos;
+            // Remove the GameObject from the previous node
+            previousNode.GetComponent<GridNode>().currentUnit = null;
+
+            // Make the new node location the selectedUnitsNode
+            selectedUnit.GetComponent<Unit>().currentNode = newNode;
+            selectedUnit.GetComponent<Unit>().unitGridPos = newNode.GetComponent<GridNode>().nodeGridPos;
+        }        
 
         // Stop showing the valid moves for the unit's previous location
         resetValidMoveNodes();
 
-        // Show the valid moves for the unit's new position
-        if (selectedUnit.tag == "PlayerUnit")
-        {
-            validMoveNodes = selectedUnit.GetComponent<Unit>().showPlayerValidMoves(grid);
-        }
-        else
-        {
-            validMoveNodes = selectedUnit.GetComponent<Unit>().showEnemyValidMoves(grid);
-        }
+        Debug.Log("Unit moved.");
     }
-
-    /*
-    public void attackSelectedUnitMouseClick(GameObject unit)
-    {
-        GameObject previousNode = selectedUnit.GetComponent<Unit>().currentNode;
-        Vector3 nodeGridPos = previousNode.GetComponent<GridNode>().nodeGridPos;
-
-        Vector3 unitOffset = new Vector3(0, 0.75f, 0);
-
-        // Move the GameObject to the new node location, based off its position transform
-        selectedUnit.transform.position = unit.GetComponent<Unit>().currentNode.GetComponent<GridNode>().nodeWorldPos + unitOffset;
-
-        // Transfer the GameObject to the new node
-        unit.GetComponent<Unit>().currentNode.GetComponent<GridNode>().currentUnit = selectedUnit;
-
-        // Remove the GameObject from the previous node
-        previousNode.GetComponent<GridNode>().currentUnit = null;
-
-        // Make the new node location the selectedUnitsNode
-        selectedUnit.GetComponent<Unit>().currentNode = unit.GetComponent<Unit>().currentNode;
-        selectedUnit.GetComponent<Unit>().unitGridPos = unit.GetComponent<Unit>().currentNode.GetComponent<GridNode>().nodeGridPos;
-
-        // Stop showing the valid moves for the unit's previous location
-        resetValidMoveNodes();
-
-        // Show the valid moves for the unit's new position
-        validMoveNodes = selectedUnit.GetComponent<Unit>().showValidMoves(grid);
-    }
-    */
 
     public void resetValidMoveNodes()
     {
-        // Revert the node's color to the default color
+        // Revert the node's settings to their default
         for (int i = 0; i < validMoveNodes.Count; i++)
         {
-            //validMoveNodes[i].GetComponent<MeshRenderer>().material = Resources.Load("Materials/Node Color", typeof(Material)) as Material;
             validMoveNodes[i].transform.Find("Valid Move Indicator").GetComponent<MeshRenderer>().enabled = false;
-            validMoveNodes[i].transform.Find("Valid Attack Indicator").GetComponent<MeshRenderer>().enabled = false;
             validMoveNodes[i].GetComponent<GridNode>().validMove = false;
+
         }
 
         validMoveNodes.Clear();
+
+        Debug.Log("Valid moves for unit reset.");
+
+    }
+
+    public void resetValidAttackNodes()
+    {
+        // Revert the node's settings to their default
+        for (int i = 0; i < validAttackNodes.Count; i++)
+        {
+            validAttackNodes[i].transform.Find("Valid Attack Indicator").GetComponent<MeshRenderer>().enabled = false;
+            validAttackNodes[i].GetComponent<GridNode>().validAttack = false;
+        }
+
+        validAttackNodes.Clear();
+
+        Debug.Log("Valid attacks for unit reset.");
     }
 }

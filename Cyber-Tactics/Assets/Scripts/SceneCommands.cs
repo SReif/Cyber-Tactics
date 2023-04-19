@@ -41,9 +41,9 @@ public class SceneCommands : MonoBehaviour
     //Loads the first level of the game when called.
     //First level scene should be placed after the main menu scene or as the second build in the build settings for this
     //function to work properly or be labelled properly in the inspector.
-    public void StartNewGame()
+    public void LoadFirstLevel()
     { 
-        if(SceneManager.GetSceneByName(firstSceneName) == null)
+        if(firstSceneName == null)
         {
             if(SceneManager.GetActiveScene().buildIndex == 0 || SceneManager.GetActiveScene().name == mainMenuSceneName)
             {
@@ -83,35 +83,40 @@ public class SceneCommands : MonoBehaviour
     //Loads the first scene listed in the build settings or a specifically designated main menu scene.
     public void LoadMainMenu()
     {
-        if (SceneManager.GetSceneByName(mainMenuSceneName) == null)
+        if (mainMenuSceneName == null)
         {
             SceneManager.LoadScene(0);
         }
 
         else
         {
-            SceneManager.LoadScene(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex);
+            SceneManager.LoadScene(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex + 1);
         }
+
+        //SceneManager.LoadScene(0);
     }
 
     //Loads the last scene listed in the build settings or a specifically designated credits scene.
     public void LoadCredits()
     {
-        if (SceneManager.GetSceneByName(creditsSceneName) == null)
+        if (creditsSceneName == null)
         {
             SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings);
         }
 
         else
         {
-            SceneManager.LoadScene(SceneManager.GetSceneByName(creditsSceneName).buildIndex);
+            //SceneManager.LoadScene(SceneManager.GetSceneByName(creditsSceneName).buildIndex + 1);
+            SceneManager.LoadScene(2);
+            Debug.Log(SceneManager.GetSceneByName(creditsSceneName).buildIndex + 1);
         }
-        SceneManager.LoadScene(creditsSceneName);
+        //SceneManager.LoadScene(creditsSceneName);
     }
 
     //Closes the game client.
     public void QuitGame()
     {
+        Debug.Log("Quitting Game.");
         Application.Quit();
     }
 }
