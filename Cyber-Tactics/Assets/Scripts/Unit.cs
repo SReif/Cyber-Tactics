@@ -12,8 +12,8 @@ public class Unit : MonoBehaviour
     public int baseMagicalDefense;      // The base magic defense value that is added to MAG DEF modifier cards
     public List<GameObject> cards;      // The cards that this unit will choose from
 
-    public GameObject currentNode;      // The node this unit is occupying
-    public Vector2 unitGridPos;         // The grid position of the unit (Ex. [0, 1] or Vector2(0, 1))
+    //public GameObject currentNode;      // The node this unit is occupying
+    //public Vector2 unitGridPos;         // The grid position of the unit (Ex. [0, 1] or Vector2(0, 1))
     public string unitID;               // The type of unit this unit is (Determines which moveset they use)
 
     public bool hasMoved;               // Whether the unit has moved or not
@@ -46,26 +46,28 @@ public class Unit : MonoBehaviour
         {
             for (int j = 0; j < unitAttackSet[i].Count; j++)
             {
+                GameObject unitsNode = transform.parent.transform.parent.gameObject; // Get the parent (Node) of the parent (Unit Slot)
+
                 // Check to see if the attack is outside of the grid
-                if (unitAttackSet[i][j].x + unitGridPos.x < grid.GetLength(0) && unitAttackSet[i][j].x + unitGridPos.x >= 0
-                    && unitAttackSet[i][j].y + unitGridPos.y < grid.GetLength(1) && unitAttackSet[i][j].y + unitGridPos.y >= 0)
+                if (unitAttackSet[i][j].x + unitsNode.GetComponent<GridNode>().nodeGridPos.x < grid.GetLength(0) && unitAttackSet[i][j].x + unitsNode.GetComponent<GridNode>().nodeGridPos.x >= 0
+                    && unitAttackSet[i][j].y + unitsNode.GetComponent<GridNode>().nodeGridPos.y < grid.GetLength(1) && unitAttackSet[i][j].y + unitsNode.GetComponent<GridNode>().nodeGridPos.y >= 0)
                 {
                     // Obtain the node that the unit wants to try to attack
-                    GameObject node = grid[(int)(unitAttackSet[i][j].x + unitGridPos.x), (int)(unitAttackSet[i][j].y + unitGridPos.y)];
+                    GameObject attackNode = grid[(int)(unitAttackSet[i][j].x + unitsNode.GetComponent<GridNode>().nodeGridPos.x), (int)(unitAttackSet[i][j].y + unitsNode.GetComponent<GridNode>().nodeGridPos.y)];
 
                     // Determine if there is a unit on the node
-                    if (node.GetComponent<GridNode>().currentUnit != null)
+                    if (attackNode.transform.Find("Unit Slot").childCount != 0)
                     {
                         // Check to see if the unit is an enemy unit
-                        if (node.GetComponent<GridNode>().currentUnit.tag == opposingUnitTag)
+                        if (attackNode.transform.Find("Unit Slot").GetChild(0).tag == opposingUnitTag)
                         {
                             // Change the color of the node to show that it is a valid attack
-                            node.transform.Find("Valid Attack Indicator").GetComponent<MeshRenderer>().enabled = true;
+                            attackNode.transform.Find("Indicators").Find("Valid Attack Indicator").GetComponent<MeshRenderer>().enabled = true;
 
                             // This is used later to ensure that you cannot select a node outside of the attackset
-                            node.GetComponent<GridNode>().validAttack = true;
+                            attackNode.GetComponent<GridNode>().validAttack = true;
 
-                            validAttackNodes.Add(node);
+                            validAttackNodes.Add(attackNode);
 
                             // If the unit attackset does not allow the unit to attack over units, prevent it from calculating more attacks past this node
                             if (unitAttackSet.Count > 1)
@@ -73,15 +75,15 @@ public class Unit : MonoBehaviour
                                 break;
                             }
                         }
-                        else if (node.GetComponent<GridNode>().currentUnit == transform.gameObject)
+                        else if (attackNode.transform.Find("Unit Slot").GetChild(0).gameObject == transform.gameObject)
                         {
                             // Change the color of the node to show that it is a valid attack
-                            node.transform.Find("Valid Attack Indicator").GetComponent<MeshRenderer>().enabled = true;
+                            attackNode.transform.Find("Indicators").Find("Valid Attack Indicator").GetComponent<MeshRenderer>().enabled = true;
 
                             // This is used later to ensure that you cannot select a node outside of the moveset
-                            node.GetComponent<GridNode>().validAttack = true;
+                            attackNode.GetComponent<GridNode>().validAttack = true;
 
-                            validAttackNodes.Add(node);
+                            validAttackNodes.Add(attackNode);
                         }
                     }
                 }
@@ -146,34 +148,36 @@ public class Unit : MonoBehaviour
         {
             for (int j = 0; j < unitMoveset[i].Count; j++)
             {
+                GameObject unitsNode = transform.parent.gameObject.transform.parent.gameObject; // Get the parent (Node) of the parent (Unit Slot)
+
                 // Check to see if the move would take you off the grid
-                if (unitMoveset[i][j].x + unitGridPos.x < grid.GetLength(0) && unitMoveset[i][j].x + unitGridPos.x >= 0
-                    && unitMoveset[i][j].y + unitGridPos.y < grid.GetLength(1) && unitMoveset[i][j].y + unitGridPos.y >= 0)
+                if (unitMoveset[i][j].x + unitsNode.GetComponent<GridNode>().nodeGridPos.x < grid.GetLength(0) && unitMoveset[i][j].x + unitsNode.GetComponent<GridNode>().nodeGridPos.x >= 0
+                    && unitMoveset[i][j].y + unitsNode.GetComponent<GridNode>().nodeGridPos.y < grid.GetLength(1) && unitMoveset[i][j].y + unitsNode.GetComponent<GridNode>().nodeGridPos.y >= 0)
                 {
                     // Obtain the node that the unit wants to try to move to
-                    GameObject node = grid[(int)(unitMoveset[i][j].x + unitGridPos.x), (int)(unitMoveset[i][j].y + unitGridPos.y)];
+                    GameObject moveNode = grid[(int)(unitMoveset[i][j].x + unitsNode.GetComponent<GridNode>().nodeGridPos.x), (int)(unitMoveset[i][j].y + unitsNode.GetComponent<GridNode>().nodeGridPos.y)];
 
                     // Check to see if a unit/obstacle GameObject currently occupies that space
-                    if (node.GetComponent<GridNode>().currentUnit == null)
+                    if (moveNode.transform.Find("Unit Slot").childCount == 0)
                     {
                         // Change the color of the node to show that it is a valid move
                         //node.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Valid Move Node Color", typeof(Material)) as Material;
-                        node.transform.Find("Valid Move Indicator").GetComponent<MeshRenderer>().enabled = true;
+                        moveNode.transform.Find("Indicators").Find("Valid Move Indicator").GetComponent<MeshRenderer>().enabled = true;
 
                         // This is used later to ensure that you cannot select a node outside of the moveset
-                        node.GetComponent<GridNode>().validMove = true;
+                        moveNode.GetComponent<GridNode>().validMove = true;
 
-                        validMoveNodes.Add(node);
+                        validMoveNodes.Add(moveNode);
                     }
-                    else if (node.GetComponent<GridNode>().currentUnit == transform.gameObject)
+                    else if (moveNode.transform.Find("Unit Slot").GetChild(0).gameObject == transform.gameObject)
                     {
                         // Change the color of the node to show that it is a valid move
-                        node.transform.Find("Valid Move Indicator").GetComponent<MeshRenderer>().enabled = true;
+                        moveNode.transform.Find("Indicators").Find("Valid Move Indicator").GetComponent<MeshRenderer>().enabled = true;
 
                         // This is used later to ensure that you cannot select a node outside of the moveset
-                        node.GetComponent<GridNode>().validMove = true;
+                        moveNode.GetComponent<GridNode>().validMove = true;
 
-                        validMoveNodes.Add(node);
+                        validMoveNodes.Add(moveNode);
                     }
                     else
                     {

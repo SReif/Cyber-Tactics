@@ -28,8 +28,8 @@ public class GridSystem : MonoBehaviour
             for (int y = 0; y < grid.GetLength(1); y++)
             {
                 GameObject node = transform.GetChild(childIndex++).gameObject;
-                node.transform.Find("Valid Move Indicator").GetComponent<MeshRenderer>().enabled = false;
-                node.transform.Find("Valid Attack Indicator").GetComponent<MeshRenderer>().enabled = false;
+                node.transform.Find("Indicators").Find("Valid Move Indicator").GetComponent<MeshRenderer>().enabled = false;
+                node.transform.Find("Indicators").Find("Valid Attack Indicator").GetComponent<MeshRenderer>().enabled = false;
 
                 // Offset the node world position by the origin vector, and inform the node of its position on the grid
                 node.GetComponent<GridNode>().nodeWorldPos = new Vector3(x, 0, y) + origin;
@@ -37,6 +37,7 @@ public class GridSystem : MonoBehaviour
                 grid[x, y] = node;
 
                 // Inform the node's current unit of its position on the grid
+                /*
                 if (node.GetComponent<GridNode>().currentUnit != null)
                 {
                     if (node.GetComponent<GridNode>().currentUnit.transform.tag == "PlayerUnit" ||
@@ -45,6 +46,16 @@ public class GridSystem : MonoBehaviour
                         node.GetComponent<GridNode>().currentUnit.GetComponent<Unit>().unitGridPos = new Vector2(x, y);
                     }
                     else if (node.GetComponent<GridNode>().currentUnit.transform.tag == "Obstacle")
+                    {
+                        node.GetComponent<SpriteRenderer>().enabled = false;
+                    }
+                }
+                */
+
+                // Disable the SpriteRenderer for nodes that contain an Obstacle
+                if (node.transform.Find("Unit Slot").childCount != 0)
+                {
+                    if (node.transform.Find("Unit Slot").GetChild(0).tag == "Obstacle")
                     {
                         node.GetComponent<SpriteRenderer>().enabled = false;
                     }
@@ -63,7 +74,8 @@ public class GridSystem : MonoBehaviour
 
     public void moveSelectedUnit(GameObject newNode)
     {
-        GameObject previousNode = selectedUnit.GetComponent<Unit>().currentNode;
+        // Get the parent (Node) of the parent (Unit Slot)
+        GameObject previousNode = selectedUnit.transform.parent.transform.parent.gameObject;
 
         if (previousNode != newNode)
         {
@@ -75,14 +87,16 @@ public class GridSystem : MonoBehaviour
             selectedUnit.transform.position = newNode.GetComponent<GridNode>().nodeWorldPos + unitOffset;
 
             // Transfer the GameObject to the new node
-            newNode.GetComponent<GridNode>().currentUnit = selectedUnit;
+            selectedUnit.transform.SetParent(newNode.transform.Find("Unit Slot"));
 
             // Remove the GameObject from the previous node
-            previousNode.GetComponent<GridNode>().currentUnit = null;
+            //previousNode.GetComponent<GridNode>().currentUnit = null;
+            // YOU MIGHT NOT NEED TO REFERENCE THIS BECAUSE A GAMEOBJECT CAN ONLY EXIST UNDER ONE PARENT
 
             // Make the new node location the selectedUnitsNode
-            selectedUnit.GetComponent<Unit>().currentNode = newNode;
-            selectedUnit.GetComponent<Unit>().unitGridPos = newNode.GetComponent<GridNode>().nodeGridPos;
+            //selectedUnit.GetComponent<Unit>().currentNode = newNode;
+            //selectedUnit.GetComponent<Unit>().unitGridPos = newNode.GetComponent<GridNode>().nodeGridPos;
+            // UNIT NO LONGER REQUIRES THIS IFNORMATION
         }        
 
         // Stop showing the valid moves for the unit's previous location
@@ -96,7 +110,7 @@ public class GridSystem : MonoBehaviour
         // Revert the node's settings to their default
         for (int i = 0; i < validMoveNodes.Count; i++)
         {
-            validMoveNodes[i].transform.Find("Valid Move Indicator").GetComponent<MeshRenderer>().enabled = false;
+            validMoveNodes[i].transform.Find("Indicators").Find("Valid Move Indicator").GetComponent<MeshRenderer>().enabled = false;
             validMoveNodes[i].GetComponent<GridNode>().validMove = false;
 
         }
@@ -112,7 +126,7 @@ public class GridSystem : MonoBehaviour
         // Revert the node's settings to their default
         for (int i = 0; i < validAttackNodes.Count; i++)
         {
-            validAttackNodes[i].transform.Find("Valid Attack Indicator").GetComponent<MeshRenderer>().enabled = false;
+            validAttackNodes[i].transform.Find("Indicators").Find("Valid Attack Indicator").GetComponent<MeshRenderer>().enabled = false;
             validAttackNodes[i].GetComponent<GridNode>().validAttack = false;
         }
 
