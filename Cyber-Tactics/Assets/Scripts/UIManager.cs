@@ -93,7 +93,7 @@ public class UIManager : MonoBehaviour
         if (gridSystem.selectedUnit != null)
         {
             OpenPanel(unitPane);
-            unitType = gridSystem.selectedUnit.GetComponent<Unit>().unitID;
+            unitType = gridSystem.selectedUnit.GetComponent<Unit>().name;
             unitHp = gridSystem.selectedUnit.GetComponent<Unit>().currentHP;
             unitPRes = gridSystem.selectedUnit.GetComponent<Unit>().basePhysicalDefense;
             unitMRes = gridSystem.selectedUnit.GetComponent<Unit>().baseMagicalDefense;

@@ -6,13 +6,10 @@ using UnityEngine.SceneManagement;
 public class TurnSystem : MonoBehaviour
 {
     public GameObject gridObject;                   // The GameObject for the grid system for reference
-    //public GameObject playerObject;                 // The GameObject for the player
-    //public GameObject enemyObject;                  // The GameObject for the enemy
     public GameObject battleSystem;                 // The GameObject for the battle system
     public GameObject gridViewCamera;               // The GameObject for the camera that faces the grid
-    public List<GameObject> playersUnits;          // The list of units the player controls
-    public List<GameObject> enemysUnits;           // The list of units the enemy controls
-
+    public List<GameObject> playersUnits;           // The list of units the player controls
+    public List<GameObject> enemysUnits;            // The list of units the enemy controls
     public State state;                             // The current game state for determining turns
 
     private GridSystem gridSystem;                  // The grid system itself for easier reference
@@ -37,28 +34,6 @@ public class TurnSystem : MonoBehaviour
         // Retrieve the grid system from the grid system GameObject
         gridSystem = gridObject.GetComponent<GridSystem>();
 
-        // Retrieve the players units
-        /*
-        playersUnits = new List<GameObject>();
-        for (int i = 0; i < playersUnits.Count; i++)
-        {
-            playersUnits.Add(playersUnits[i].gameObject);
-        }
-        */
-
-        Debug.Log("Player units retrieved.");
-
-        // Retrieve the enemys units
-        /*
-        enemysUnits = new List<GameObject>();
-        for (int i = 0; i < enemysUnits.Count; i++)
-        {
-            enemysUnits.Add(enemysUnits[i].gameObject);
-        }
-        */
-
-        Debug.Log("Enemy units retrieved.");
-
         playersUnitsMoved = 0;
         enemysUnitsMoved = 0;
         enemysUnitsNotMoved = enemysUnits;
@@ -76,6 +51,8 @@ public class TurnSystem : MonoBehaviour
 
     private void checkWinLoseCondition()
     {
+        // CHECK WITH SEF TO SEE IF THIS FUNCTION IS STILL NECESSARY BECAUSE WE HAVE THE WIN/LOSE MANAGER
+
         if (enemysUnits.Count == 0)
         {
             // INSERT SCENE FUNCTIONALITY FOR PLAYER WINNING HERE
@@ -90,6 +67,9 @@ public class TurnSystem : MonoBehaviour
             print("Player loses!");
             winConditionMet = true;
         }
+
+        // INSERT FUNCTIONALITY FOR THE COMMANDER OF EITHER SIDE BEING DEFEATED HERE
+
     }
 
     IEnumerator GridTurnSystem()
@@ -121,6 +101,7 @@ public class TurnSystem : MonoBehaviour
                     enemysUnitsMoved = 0;
                     enemysUnitsNotMoved = enemysUnits;
 
+                    yield return new WaitForSeconds(1f);
                     Debug.Log("Starting enemy's turn!");
                 }
                 else
@@ -130,6 +111,7 @@ public class TurnSystem : MonoBehaviour
 
                     if (Physics.Raycast(ray, out hit))
                     {
+                        // Selecting a new unit to move that has not moved yet
                         if (Input.GetMouseButtonDown(0) && hit.transform.tag == "PlayerUnit" && !hit.transform.gameObject.GetComponent<Unit>().hasMoved)
                         {
                             // Disable the selected unit indicator for the old object
@@ -181,8 +163,6 @@ public class TurnSystem : MonoBehaviour
                                     gridSystem.selectedUnit = null;
                                 }
 
-                                gridSystem.resetValidAttackNodes();
-
                                 Debug.Log("Unit has taken its turn.");
                             }
                         }
@@ -192,10 +172,6 @@ public class TurnSystem : MonoBehaviour
             else if (state == State.EnemyTurn)
             {
                 // The enemy can then select one of their units that have the "EnemyUnit" Tag
-
-                //Debug.Log("enemysUnitsMoved:" + enemysUnitsMoved);
-                //Debug.Log("enemysUnits.Count:" + enemysUnits.Count);
-
                 if (enemysUnitsMoved >= enemysUnits.Count)
                 {
                     // Switch to the player's turn after all units have moved
@@ -216,10 +192,12 @@ public class TurnSystem : MonoBehaviour
                     playersUnitsMoved = 0;
                     enemysUnitsNotMoved = new List<GameObject>();
 
+                    yield return new WaitForSeconds(1f);
                     Debug.Log("Starting player's turn!");
                 }
                 else
                 {
+                    // Perform a random enemy unit's turn, if it has not already moved
                     yield return StartCoroutine(calculateBetterEnemyAI());
 
                     Debug.Log("Unit has taken its turn.");
@@ -252,6 +230,7 @@ public class TurnSystem : MonoBehaviour
                 {
                     // Rather than having to attack an opposing unit, the unit can select itself, forfeiting the attack action this turn
                     hasAttacked = true;
+                    gridSystem.resetValidAttackNodes();
                 }
                 else
                 {
@@ -259,6 +238,8 @@ public class TurnSystem : MonoBehaviour
                     yield return StartCoroutine(battleSystem.GetComponent<BattleTurnSystem>().Battle(node.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit, "Enemy"));
 
                     hasAttacked = true;
+                    gridSystem.resetValidAttackNodes();
+
                     checkIfUnitDefeated(node.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit);
                     checkWinLoseCondition();
                 }
@@ -295,11 +276,11 @@ public class TurnSystem : MonoBehaviour
                         {
                             // Rather than having to attack an opposing unit, the unit can "click" on itself, forfeiting the attack action this turn
                             hasAttacked = true;
+                            gridSystem.resetValidAttackNodes();
                         }
                         else
                         {
                             Debug.Log("Opposing unit detected, commence battle.");
-
 
                             if (currentUnitSide == "Player")
                             {
@@ -307,6 +288,8 @@ public class TurnSystem : MonoBehaviour
                                 yield return StartCoroutine(battleSystem.GetComponent<BattleTurnSystem>().Battle(gridSystem.selectedUnit, hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject, "Player"));
 
                                 hasAttacked = true;
+                                gridSystem.resetValidAttackNodes();
+
                                 checkIfUnitDefeated(gridSystem.selectedUnit, hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject);
                                 checkWinLoseCondition();
                             }
@@ -314,13 +297,13 @@ public class TurnSystem : MonoBehaviour
                             {
                                 // Start a battle with that unit, where the player starts first
                                 yield return StartCoroutine(battleSystem.GetComponent<BattleTurnSystem>().Battle(hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit, "Enemy"));
-
+                                
                                 hasAttacked = true;
+                                gridSystem.resetValidAttackNodes();
+
                                 checkIfUnitDefeated(hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit);
                                 checkWinLoseCondition();
                             }
-
-
                         }
                     }
                 }
@@ -338,39 +321,37 @@ public class TurnSystem : MonoBehaviour
         {
             // INSERT FUNCTIONALITY FOR BOTH UNITS DYING HERE
 
+            // Remove the player unit from the player unit list, update the size of the list, and destroy the player unit entirely
             playersUnits.Remove(playerUnit);
             playersUnits.TrimExcess();
             Destroy(playerUnit);
 
-            Debug.Log("playersUnits.Count: " + playersUnits.Count);
-
+            // Remove the enemy unit from the enemy unit list, update the size of the list, and destroy the enemy unit entirely
             enemysUnits.Remove(enemyUnit);
             enemysUnits.TrimExcess();
             Destroy(enemyUnit);
-
-            Debug.Log("enemysUnits.Count: " + enemysUnits.Count);
 
             Debug.Log("Both units are defeated!");
         }
         else if (enemyUnit.GetComponent<Unit>().currentHP <= 0)
         {
             // INSERT FUNCTIONALITY FOR PLAYER VICTORY HERE
+
+            // Remove the enemy unit from the enemy unit list, update the size of the list, and destroy the enemy unit entirely
             enemysUnits.Remove(enemyUnit);
             enemysUnits.TrimExcess();
             Destroy(enemyUnit);
-
-            Debug.Log("enemysUnits.Count: " + enemysUnits.Count);
 
             Debug.Log("Enemy unit defeated!");
         }
         else if (playerUnit.GetComponent<Unit>().currentHP <= 0)
         {
             // INSERT FUNCTIONALITY FOR ENEMY VICTORY HERE
+
+            // Remove the player unit from the player unit list, update the size of the list, and destroy the player unit entirely
             playersUnits.Remove(playerUnit);
             playersUnits.TrimExcess();
             Destroy(playerUnit);
-
-            Debug.Log("playersUnits.Count: " + playersUnits.Count);
 
             Debug.Log("Player unit defeated!");
         }
@@ -378,16 +359,7 @@ public class TurnSystem : MonoBehaviour
 
     IEnumerator calculateRandomizedEnemyAI()
     {
-        // Select a random enemy unit (Repeat until you find a unit that has not moved yet.)
-        /*
-        int index = Random.Range(0, enemysUnits.Count);
-        while (enemysUnits[index].GetComponent<Unit>().hasMoved)
-        {
-            index = Random.Range(0, enemysUnits.Count);
-        }
-        */
-
-        //gridSystem.selectedUnit = enemysUnits[index];
+        // Indicate that the selected enemy unit is acting and calculate all of its valid moves
         gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
         gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.grid);
 
@@ -420,7 +392,6 @@ public class TurnSystem : MonoBehaviour
             gridSystem.selectedUnit = null;
         }
 
-        gridSystem.resetValidAttackNodes();
     }
 
     IEnumerator calculateBetterEnemyAI()
@@ -428,14 +399,12 @@ public class TurnSystem : MonoBehaviour
         // Select a random enemy unit (Repeat until you find a unit that has not moved yet.)
         int index = Random.Range(0, enemysUnits.Count);
 
-        Debug.Log("enemysUnits.Count: " + enemysUnits.Count);
-        Debug.Log("index: " + index);
-
         while (enemysUnits[index].GetComponent<Unit>().hasMoved)
         {
             index = Random.Range(0, enemysUnits.Count);
         }
 
+        // Indicate that the selected enemy unit is acting and calculate all of its valid moves
         gridSystem.selectedUnit = enemysUnits[index];
         gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
         gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.grid);
@@ -448,7 +417,10 @@ public class TurnSystem : MonoBehaviour
         {
             GameObject validMoveNode = gridSystem.validMoveNodes[k];
 
-            List<List<Vector2>> unitAttackSet = gridSystem.selectedUnit.GetComponent<Unit>().calculateAdjacentSquareAttackSet();
+            string unitAttackID = gridSystem.selectedUnit.GetComponent<Unit>().unitAttackID;
+            List <List<Vector2>> unitAttackSet = gridSystem.selectedUnit.GetComponent<Unit>().selectAttackSet(gridSystem.grid);
+
+            Vector2 gridPos = validMoveNode.GetComponent<GridNode>().nodeGridPos;
 
             // For each attack in the attack set...
             for (int i = 0; i < unitAttackSet.Count; i++)
@@ -456,28 +428,20 @@ public class TurnSystem : MonoBehaviour
                 for (int j = 0; j < unitAttackSet[i].Count; j++)
                 {
                     // Check to see if the attack is outside of the grid
-                    if (unitAttackSet[i][j].x + validMoveNode.GetComponent<GridNode>().nodeGridPos.x < gridSystem.grid.GetLength(0) && unitAttackSet[i][j].x + validMoveNode.GetComponent<GridNode>().nodeGridPos.x >= 0
-                        && unitAttackSet[i][j].y + validMoveNode.GetComponent<GridNode>().nodeGridPos.y < gridSystem.grid.GetLength(1) && unitAttackSet[i][j].y + validMoveNode.GetComponent<GridNode>().nodeGridPos.y >= 0)
+                    if (unitAttackSet[i][j].x + gridPos.x < gridSystem.grid.GetLength(0) && unitAttackSet[i][j].x + gridPos.x >= 0
+                        && unitAttackSet[i][j].y + gridPos.y < gridSystem.grid.GetLength(1) && unitAttackSet[i][j].y + gridPos.y >= 0)
                     {
                         // Obtain the node that the unit wants to try to attack
-                        GameObject node = gridSystem.grid[(int)(unitAttackSet[i][j].x + validMoveNode.GetComponent<GridNode>().nodeGridPos.x),
-                            (int)(unitAttackSet[i][j].y + validMoveNode.GetComponent<GridNode>().nodeGridPos.y)];
+                        GameObject node = gridSystem.grid[(int)(unitAttackSet[i][j].x + gridPos.x), (int)(unitAttackSet[i][j].y + gridPos.y)];
+
+                        GameObject unitSlot = node.transform.Find("Unit Slot").gameObject;
 
                         // Determine if there is a unit on the node
-                        if (node.transform.Find("Unit Slot").childCount != 0)
+                        if (unitSlot.transform.childCount != 0)
                         {
                             // Check to see if the unit is an enemy unit
-                            if (node.transform.Find("Unit Slot").GetChild(0).tag == "PlayerUnit")
+                            if (unitSlot.transform.GetChild(0).tag == "PlayerUnit")
                             {
-                                /*
-                                // Change the color of the node to show that it is a valid attack
-                                node.transform.Find("Valid Attack Indicator").GetComponent<MeshRenderer>().enabled = true;
-
-                                // This is used later to ensure that you cannot select a node outside of the attackset
-                                node.GetComponent<GridNode>().validAttack = true;
-
-                                validAttackNodes.Add(node);
-                                */
 
                                 targets.Add(validMoveNode);
 
@@ -487,25 +451,22 @@ public class TurnSystem : MonoBehaviour
                                     break;
                                 }
                             }
-                            else if (node.transform.Find("Unit Slot").GetChild(0).gameObject == transform.gameObject)
+
+                            // THIS COMMENTED OUT SECTION MAKES IT SO AN ENEMY UNIT HAS THE CHANCE OF NOT ATTACKING ANOTHER (ARCHIVED)
+                            /*
+                            else if (unitSlot.transform.GetChild(0).gameObject == transform.gameObject)
                             {
-                                /*
-                                // Change the color of the node to show that it is a valid attack
-                                node.transform.Find("Valid Attack Indicator").GetComponent<MeshRenderer>().enabled = true;
-
-                                // This is used later to ensure that you cannot select a node outside of the moveset
-                                node.GetComponent<GridNode>().validAttack = true;
-
-                                validAttackNodes.Add(node);
-                                */
-
+                                // Add itself as a place it can attack, indicating that the enemy unit will not attack anything
                                 targets.Add(validMoveNode);
                             }
+                            */
                         }
                     }
                 }
             }
         }
+
+        yield return new WaitForSeconds(1f);
 
         if (targets.Count != 0)
         {
@@ -536,10 +497,10 @@ public class TurnSystem : MonoBehaviour
                 gridSystem.selectedUnit = null;
             }
 
-            gridSystem.resetValidAttackNodes();
         }
         else
         {
+            // If there are no valid attacks to perform, move the enemy unit randomly
             yield return StartCoroutine(calculateRandomizedEnemyAI());
         }
 
@@ -565,6 +526,8 @@ public class TurnSystem : MonoBehaviour
                     yield return StartCoroutine(battleSystem.GetComponent<BattleTurnSystem>().Battle(node.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit, "Enemy"));
 
                     hasAttacked = true;
+                    gridSystem.resetValidAttackNodes();
+
                     checkIfUnitDefeated(node.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit);
                     checkWinLoseCondition();
 
@@ -581,4 +544,3 @@ public class TurnSystem : MonoBehaviour
         yield return null;
     }
 }
-
