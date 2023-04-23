@@ -223,7 +223,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0d6afc0abde1a841a140294e919a8e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentNode: {fileID: 0}
-  unitGridPos: {x: 0, y: 0}
-  unitID: Default
+  unitName: N/A
+  maxHP: 0
+  currentHP: 0
+  basePhysicalAttack: 0
+  basePhysicalDefense: 0
+  baseMagicalAttack: 0
+  baseMagicalDefense: 0
+  cards: []
+  unitMoveID: Default
+  unitAttackID: Default
   hasMoved: 0

@@ -6,24 +6,17 @@ public class BattleTurnSystem : MonoBehaviour
 {
     //public State state;
 
-    public GameObject playerUnitLocation;       // The GameObject that stores the location that the player unit appears in the battle
-    public GameObject enemyUnitLocation;        // The GameObject that stores the location that the player unit appears in the battle
-    public GameObject playerCardSlots;          // The GameObject that stores the location of the player card slots
-    public GameObject battleViewCamera;         // The camera that is enabled/disabled for the battle 
-    public GameObject gridViewCamera;           // The camera that is used for the grid; the battle moves back to this camera at the end
+    public GameObject playerUnitLocation;               // The GameObject that stores the location that the player unit appears in the battle
+    public GameObject enemyUnitLocation;                // The GameObject that stores the location that the player unit appears in the battle
+    public GameObject playerCardSlots;                  // The GameObject that stores the location of the player card slots
+    public GameObject battleViewCamera;                 // The camera that is enabled/disabled for the battle 
+    public GameObject gridViewCamera;                   // The camera that is used for the grid; the battle moves back to this camera at the end
 
     private List<GameObject> playerSelectedCards;       // The list of cards that the player selected for their turn
     private List<GameObject> enemySelectedCards;        // The list of cards that the enemy selected for their turn
 
-    /*
-    public enum State
-    {
-        PlayerTurn,
-        EnemyTurn,
-        ResolveCards,
-        None,
-    }
-    */
+    private GameObject playerUnitClone;                 // A clone of the player unit in the battle for visual reference
+    private GameObject enemyUnitClone;                  // A clone of the enemy unit in the battle for visual reference
 
     // Start is called before the first frame update
     void Start()
@@ -40,16 +33,13 @@ public class BattleTurnSystem : MonoBehaviour
 
     public IEnumerator Battle(GameObject playerUnit, GameObject enemyUnit, string battleInitiator)
     {
+        // Setup the battle view clone of the player unit
+        playerUnitClone = Instantiate(playerUnit, playerUnitLocation.transform);
+        playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
 
-        // Setup the sprite representations for the player unit
-        playerUnitLocation.GetComponent<SpriteRenderer>().sprite = playerUnit.GetComponent<SpriteRenderer>().sprite;
-        playerUnitLocation.GetComponent<SpriteRenderer>().color = playerUnit.GetComponent<SpriteRenderer>().color;
-        playerUnitLocation.GetComponent<SpriteRenderer>().flipX = playerUnit.GetComponent<SpriteRenderer>().flipX;
-
-        // Setup the sprite representations for the enemy unit
-        enemyUnitLocation.GetComponent<SpriteRenderer>().sprite = enemyUnit.GetComponent<SpriteRenderer>().sprite;
-        enemyUnitLocation.GetComponent<SpriteRenderer>().color = enemyUnit.GetComponent<SpriteRenderer>().color;
-        enemyUnitLocation.GetComponent<SpriteRenderer>().flipX = enemyUnit.GetComponent<SpriteRenderer>().flipX;
+        // Setup the battle view clone of the enemy unit
+        enemyUnitClone = Instantiate(enemyUnit, enemyUnitLocation.transform);
+        enemyUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
 
         //Fill the player card slots from the unit's deck
         List<GameObject> playerCards = playerUnit.GetComponent<Unit>().cards;
@@ -70,188 +60,138 @@ public class BattleTurnSystem : MonoBehaviour
 
         if (battleInitiator == "Player")
         {
-            // Player's turn
+            /*
+             *  Beginning of Player's turn
+             */
             //state = State.PlayerTurn;
-            print("Player's turn!");
+            Debug.Log("Player's turn!");
+            yield return StartCoroutine(BeginPlayersTurn());
 
-            playerUnit.transform.Find("Selected Unit Indicator").transform.gameObject.SetActive(true);
+            /*
+             *  Beginning of Enemy's turn
+             */
+            //state = State.EnemyTurn;
+            Debug.Log("Enemy's turn!");
+            yield return StartCoroutine(BeginEnemysTurn());
 
-            bool takingTurn = true;
-
-            while (takingTurn)
-            {
-                var ray = battleViewCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
-                {
-                    if (Input.GetMouseButtonDown(0) && hit.transform.tag == "Card")
-                    {
-                        //Debug.Log("Card detected!");
-
-                        // Check to see if the card has already been selected
-                        // If index == -1, the card is not in the list
-                        if (playerSelectedCards.IndexOf(hit.transform.gameObject) == -1)
-                        {
-                            //Debug.Log("Selecting Card!");
-
-                            // Check to see if the player is trying to heal themselves at full HP
-                            if (hit.transform.gameObject.GetComponent<Card>().cardType == "HEAL" &&
-                                (playerUnit.GetComponent<Unit>().maxHP > playerUnit.GetComponent<Unit>().currentHP))
-                            {
-                                Debug.Log("Player is not at full health!");
-                                Debug.Log("Adding card to selected pool!");
-
-                                hit.transform.gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Valid Move Node Color", typeof(Material)) as Material;
-                                playerSelectedCards.Add(hit.transform.gameObject);
-                            }
-                            else if (hit.transform.gameObject.GetComponent<Card>().cardType == "HEAL" &&
-                                (playerUnit.GetComponent<Unit>().maxHP == playerUnit.GetComponent<Unit>().currentHP))
-                            {
-                                Debug.Log("Player is at full health!");
-                            }
-                            else if (hit.transform.gameObject.GetComponent<Card>().cardType != "HEAL")
-                            {
-                                Debug.Log("Adding card to selected pool!");
-
-                                hit.transform.gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Valid Move Node Color", typeof(Material)) as Material;
-                                playerSelectedCards.Add(hit.transform.gameObject);
-                            }
-                        }
-                        else
-                        {
-                            Debug.Log("Deselecting card!");
-
-                            hit.transform.gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Node Color", typeof(Material)) as Material;
-                            playerSelectedCards.Remove(hit.transform.gameObject);
-                        }
-                    }
-                }
-
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    Debug.Log("Shifting to enemy turn!");
-
-                    takingTurn = false;
-                    playerUnit.transform.Find("Selected Unit Indicator").transform.gameObject.SetActive(false);
-                    //state = State.EnemyTurn;
-                }
-
-                yield return null;
-            }
-
-            // Enemy's turn
-            print("Enemy's turn!");
-            
-            enemyUnit.transform.Find("Selected Unit Indicator").transform.gameObject.SetActive(true);
-
-            List<GameObject> enemyCards = enemyUnit.GetComponent<Unit>().cards;
-
-            // Select one card at random from the enemy unit's deck to play
-            int index = Random.Range(0, enemyCards.Count);
-            enemySelectedCards.Add(enemyCards[index]);
-
-            yield return new WaitForSeconds(1);
-
-            enemyUnit.transform.Find("Selected Unit Indicator").transform.gameObject.SetActive(false);
-
-            Debug.Log("Preparing calculations!");
+            /*
+             *  Preparing card calculations
+             */
             //state = State.ResolveCards;
-
+            Debug.Log("Preparing calculations!");
             resolveCards(playerUnit, enemyUnit);
         }
         else if (battleInitiator == "Enemy")
         {
-            // Enemy's turn
-            print("Enemy's turn!");
-            enemyUnit.transform.Find("Selected Unit Indicator").transform.gameObject.SetActive(true);
+            /*
+             *  Beginning of Enemy's turn
+             */
+            //state = State.EnemyTurn;
+            Debug.Log("Enemy's turn!");
+            yield return StartCoroutine(BeginEnemysTurn());
 
-            List<GameObject> enemyCards = enemyUnit.GetComponent<Unit>().cards;
-
-            // Select one card at random from the enemy unit's deck to play
-            int index = Random.Range(0, enemyCards.Count);
-            enemySelectedCards.Add(enemyCards[index]);
-
-            enemyUnit.transform.Find("Selected Unit Indicator").transform.gameObject.SetActive(false);
-
-            // Player's turn
+            /*
+             *  Beginning of Player's turn
+             */
             //state = State.PlayerTurn;
-            print("Player's turn!");
+            Debug.Log("Player's turn!");
+            yield return StartCoroutine(BeginPlayersTurn());
 
-            playerUnit.transform.Find("Selected Unit Indicator").transform.gameObject.SetActive(true);
-
-            bool takingTurn = true;
-
-            while (takingTurn)
-            {
-                var ray = battleViewCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
-                {
-                    if (Input.GetMouseButtonDown(0) && hit.transform.tag == "Card")
-                    {
-                        Debug.Log("Card detected!");
-
-                        // Check to see if the card has already been selected
-                        // If index == -1, the card is not in the list
-                        if (playerSelectedCards.IndexOf(hit.transform.gameObject) == -1)
-                        {
-                            Debug.Log("Selecting Card!");
-
-                            // Check to see if the player is trying to heal themselves at full HP
-                            if (hit.transform.gameObject.GetComponent<Card>().cardType == "HEAL" &&
-                                (playerUnit.GetComponent<Unit>().maxHP > playerUnit.GetComponent<Unit>().currentHP))
-                            {
-                                Debug.Log("Player is not at full health!");
-                                Debug.Log("Adding card to selected pool!");
-
-                                hit.transform.gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Valid Move Node Color", typeof(Material)) as Material;
-                                playerSelectedCards.Add(hit.transform.gameObject);
-                            }
-                            else if (hit.transform.gameObject.GetComponent<Card>().cardType == "HEAL" &&
-                                (playerUnit.GetComponent<Unit>().maxHP == playerUnit.GetComponent<Unit>().currentHP))
-                            {
-                                Debug.Log("Player is at full health!");
-                            }
-                            else if (hit.transform.gameObject.GetComponent<Card>().cardType != "HEAL")
-                            {
-                                Debug.Log("Adding card to selected pool!");
-
-                                hit.transform.gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Valid Move Node Color", typeof(Material)) as Material;
-                                playerSelectedCards.Add(hit.transform.gameObject);
-                            }
-                        }
-                        else
-                        {
-                            Debug.Log("Deselecting card!");
-
-                            hit.transform.gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Node Color", typeof(Material)) as Material;
-                            playerSelectedCards.Remove(hit.transform.gameObject);
-                        }
-                    }
-                }
-
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    Debug.Log("Shifting to enemy turn!");
-
-                    takingTurn = false;
-                    playerUnit.transform.Find("Selected Unit Indicator").transform.gameObject.SetActive(false);
-                    //state = State.EnemyTurn;
-                }
-
-                yield return null;
-            }
-
-            Debug.Log("Preparing calculations!");
+            /*
+             *  Preparing card calculations
+             */
             //state = State.ResolveCards;
-
+            Debug.Log("Preparing calculations!");
             resolveCards(playerUnit, enemyUnit);
         }
 
+        // Change back to the Grid View Camera
         battleViewCamera.SetActive(false);
         gridViewCamera.SetActive(true);
+
+        yield return null;
+    }
+
+    IEnumerator BeginPlayersTurn()
+    {
+        playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
+
+        bool takingTurn = true;
+
+        while (takingTurn)
+        {
+            var ray = battleViewCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (Input.GetMouseButtonDown(0) && hit.transform.tag == "Card")
+                {
+                    // Check to see if the card has already been selected
+                    // If index == -1, the card is not in the list
+                    if (playerSelectedCards.IndexOf(hit.transform.gameObject) == -1)
+                    {
+                        // Check to see if the player is trying to heal themselves at full HP
+                        if (hit.transform.gameObject.GetComponent<Card>().cardType == "HEAL" &&
+                            (playerUnitClone.GetComponent<Unit>().maxHP > playerUnitClone.GetComponent<Unit>().currentHP))
+                        {
+                            Debug.Log("Player is not at full health!");
+                            Debug.Log("Adding card to selected pool!");
+
+                            hit.transform.gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Valid Move Node Color", typeof(Material)) as Material;
+                            playerSelectedCards.Add(hit.transform.gameObject);
+                        }
+                        else if (hit.transform.gameObject.GetComponent<Card>().cardType == "HEAL" &&
+                            (playerUnitClone.GetComponent<Unit>().maxHP == playerUnitClone.GetComponent<Unit>().currentHP))
+                        {
+                            Debug.Log("Player is at full health!");
+                        }
+                        else if (hit.transform.gameObject.GetComponent<Card>().cardType != "HEAL")
+                        {
+                            Debug.Log("Adding card to selected pool!");
+
+                            hit.transform.gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Valid Move Node Color", typeof(Material)) as Material;
+                            playerSelectedCards.Add(hit.transform.gameObject);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("Deselecting card!");
+
+                        hit.transform.gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Node Color", typeof(Material)) as Material;
+                        playerSelectedCards.Remove(hit.transform.gameObject);
+                    }
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Debug.Log("Shifting to enemy turn!");
+
+                takingTurn = false;
+                playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
+
+            }
+
+            yield return null;
+        }
+
+        yield return null;
+    }
+
+    IEnumerator BeginEnemysTurn()
+    {
+        enemyUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
+
+        List<GameObject> enemyCards = enemyUnitClone.GetComponent<Unit>().cards;
+
+        // Select one card at random from the enemy unit's deck to play
+        int index = Random.Range(0, enemyCards.Count);
+        enemySelectedCards.Add(enemyCards[index]);
+
+        yield return new WaitForSeconds(1);
+
+        enemyUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
 
         yield return null;
     }
