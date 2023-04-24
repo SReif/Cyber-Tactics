@@ -15,8 +15,8 @@ public class BattleTurnSystem : MonoBehaviour
     private List<GameObject> playerSelectedCards;       // The list of cards that the player selected for their turn
     private List<GameObject> enemySelectedCards;        // The list of cards that the enemy selected for their turn
 
-    private GameObject playerUnitClone;                 // A clone of the player unit in the battle for visual reference
-    private GameObject enemyUnitClone;                  // A clone of the enemy unit in the battle for visual reference
+    [System.NonSerialized] public GameObject playerUnitClone;                 // A clone of the player unit in the battle for visual reference
+    [System.NonSerialized] public GameObject enemyUnitClone;                  // A clone of the enemy unit in the battle for visual reference
 
     // Start is called before the first frame update
     void Start()
