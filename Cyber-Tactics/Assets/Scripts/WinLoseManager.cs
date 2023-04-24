@@ -53,14 +53,18 @@ public class WinLoseManager : MonoBehaviour
     public void Win()
     {
         uiManager.OpenPanel(uiManager.winPane);
-        //uiManager.Pause();
+        uiManager.ClosePanel(uiManager.turnPane);
+        uiManager.ClosePanel(uiManager.unitPane);
+        uiManager.Pause();
     }
 
     //If lose conditions are met, this function will execute
     public void Lose()
     {
         uiManager.OpenPanel(uiManager.losePane);
-        //uiManager.Pause();
+        uiManager.ClosePanel(uiManager.turnPane);
+        uiManager.ClosePanel(uiManager.unitPane);
+        uiManager.Pause();
     }
 
 

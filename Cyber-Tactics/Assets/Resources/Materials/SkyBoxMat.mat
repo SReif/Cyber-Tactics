@@ -10,7 +10,7 @@ Material:
   m_Name: SkyBoxMat
   m_Shader: {fileID: 106, guid: 0000000000000000f000000000000000, type: 0}
   m_ValidKeywords:
-  - _SUNDISK_SIMPLE
+  - _SUNDISK_NONE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -75,7 +75,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _SunDisk: 1
+    - _SunDisk: 0
     - _SunSize: 0
     - _SunSizeConvergence: 5
     - _UVSec: 0
@@ -84,5 +84,5 @@ Material:
     - _Color: {r: 0.22801706, g: 0.250152, b: 0.7924528, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GroundColor: {r: 0.7688679, g: 0.7688679, b: 1, a: 1}
-    - _SkyTint: {r: 0.5019608, g: 0.5019608, b: 1, a: 1}
+    - _SkyTint: {r: 0.76862746, g: 0.76862746, b: 1, a: 1}
   m_BuildTextureStacks: []
