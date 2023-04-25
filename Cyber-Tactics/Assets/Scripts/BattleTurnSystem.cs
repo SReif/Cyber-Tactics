@@ -8,6 +8,8 @@ public class BattleTurnSystem : MonoBehaviour
 
     private AudioManager audioManager;
 
+    public bool takingTurn;
+
     public GameObject playerUnitLocation;               // The GameObject that stores the location that the player unit appears in the battle
     public GameObject enemyUnitLocation;                // The GameObject that stores the location that the player unit appears in the battle
     public GameObject playerCardSlots;                  // The GameObject that stores the location of the player card slots
@@ -234,11 +236,11 @@ public class BattleTurnSystem : MonoBehaviour
         }
     }
 
-    IEnumerator BeginPlayersTurn()
+    public IEnumerator BeginPlayersTurn()
     {
         playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
 
-        bool takingTurn = true;
+        takingTurn = true;
 
         while (takingTurn)
         {
@@ -262,7 +264,6 @@ public class BattleTurnSystem : MonoBehaviour
                             Debug.Log("Player is not at full health!");
                             Debug.Log("Adding card to selected pool!");
 
-                            hit.transform.gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Valid Move Node Color", typeof(Material)) as Material;
                             updateStatsFromCard(cardType, cardModifier, "Player", "Selecting");
                             playerSelectedCards.Add(hit.transform.gameObject);
 
@@ -277,7 +278,6 @@ public class BattleTurnSystem : MonoBehaviour
                         {
                             Debug.Log("Adding card to selected pool!");
 
-                            hit.transform.gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Valid Move Node Color", typeof(Material)) as Material;
                             updateStatsFromCard(cardType, cardModifier, "Player", "Selecting");
                             playerSelectedCards.Add(hit.transform.gameObject);
 
@@ -289,7 +289,6 @@ public class BattleTurnSystem : MonoBehaviour
                     {
                         Debug.Log("Deselecting card!");
 
-                        hit.transform.gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Node Color", typeof(Material)) as Material;
                         updateStatsFromCard(cardType, cardModifier, "Player", "Deselecting");
                         playerSelectedCards.Remove(hit.transform.gameObject);
 
