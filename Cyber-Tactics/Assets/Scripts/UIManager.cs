@@ -24,10 +24,12 @@ public class UIManager : MonoBehaviour
     //Elements of the Player in Battle
     private string playerName;
     private int playerHp, playerMaxHp, playerPRes, playerMRes, playerPDmg, playerMDmg;
+    private int playerPResMod, playerMResMod, playerPDmgMod, playerMDmgMod;
 
     //Elements of the Enemy in Battle
     private string enemyName;
     private int enemyHp, enemyMaxHp,enemyPRes, enemyMRes, enemyPDmg, enemyMDmg;
+    private int enemyPResMod, enemyMResMod, enemyPDmgMod, enemyMDmgMod;
 
     [SerializeField] private TurnSystem turnSystem;
     [SerializeField] private GridSystem gridSystem;
@@ -130,6 +132,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    //Executes player turn within battle scene
+    public void BattleEndTurn()
+    {
+        battleTurnSystem.takingTurn = false;
+        battleTurnSystem.playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
+    }
+
     //Sets the stats of both the player and enemy unit that is currently in combat
     private void SetBattleStats()
     {
@@ -146,6 +155,11 @@ public class UIManager : MonoBehaviour
         playerPRes = player.GetComponent<Unit>().basePhysicalDefense;
         playerMRes = player.GetComponent<Unit>().baseMagicalDefense;
 
+        playerPResMod = battleTurnSystem.totalPlayerPHYSDEFModifier;
+        playerMResMod = battleTurnSystem.totalPlayerMAGDEFModifier;
+        playerPDmgMod = battleTurnSystem.totalPlayerPHYSATKModifier;
+        playerMDmgMod = battleTurnSystem.totalPlayerMAGATKModifier;
+
         playerHealth.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "" + playerHp;
         playerHealth.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "/" + playerMaxHp;
         playerStat.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + playerName;
@@ -153,6 +167,11 @@ public class UIManager : MonoBehaviour
         playerStat.transform.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "" + playerPRes;
         playerStat.transform.GetChild(2).GetChild(4).GetComponent<TextMeshProUGUI>().text = "" + playerMDmg;
         playerStat.transform.GetChild(2).GetChild(6).GetComponent<TextMeshProUGUI>().text = "" + playerMRes;
+
+        playerStat.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().text = "+" + playerPDmgMod;
+        playerStat.transform.GetChild(2).GetChild(3).GetComponent<TextMeshProUGUI>().text = "+" + playerPResMod;
+        playerStat.transform.GetChild(2).GetChild(5).GetComponent<TextMeshProUGUI>().text = "+" + playerMDmgMod;
+        playerStat.transform.GetChild(2).GetChild(7).GetComponent<TextMeshProUGUI>().text = "+" + playerMResMod;
 
         //Enemy Stat Pane within Battle Scene
         GameObject enemy = battleTurnSystem.enemyUnitClone;
@@ -167,6 +186,11 @@ public class UIManager : MonoBehaviour
         enemyPRes = enemy.GetComponent<Unit>().basePhysicalDefense;
         enemyMRes = enemy.GetComponent<Unit>().baseMagicalDefense;
 
+        enemyPResMod = battleTurnSystem.totalEnemyPHYSDEFModifier;
+        enemyMResMod = battleTurnSystem.totalEnemyMAGDEFModifier;
+        enemyPDmgMod = battleTurnSystem.totalEnemyPHYSATKModifier;
+        enemyMDmgMod = battleTurnSystem.totalEnemyMAGATKModifier;
+
         enemyHealth.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "" + enemyHp;
         enemyHealth.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "/" + enemyMaxHp;
         enemyStat.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + enemyName;
@@ -174,6 +198,11 @@ public class UIManager : MonoBehaviour
         enemyStat.transform.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "" + enemyPRes;
         enemyStat.transform.GetChild(2).GetChild(4).GetComponent<TextMeshProUGUI>().text = "" + enemyMDmg;
         enemyStat.transform.GetChild(2).GetChild(6).GetComponent<TextMeshProUGUI>().text = "" + enemyMRes;
+
+        enemyStat.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().text = "+" + enemyPDmgMod;
+        enemyStat.transform.GetChild(2).GetChild(3).GetComponent<TextMeshProUGUI>().text = "+" + enemyPResMod;
+        enemyStat.transform.GetChild(2).GetChild(5).GetComponent<TextMeshProUGUI>().text = "+" + enemyMDmgMod;
+        enemyStat.transform.GetChild(2).GetChild(7).GetComponent<TextMeshProUGUI>().text = "+" + enemyMResMod;
     }
 
     //Changes current turn text at top of the game screen to either player/enemy
@@ -182,16 +211,16 @@ public class UIManager : MonoBehaviour
 
         if (turnSystem.state == TurnSystem.State.PlayerTurn)
         {
-            turnPane.transform.GetChild(0).gameObject.SetActive(false);
-            turnPane.transform.GetChild(1).gameObject.SetActive(true);
-            levelUI.transform.GetChild(4).gameObject.SetActive(true);
+            turnPane.transform.GetChild(0).gameObject.SetActive(false); //Enemy Phase Panel
+            turnPane.transform.GetChild(1).gameObject.SetActive(true); //Player Phase Panel
+            //levelUI.transform.GetChild(4).gameObject.SetActive(true); //End Turn Button
         }
 
         else
         {
-            turnPane.transform.GetChild(0).gameObject.SetActive(true);
-            turnPane.transform.GetChild(1).gameObject.SetActive(false);
-            levelUI.transform.GetChild(4).gameObject.SetActive(false);
+            turnPane.transform.GetChild(0).gameObject.SetActive(true); //Enemy Phase Panel
+            turnPane.transform.GetChild(1).gameObject.SetActive(false); //Player Phase Panel
+            //levelUI.transform.GetChild(4).gameObject.SetActive(false); //End Turn Button
         }
     }
 
@@ -201,20 +230,20 @@ public class UIManager : MonoBehaviour
         {
             levelUI.SetActive(true);
             battleUI.SetActive(false);
-            turnPane = levelUI.transform.GetChild(0).gameObject;
-            unitPane = levelUI.transform.GetChild(1).gameObject;
-            winPane = levelUI.transform.GetChild(2).gameObject;
-            losePane = levelUI.transform.GetChild(3).gameObject;
+            turnPane = levelUI.transform.GetChild(0).gameObject; //Turn Pane
+            unitPane = levelUI.transform.GetChild(1).gameObject; //Stats Pane
+            winPane = levelUI.transform.GetChild(2).gameObject; //Victory Pane
+            losePane = levelUI.transform.GetChild(3).gameObject; //Defeat Pane
         }
 
         else if(battleViewCam.activeSelf == true)
         {
             levelUI.SetActive(false);
             battleUI.SetActive(true);
-            playerStat = battleUI.transform.GetChild(0).gameObject;
-            playerHealth = battleUI.transform.GetChild(1).gameObject;
-            enemyStat = battleUI.transform.GetChild(2).gameObject;
-            enemyHealth = battleUI.transform.GetChild(3).gameObject;
+            playerStat = battleUI.transform.GetChild(0).gameObject;  //Plyaer Battle Stats
+            playerHealth = battleUI.transform.GetChild(1).gameObject; //Player Battle Health
+            enemyStat = battleUI.transform.GetChild(2).gameObject; //Enemy Battle Stats
+            enemyHealth = battleUI.transform.GetChild(3).gameObject; //Enemy Battle Health
             SetBattleStats();
         }
     }
