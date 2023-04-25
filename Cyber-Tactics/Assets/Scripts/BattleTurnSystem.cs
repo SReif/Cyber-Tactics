@@ -86,14 +86,14 @@ public class BattleTurnSystem : MonoBehaviour
              */
             //state = State.PlayerTurn;
             Debug.Log("Player's turn!");
-            yield return StartCoroutine(BeginPlayersTurn());
+            yield return StartCoroutine(BeginPlayersTurn(playerUnit));
 
             /*
              *  Beginning of Enemy's turn
              */
             //state = State.EnemyTurn;
             Debug.Log("Enemy's turn!");
-            yield return StartCoroutine(BeginEnemysTurn());
+            yield return StartCoroutine(BeginEnemysTurn(enemyUnit));
 
             /*
              *  Preparing card calculations
@@ -109,14 +109,14 @@ public class BattleTurnSystem : MonoBehaviour
              */
             //state = State.EnemyTurn;
             Debug.Log("Enemy's turn!");
-            yield return StartCoroutine(BeginEnemysTurn());
+            yield return StartCoroutine(BeginEnemysTurn(enemyUnit));
 
             /*
              *  Beginning of Player's turn
              */
             //state = State.PlayerTurn;
             Debug.Log("Player's turn!");
-            yield return StartCoroutine(BeginPlayersTurn());
+            yield return StartCoroutine(BeginPlayersTurn(playerUnit));
 
             /*
              *  Preparing card calculations
@@ -129,6 +129,8 @@ public class BattleTurnSystem : MonoBehaviour
         // Change back to the Grid View Camera
         battleViewCamera.SetActive(false);
         gridViewCamera.SetActive(true);
+
+        cleanUpBattleView();
 
         yield return null;
     }
@@ -236,8 +238,10 @@ public class BattleTurnSystem : MonoBehaviour
         }
     }
 
-    public IEnumerator BeginPlayersTurn()
+    public IEnumerator BeginPlayersTurn(GameObject playerUnit)
     {
+        yield return new WaitForSeconds(0.33f);
+
         playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
 
         takingTurn = true;
@@ -313,7 +317,7 @@ public class BattleTurnSystem : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator BeginEnemysTurn()
+    IEnumerator BeginEnemysTurn(GameObject enemyUnit)
     {
         enemyUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
 
@@ -321,6 +325,13 @@ public class BattleTurnSystem : MonoBehaviour
 
         // Select one card at random from the enemy unit's deck to play
         int index = Random.Range(0, enemyCards.Count);
+
+        while (enemyCards[index].GetComponent<Card>().cardType == "HEAL" && (enemyUnit.GetComponent<Unit>().currentHP == enemyUnit.GetComponent<Unit>().maxHP))
+        {
+            Debug.Log("Enemy unit already at full HP, find another card.");
+            index = Random.Range(0, enemyCards.Count);
+        }
+
         enemySelectedCards.Add(enemyCards[index]);
 
         string cardType = enemyCards[index].GetComponent<Card>().cardType;
@@ -349,60 +360,6 @@ public class BattleTurnSystem : MonoBehaviour
         int totalEnemyMagicalAttack = enemyUnit.GetComponent<Unit>().baseMagicalAttack + totalEnemyMAGATKModifier;
         int totalEnemyMagicalDefense = enemyUnit.GetComponent<Unit>().baseMagicalDefense + totalEnemyMAGDEFModifier;
 
-        /*
-        // Resolve all player cards
-        for (int i = 0; i < playerSelectedCards.Count; i++)
-        {
-            if (playerSelectedCards[i].GetComponent<Card>().cardType == "PHYS ATK")
-            {
-                totalPlayerPhysicalAttack += playerSelectedCards[i].GetComponent<Card>().modifier;
-            }
-            else if (playerSelectedCards[i].GetComponent<Card>().cardType == "PHYS DEF")
-            {
-                totalPlayerPhysicalDefense += playerSelectedCards[i].GetComponent<Card>().modifier;
-            }
-            else if (playerSelectedCards[i].GetComponent<Card>().cardType == "MAG ATK")
-            {
-                totalPlayerMagicalAttack += playerSelectedCards[i].GetComponent<Card>().modifier;
-            }
-            else if (playerSelectedCards[i].GetComponent<Card>().cardType == "MAG DEF")
-            {
-                totalPlayerMagicalDefense += playerSelectedCards[i].GetComponent<Card>().modifier;
-            }
-            else if (playerSelectedCards[i].GetComponent<Card>().cardType == "HEAL")
-            {
-                totalPlayerHealing += playerSelectedCards[i].GetComponent<Card>().modifier;
-            }
-        }
-        */
-
-        /*
-        // Resolve all enemy cards
-        for (int i = 0; i < enemySelectedCards.Count; i++)
-        {
-            if (enemySelectedCards[i].GetComponent<Card>().cardType == "PHYS ATK")
-            {
-                totalEnemyPhysicalAttack += enemySelectedCards[i].GetComponent<Card>().modifier;
-            }
-            else if (enemySelectedCards[i].GetComponent<Card>().cardType == "PHYS DEF")
-            {
-                totalEnemyPhysicalDefense += enemySelectedCards[i].GetComponent<Card>().modifier;
-            }
-            else if (enemySelectedCards[i].GetComponent<Card>().cardType == "MAG ATK")
-            {
-                totalEnemyMagicalDefense += enemySelectedCards[i].GetComponent<Card>().modifier;
-            }
-            else if (enemySelectedCards[i].GetComponent<Card>().cardType == "MAG DEF")
-            {
-                totalEnemyMagicalDefense += enemySelectedCards[i].GetComponent<Card>().modifier;
-            }
-            else if (enemySelectedCards[i].GetComponent<Card>().cardType == "HEAL")
-            {
-                totalEnemyHealing += enemySelectedCards[i].GetComponent<Card>().modifier;
-            }
-        }
-        */
-
         // Calculate total damage taken by the player
         int totalPlayerDamageTaken = (totalEnemyPhysicalAttack - totalPlayerPhysicalDefense < 0) ? 0 : totalEnemyPhysicalAttack - totalPlayerPhysicalDefense;
         totalPlayerDamageTaken += (totalEnemyMagicalAttack - totalPlayerMagicalDefense < 0) ? 0 : totalEnemyMagicalAttack - totalPlayerMagicalDefense;
@@ -411,21 +368,24 @@ public class BattleTurnSystem : MonoBehaviour
         int totalEnemyDamageTaken = (totalPlayerPhysicalAttack - totalEnemyPhysicalDefense < 0) ? 0 : totalPlayerPhysicalAttack - totalEnemyPhysicalDefense;
         totalEnemyDamageTaken += (totalPlayerMagicalAttack - totalEnemyMagicalDefense < 0) ? 0 : totalPlayerMagicalAttack - totalEnemyMagicalDefense;
 
-        // INSERT ENEMY ANIMATION COROUTINE HERE
-        yield return StartCoroutine(enemyAttackAnimation());
-
-        // INSERT PLAYER ANIMATION COROUTINE HERE
-        yield return StartCoroutine(playerAttackAnimation());
+        // INSERT ATTACK ANIMATIONS COROUTINE HERE
+        yield return StartCoroutine(attackAnimation());
 
         // Resolve the healing done and taken taken for the player unit
         playerUnit.GetComponent<Unit>().currentHP += totalPlayerHEALModifier;
         playerUnit.GetComponent<Unit>().currentHP -= totalPlayerDamageTaken;
 
+        // Make sure the player unit cannot overheal themselves.
+        playerUnit.GetComponent<Unit>().currentHP = (playerUnit.GetComponent<Unit>().currentHP > playerUnit.GetComponent<Unit>().maxHP) ? playerUnit.GetComponent<Unit>().maxHP : playerUnit.GetComponent<Unit>().currentHP;
+
         // Resolve the healing done and taken taken for the enemy unit
         enemyUnit.GetComponent<Unit>().currentHP += totalEnemyHEALModifier;
         enemyUnit.GetComponent<Unit>().currentHP -= totalEnemyDamageTaken;
 
-        cleanUpBattleView();
+        // Make sure the player unit cannot overheal themselves.
+        enemyUnit.GetComponent<Unit>().currentHP = (enemyUnit.GetComponent<Unit>().currentHP > enemyUnit.GetComponent<Unit>().maxHP) ? enemyUnit.GetComponent<Unit>().maxHP : enemyUnit.GetComponent<Unit>().currentHP;
+
+        yield return new WaitForSeconds(0.33f);
 
         Debug.Log("End battle!");
 
@@ -466,7 +426,7 @@ public class BattleTurnSystem : MonoBehaviour
         enemySelectedCards.Clear();
     }
 
-    IEnumerator enemyAttackAnimation()
+    IEnumerator attackAnimation()
     {
         float maxDistance = 1f;
         float curDistance = 0f;
@@ -565,11 +525,6 @@ public class BattleTurnSystem : MonoBehaviour
             yield return null;
         }
 
-        yield return null;
-    }
-
-    IEnumerator playerAttackAnimation()
-    {
         yield return null;
     }
 }
