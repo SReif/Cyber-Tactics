@@ -8,6 +8,7 @@ public class WinLoseManager : MonoBehaviour
     [System.NonSerialized] public GameObject[] enemies; //array of enemy units
     [System.NonSerialized] public GameObject[] allies; //array of player units
 
+    public GridSystem gridSystem;
     public UIManager uiManager;
 
     // Start is called before the first frame update
@@ -53,6 +54,8 @@ public class WinLoseManager : MonoBehaviour
     public void Win()
     {
         uiManager.OpenPanel(uiManager.winPane);
+        uiManager.ClosePanel(uiManager.turnPane);
+        uiManager.ClosePanel(uiManager.unitPane);
         //uiManager.Pause();
     }
 
@@ -60,6 +63,8 @@ public class WinLoseManager : MonoBehaviour
     public void Lose()
     {
         uiManager.OpenPanel(uiManager.losePane);
+        uiManager.ClosePanel(uiManager.turnPane);
+        uiManager.ClosePanel(uiManager.unitPane);
         //uiManager.Pause();
     }
 
