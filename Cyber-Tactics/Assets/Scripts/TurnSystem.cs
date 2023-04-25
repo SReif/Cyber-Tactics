@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class TurnSystem : MonoBehaviour
 {
+    private AudioManager audioManager;
+
     public GameObject gridObject;                   // The GameObject for the grid system for reference
     public GameObject battleSystem;                 // The GameObject for the battle system
     public GameObject gridViewCamera;               // The GameObject for the camera that faces the grid
@@ -39,6 +41,10 @@ public class TurnSystem : MonoBehaviour
         enemysUnitsNotMoved = enemysUnits;
 
         Debug.Log("Beginning grid turn system. Player goes first.");
+
+        // Locate the AudioManager and play music
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        audioManager.Play("Battle Theme - Gorandora");
 
         StartCoroutine(GridTurnSystem());
     }
