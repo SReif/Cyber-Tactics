@@ -95,7 +95,7 @@ public class TurnSystem : MonoBehaviour
                     // Revert the player's unit colors back to their default
                     for (int i = 0; i < playersUnits.Count; i++)
                     {
-                        playersUnits[i].gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                        playersUnits[i].gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.blue);
                     }
 
                     // Prepare the enemy units for their turn
@@ -161,10 +161,10 @@ public class TurnSystem : MonoBehaviour
 
                                     // Show that the unit cannot be moved the rest of this turn
                                     gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
-                                    gridSystem.selectedUnit.GetComponent<SpriteRenderer>().color = Color.gray;
+                                    gridSystem.selectedUnit.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
 
-                                    // Do not increment this value if the unit is defeated, or else the player's turn will end early when there are less units on the board
-                                    playersUnitsMoved++;
+                                   // Do not increment this value if the unit is defeated, or else the player's turn will end early when there are less units on the board
+                                   playersUnitsMoved++;
 
                                     gridSystem.selectedUnit = null;
                                 }
@@ -186,7 +186,7 @@ public class TurnSystem : MonoBehaviour
                     // Revert the enemy's unit colors back to normal
                     for (int i = 0; i < enemysUnits.Count; i++)
                     {
-                        enemysUnits[i].gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+                        enemysUnits[i].gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.red);
                     }
 
                     // Prepare the player units for their turn
@@ -301,7 +301,7 @@ public class TurnSystem : MonoBehaviour
                             }
                             else
                             {
-                                // Start a battle with that unit, where the player starts first
+                                // Start a battle with that unit, where the enemy starts first
                                 yield return StartCoroutine(battleSystem.GetComponent<BattleTurnSystem>().Battle(hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit, "Enemy"));
                                 
                                 hasAttacked = true;
@@ -310,6 +310,33 @@ public class TurnSystem : MonoBehaviour
                                 checkIfUnitDefeated(hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit);
                                 checkWinLoseCondition();
                             }
+                        }
+                    }
+                    else if (Input.GetMouseButtonDown(0) && hit.transform.tag == "EnemyUnit" && hit.transform.parent.transform.parent.GetComponent<GridNode>().validAttack)
+                    {
+                        Debug.Log("Opposing unit detected, commence battle.");
+
+                        if (currentUnitSide == "Player")
+                        {
+                            // Start a battle with that unit, where the player starts first
+                            yield return StartCoroutine(battleSystem.GetComponent<BattleTurnSystem>().Battle(gridSystem.selectedUnit, hit.transform.gameObject, "Player"));
+
+                            hasAttacked = true;
+                            gridSystem.resetValidAttackNodes();
+
+                            checkIfUnitDefeated(gridSystem.selectedUnit, hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject);
+                            checkWinLoseCondition();
+                        }
+                        else
+                        {
+                            // Start a battle with that unit, where the player starts first
+                            yield return StartCoroutine(battleSystem.GetComponent<BattleTurnSystem>().Battle(hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit, "Enemy"));
+
+                            hasAttacked = true;
+                            gridSystem.resetValidAttackNodes();
+
+                            checkIfUnitDefeated(hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit);
+                            checkWinLoseCondition();
                         }
                     }
                 }
@@ -390,7 +417,7 @@ public class TurnSystem : MonoBehaviour
 
             // Show that the unit cannot be moved the rest of this turn
             gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
-            gridSystem.selectedUnit.GetComponent<SpriteRenderer>().color = Color.gray;
+            gridSystem.selectedUnit.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
 
             // Do not increment this value if the unit is defeated, or else the enemy's turn will end early when there are less units on the board
             enemysUnitsMoved++;
@@ -495,7 +522,7 @@ public class TurnSystem : MonoBehaviour
 
                 // Show that the unit cannot be moved the rest of this turn
                 gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
-                gridSystem.selectedUnit.GetComponent<SpriteRenderer>().color = Color.gray;
+                gridSystem.selectedUnit.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
 
                 // Do not increment this value if the unit is defeated, or else the enemy's turn will end early when there are less units on the board
                 enemysUnitsMoved++;

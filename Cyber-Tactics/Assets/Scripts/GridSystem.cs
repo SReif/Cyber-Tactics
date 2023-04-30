@@ -37,12 +37,12 @@ public class GridSystem : MonoBehaviour
                 node.GetComponent<GridNode>().nodeGridPos = new Vector2(x, y);
                 grid[x, y] = node;
 
-                // Disable the SpriteRenderer for nodes that contain an Obstacle
+                // Disable the MeshRenderer for nodes that contain an Obstacle
                 if (node.transform.Find("Unit Slot").childCount != 0)
                 {
                     if (node.transform.Find("Unit Slot").GetChild(0).tag == "Obstacle")
                     {
-                        node.transform.Find("Grid Sprite").GetComponent<SpriteRenderer>().enabled = false;
+                        node.transform.GetComponent<MeshRenderer>().enabled = false;
                     }
                 }
             }

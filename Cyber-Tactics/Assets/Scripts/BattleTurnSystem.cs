@@ -302,6 +302,7 @@ public class BattleTurnSystem : MonoBehaviour
                 }
             }
 
+            /*
             if (Input.GetKeyDown(KeyCode.E))
             {
                 Debug.Log("Shifting to enemy turn!");
@@ -310,6 +311,7 @@ public class BattleTurnSystem : MonoBehaviour
                 playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
 
             }
+            */
 
             yield return null;
         }
