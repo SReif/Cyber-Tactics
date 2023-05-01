@@ -28,7 +28,8 @@ public class BattleTurnSystem : MonoBehaviour
     public int totalEnemyMAGDEFModifier = 0;            // The total amount of MAGICAL DEFENSE that is being applied to the enemy from cards
     public int totalEnemyHEALModifier = 0;              // The total amount of HEALING that is being applied to the enemy from cards
 
-    private List<GameObject> playerSelectedCards;       // The list of cards that the player selected for their turn
+    [System.NonSerialized]
+    public List<GameObject> playerSelectedCards;        // The list of cards that the player selected for their turn
     private List<GameObject> enemySelectedCards;        // The list of cards that the enemy selected for their turn
 
     [System.NonSerialized] public GameObject playerUnitClone;                 // A clone of the player unit in the battle for visual reference
