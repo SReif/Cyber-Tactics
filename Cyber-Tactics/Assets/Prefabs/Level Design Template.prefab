@@ -5068,6 +5068,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4907619820158652349, guid: 30120775b2708c646af9b43d19846150, type: 3}
+      propertyPath: battleTurnSystem
+      value: 
+      objectReference: {fileID: 4278649347181360608}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30120775b2708c646af9b43d19846150, type: 3}
 --- !u!4 &4278649346111588746 stripped
