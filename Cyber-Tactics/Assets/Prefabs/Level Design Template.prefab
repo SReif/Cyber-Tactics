@@ -1245,6 +1245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4278649347008583118}
   - component: {fileID: 4278649347008583119}
+  - component: {fileID: 2848563036981699282}
   m_Layer: 0
   m_Name: Grid View Camera
   m_TagString: MainCamera
@@ -1310,6 +1311,20 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &2848563036981699282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4278649347008583113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e29cc7933effe564c9b986a0dd9d761b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panSpeed: 0.5
+  camBounds: 3
 --- !u!1 &4278649347181360610
 GameObject:
   m_ObjectHideFlags: 0
@@ -1354,6 +1369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f93e3b6d00593e4a96ba4d543783b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  takingTurn: 0
   playerUnitLocation: {fileID: 4278649345746195368}
   enemyUnitLocation: {fileID: 4278649346400021104}
   playerCardSlots: {fileID: 4278649346167735629}
