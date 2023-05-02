@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
 
     //UI Elements
     public GameObject pausePane;
-    [System.NonSerialized] public GameObject turnPane, unitPane, winPane, losePane;
+    [System.NonSerialized] public GameObject turnPane, unitPane, winPane, losePane, viewedUnitPane;
     [System.NonSerialized] public GameObject playerStat, playerHealth, enemyStat, enemyHealth;
 
     //Elements of the Stat Panel
@@ -130,6 +130,28 @@ public class UIManager : MonoBehaviour
         {
             ClosePanel(unitPane);
         }
+
+        if (turnSystem.viewedUnit != null)
+        {
+            OpenPanel(viewedUnitPane);
+
+            GameObject viewedUnitNameStats = viewedUnitPane.transform.Find("StatsTemplate").gameObject;
+            GameObject viewedUnitNumStats = viewedUnitPane.transform.Find("StatsNum").gameObject;
+
+            viewedUnitNameStats.transform.Find("UnitName").GetComponent<TextMeshProUGUI>().text = turnSystem.viewedUnit.GetComponent<Unit>().unitName;
+            viewedUnitNameStats.transform.Find("ClassName").GetComponent<TextMeshProUGUI>().text = turnSystem.viewedUnit.GetComponent<Unit>().unitMoveID;
+
+            viewedUnitNumStats.transform.Find("Health_Num").GetComponent<TextMeshProUGUI>().text = "" + turnSystem.viewedUnit.GetComponent<Unit>().currentHP;
+            viewedUnitNumStats.transform.Find("PhysDEF_Num").GetComponent<TextMeshProUGUI>().text = "" + turnSystem.viewedUnit.GetComponent<Unit>().basePhysicalDefense;
+            viewedUnitNumStats.transform.Find("MagDEF_Num").GetComponent<TextMeshProUGUI>().text = "" + turnSystem.viewedUnit.GetComponent<Unit>().baseMagicalDefense;
+            viewedUnitNumStats.transform.Find("PhysATK_Num").GetComponent<TextMeshProUGUI>().text = "" + turnSystem.viewedUnit.GetComponent<Unit>().basePhysicalAttack;
+            viewedUnitNumStats.transform.Find("MagATK_Num").GetComponent<TextMeshProUGUI>().text = "" + turnSystem.viewedUnit.GetComponent<Unit>().baseMagicalAttack;
+        }
+
+        if (turnSystem.viewedUnit == null)
+        {
+            ClosePanel(viewedUnitPane);
+        }
     }
 
     //Executes player turn within battle scene
@@ -234,6 +256,7 @@ public class UIManager : MonoBehaviour
             unitPane = levelUI.transform.GetChild(1).gameObject; //Stats Pane
             winPane = levelUI.transform.GetChild(2).gameObject; //Victory Pane
             losePane = levelUI.transform.GetChild(3).gameObject; //Defeat Pane
+            viewedUnitPane = levelUI.transform.GetChild(4).gameObject; //Viewed Unit Pane
         }
 
         else if(battleViewCam.activeSelf == true)
