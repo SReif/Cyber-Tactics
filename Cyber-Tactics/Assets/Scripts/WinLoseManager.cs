@@ -106,7 +106,8 @@ public class WinLoseManager : MonoBehaviour
     {
         uiManager.OpenPanel(uiManager.winPane);
         uiManager.ClosePanel(uiManager.turnPane);
-        uiManager.ClosePanel(uiManager.unitPane);
+        uiManager.ClosePanel(uiManager.viewedUnitPane);
+        uiManager.ClosePanel(uiManager.selectedUnitPane);
         //uiManager.Pause();
     }
 
@@ -115,7 +116,8 @@ public class WinLoseManager : MonoBehaviour
     {
         uiManager.OpenPanel(uiManager.losePane);
         uiManager.ClosePanel(uiManager.turnPane);
-        uiManager.ClosePanel(uiManager.unitPane);
+        uiManager.ClosePanel(uiManager.selectedUnitPane);
+        uiManager.ClosePanel(uiManager.viewedUnitPane);
         //uiManager.Pause();
     }
 

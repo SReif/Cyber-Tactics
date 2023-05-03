@@ -2564,7 +2564,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1647602708451885988, guid: 5496b7e3b69d296449a0f74e96083d8b, type: 3}
       propertyPath: m_Name
-      value: Stats
+      value: SelectedUnitStats
       objectReference: {fileID: 0}
     - target: {fileID: 1647602708451885988, guid: 5496b7e3b69d296449a0f74e96083d8b, type: 3}
       propertyPath: m_IsActive
@@ -3218,7 +3218,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1647602708451885988, guid: 5496b7e3b69d296449a0f74e96083d8b, type: 3}
       propertyPath: m_Name
-      value: Stats
+      value: ViewedUnitStats
       objectReference: {fileID: 0}
     - target: {fileID: 1647602708451885988, guid: 5496b7e3b69d296449a0f74e96083d8b, type: 3}
       propertyPath: m_IsActive

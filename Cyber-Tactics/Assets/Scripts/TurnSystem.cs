@@ -194,13 +194,15 @@ public class TurnSystem : MonoBehaviour
                     playersUnitsMoved = 0;
                     enemysUnitsNotMoved = new List<GameObject>();
 
+                    viewedUnit = null;
+
                     yield return new WaitForSeconds(1f);
                     Debug.Log("Starting player's turn!");
                 }
                 else
                 {
                     // Perform a random enemy unit's turn, if it has not already moved
-                    yield return StartCoroutine(calculateBetterEnemyAI());
+                    yield return StartCoroutine(calculateAggressiveEnemyAI());
 
                     Debug.Log("Unit has taken its turn.");
                 }
@@ -436,7 +438,7 @@ public class TurnSystem : MonoBehaviour
 
     }
 
-    IEnumerator calculateBetterEnemyAI()
+    IEnumerator calculateAggressiveEnemyAI()
     {
         // Select a random enemy unit (Repeat until you find a unit that has not moved yet.)
         int index = Random.Range(0, enemysUnits.Count);
@@ -513,6 +515,9 @@ public class TurnSystem : MonoBehaviour
         if (targets.Count != 0)
         {
             // If there are multiple targets, pick a random one
+
+            // INSERT DECISION MAKING FOR WHICH VALID TARGET MOVE NODE TO CHOOSE HERE.
+
             index = Random.Range(0, targets.Count);
             GameObject moveNode = targets[index];
             gridSystem.moveSelectedUnit(moveNode);
@@ -538,12 +543,11 @@ public class TurnSystem : MonoBehaviour
 
                 gridSystem.selectedUnit = null;
             }
-
         }
         else
         {
-            // If there are no valid attacks to perform, move the enemy unit randomly
-            yield return StartCoroutine(calculateRandomizedEnemyAI());
+            // If there are no valid attacks to perform, move the enemy unit near the closest player unit
+            yield return StartCoroutine(calculateMoveCloserEnemyAI());
         }
 
         yield return null;
@@ -556,6 +560,38 @@ public class TurnSystem : MonoBehaviour
         // Check to see if there are any valid attacks
         if (gridSystem.validAttackNodes.Count > 0)
         {
+            // INSERT DECISION MAKING FOR WHICH VALID TARGET ATTACK NODE TO CHOOSE HERE.
+
+            // Option 1:
+                // Enemy AI chooses which player unit to attack based on the addition of all of its current stats, producing a "threat" score.
+                    // If a player unit has 3/5 HP, 1 PHY ATK, 2 PHY DEF, 0 MAG ATK, and 0 MAG DEF, the score would be 6.
+                    // If another player unit has 1/3 HP, 2 PHY ATK, 1 PHY DEF, 0 MAG ATk, and 0 MAG DEF, the score would be 4.
+                    // The enemy unit would attack the player unit with the lowest overall threat score
+
+            // Option 2:
+                // The enemy AI compares its overall stats to the different units:
+                    // For each stat, the enemy AI checks to see if it has a higher stat, and marks it as 1.
+                        // Perhaps if the player unit HP is under a certain threshold, it marks it 
+                    // If the enemy unit has a lower stat, it marks it as 0.
+                    // The enemy adds all of these values together to produce a "battle success" score.
+                        // The enemy unit will attack the player unit with the highest battle success score because it knows it has more stats that are better.
+                    // This system is malleable because you can change the weight of the scores.
+                        // If you want the enemy unit to prioritize player units with lower HP, you can increase the score for that stat.
+
+            // Option 3:
+                // The enemy AI compares its ATK stats to the player unit's DEF stats and compares its DEF stats to the player unit's ATK stats.
+                    // This system will produce a "battle success" score based on the comparisons between its stats.
+                    // If the enemy unit has a higher PHY ATK than the player unit's PHY DEF, calculate the difference and add it to the overall success score.
+                    // If the enemy unit has a higher PHY DEF than the player unit's PHY ATK, do the same thing as above.
+                    // If the enemy unit has higher current HP than the player unit, do the same thing as above.
+                    // MAG ATK to MAG DEF and vice versa are calculated the same as the PHY to ATK and vice versa.
+                // The enemy unit will choose the unit with the highest "battle success" score associated with it.
+                
+                // Look into finding the MAX modifier for each stat and adding it to its associated base stat to see how well a unit could do at its best
+
+            // Either choose a player unit at random if there is a tie or pick the first in the list
+
+
             for (int i = 0; i < gridSystem.validAttackNodes.Count; i++)
             {
                 GameObject node = gridSystem.validAttackNodes[i];
@@ -586,6 +622,74 @@ public class TurnSystem : MonoBehaviour
                 }
             }
         }
+
+        yield return null;
+    }
+
+    IEnumerator calculateMoveCloserEnemyAI()
+    {
+        List<Vector3> playerUnitPos = new List<Vector3>();
+
+        for (int i = 0; i < playersUnits.Count; i++)
+        {
+            playerUnitPos.Add(playersUnits[i].transform.position);
+        }
+
+        // Begin the calculation by using the enemy unit's current node to compare against other possible valid move nodes (The unit's current location is ALWAYS a valid move node)
+        GameObject closestMoveNodetoPlayerUnit = gridSystem.selectedUnit.transform.parent.transform.parent.gameObject;
+
+        // Create a placeholder value that will never be close enough to the units
+        float smallestDistanceBetweenNodePos = 1000f;
+
+        // Begin by checking for the enemy unit's current position
+        for (int i = 0; i < playerUnitPos.Count; i++)
+        {
+            Debug.Log("Distance between: " + Vector3.Distance(playerUnitPos[i], gridSystem.selectedUnit.transform.position));
+
+            if (Vector3.Distance(playerUnitPos[i], gridSystem.selectedUnit.transform.position) < smallestDistanceBetweenNodePos)
+            {
+                smallestDistanceBetweenNodePos = Vector3.Distance(playerUnitPos[i], gridSystem.selectedUnit.transform.position);
+            }
+        }
+
+        // For each valid move node, check to see which valid move gets the enemy unit the closest to a player unit
+        for (int i = 0; i < gridSystem.validMoveNodes.Count; i++)
+        {
+            for (int j = 0; j < playerUnitPos.Count; j++)
+            {
+                Debug.Log("Distance between: " + Vector3.Distance(playerUnitPos[j], gridSystem.selectedUnit.transform.position));
+
+                if (Vector3.Distance(playerUnitPos[j], gridSystem.validMoveNodes[i].transform.position) < smallestDistanceBetweenNodePos)
+                {
+                    smallestDistanceBetweenNodePos = Vector3.Distance(playerUnitPos[j], gridSystem.validMoveNodes[i].transform.position);
+                    closestMoveNodetoPlayerUnit = gridSystem.validMoveNodes[i];
+                }
+            }
+        }
+
+        gridSystem.moveSelectedUnit(closestMoveNodetoPlayerUnit);
+        gridSystem.resetValidMoveNodes();
+
+        yield return new WaitForSeconds(1f);
+
+        // Find all of the valid attack nodes for the enemy unit and select one
+        gridSystem.validAttackNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidAttacks(gridSystem.grid, "PlayerUnit");
+
+        yield return new WaitForSeconds(1f);
+
+        // The attack action is skipped because the only reason the unit would use this AI is becuase it can't reach a unit on this turn
+        gridSystem.resetValidAttackNodes();
+
+        // Disable the attack indicator for the unit
+        gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
+
+        // Show that the unit cannot be moved the rest of this turn
+        gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
+        gridSystem.selectedUnit.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
+
+        enemysUnitsMoved++;
+
+        gridSystem.selectedUnit = null;
 
         yield return null;
     }
