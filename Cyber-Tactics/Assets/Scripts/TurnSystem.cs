@@ -50,6 +50,14 @@ public class TurnSystem : MonoBehaviour
         // Locate the Win/Lose Manager
         winLoseManager = GameObject.Find("SceneManager").GetComponent<WinLoseManager>();
 
+        for (int i = 0; i < enemysUnits.Count; i++)
+        {
+            if (enemysUnits[i].GetComponent<Unit>().enemyAI == "Defensive")
+            {
+                calculateEnemyUnitDefensiveZone(enemysUnits[i]);
+            }
+        }
+
         StartCoroutine(GridTurnSystem());
     }
 
@@ -117,7 +125,8 @@ public class TurnSystem : MonoBehaviour
                             gridSystem.resetValidMoveNodes();
 
                             // Show the valid moves for the current unit
-                            gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.grid);
+                            gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().calculateValidMoves(gridSystem.grid);
+                            gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.validMoveNodes);
                         }
                         else if (Input.GetMouseButtonDown(0) && hit.transform.tag == "Node")
                         {
@@ -125,7 +134,7 @@ public class TurnSystem : MonoBehaviour
                             if (hit.transform.gameObject.GetComponent<GridNode>().validMove)
                             {
                                 // Move the unit and disable the move indicators for each node
-                                gridSystem.moveSelectedUnit(hit.transform.gameObject);
+                                yield return StartCoroutine(gridSystem.MoveSelectedUnit(hit.transform.gameObject));
 
                                 // Wait a moment so you can't double-click accidentally
                                 yield return new WaitForSeconds(.3f);
@@ -201,8 +210,37 @@ public class TurnSystem : MonoBehaviour
                 }
                 else
                 {
+                    // Select a random enemy unit (Repeat until you find a unit that has not moved yet.)
+                    int index = Random.Range(0, enemysUnits.Count);
+
+                    while (enemysUnits[index].GetComponent<Unit>().hasMoved)
+                    {
+                        index = Random.Range(0, enemysUnits.Count);
+                    }
+
+                    // Indicate that the selected enemy unit is acting and calculate all of its valid moves
+                    gridSystem.selectedUnit = enemysUnits[index];
+
+                    // Indicate that the selected enemy unit is acting and calculate all of its valid moves
+                    gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
+
                     // Perform a random enemy unit's turn, if it has not already moved
-                    yield return StartCoroutine(calculateAggressiveEnemyAI());
+                    if (gridSystem.selectedUnit.GetComponent<Unit>().enemyAI == "Passive")
+                    {
+                        yield return StartCoroutine(calculateRandomizedEnemyAI());
+                    }
+                    else if (gridSystem.selectedUnit.GetComponent<Unit>().enemyAI == "Defensive")
+                    {
+                        yield return StartCoroutine(calculateDefensiveEnemyAI());
+                    }
+                    else if (gridSystem.selectedUnit.GetComponent<Unit>().enemyAI == "Aggressive")
+                    {
+                        yield return StartCoroutine(calculateAggressiveEnemyAI());
+                    }
+                    else
+                    {
+                        yield return StartCoroutine(calculateRandomizedEnemyAI());
+                    }    
 
                     Debug.Log("Unit has taken its turn.");
                 }
@@ -403,16 +441,15 @@ public class TurnSystem : MonoBehaviour
 
     IEnumerator calculateRandomizedEnemyAI()
     {
-        // Indicate that the selected enemy unit is acting and calculate all of its valid moves
-        gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
-        gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.grid);
+        gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().calculateValidMoves(gridSystem.grid);
+        gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.validMoveNodes);
 
         yield return new WaitForSeconds(1f);
 
         // Move the enemy unit to a random valid move
         int index = Random.Range(0, gridSystem.validMoveNodes.Count);
         GameObject node = gridSystem.validMoveNodes[index];
-        gridSystem.moveSelectedUnit(node);
+        yield return StartCoroutine(gridSystem.MoveSelectedUnit(node));
         gridSystem.resetValidMoveNodes();
 
         yield return new WaitForSeconds(1f);
@@ -438,20 +475,123 @@ public class TurnSystem : MonoBehaviour
 
     }
 
-    IEnumerator calculateAggressiveEnemyAI()
+    IEnumerator calculateDefensiveEnemyAI()
     {
-        // Select a random enemy unit (Repeat until you find a unit that has not moved yet.)
-        int index = Random.Range(0, enemysUnits.Count);
+        // Calculate the valid moves for the enemy unit without the defensive zone restriction
+        gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().calculateValidMoves(gridSystem.grid);
 
-        while (enemysUnits[index].GetComponent<Unit>().hasMoved)
+        Debug.Log(gridSystem.validMoveNodes.Count);
+
+        // Apply the restriction to its valid moves then show the new valid move locations
+        gridSystem.validMoveNodes = restrictEnemyAIToDefensiveZone(gridSystem.validMoveNodes);
+        gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.validMoveNodes);
+
+        Debug.Log(gridSystem.validMoveNodes.Count);
+
+        // Store the valid moves nodes that lead to an attack on a player unit
+        List<GameObject> targets = new List<GameObject>();
+
+        // For each valid move node, check to see if a valid attack at that location can attack a player unit
+        for (int k = 0; k < gridSystem.validMoveNodes.Count; k++)
         {
-            index = Random.Range(0, enemysUnits.Count);
+            GameObject validMoveNode = gridSystem.validMoveNodes[k];
+
+            string unitAttackID = gridSystem.selectedUnit.GetComponent<Unit>().unitAttackID;
+            List<List<Vector2>> unitAttackSet = gridSystem.selectedUnit.GetComponent<Unit>().selectAttackSet(gridSystem.grid);
+
+            Vector2 gridPos = validMoveNode.GetComponent<GridNode>().nodeGridPos;
+
+            // For each attack in the attack set...
+            for (int i = 0; i < unitAttackSet.Count; i++)
+            {
+                for (int j = 0; j < unitAttackSet[i].Count; j++)
+                {
+                    // Check to see if the attack is outside of the grid
+                    if (unitAttackSet[i][j].x + gridPos.x < gridSystem.grid.GetLength(0) && unitAttackSet[i][j].x + gridPos.x >= 0
+                        && unitAttackSet[i][j].y + gridPos.y < gridSystem.grid.GetLength(1) && unitAttackSet[i][j].y + gridPos.y >= 0)
+                    {
+                        // Obtain the node that the unit wants to try to attack
+                        GameObject node = gridSystem.grid[(int)(unitAttackSet[i][j].x + gridPos.x), (int)(unitAttackSet[i][j].y + gridPos.y)];
+
+                        GameObject unitSlot = node.transform.Find("Unit Slot").gameObject;
+
+                        // Determine if there is a unit on the node
+                        if (unitSlot.transform.childCount != 0)
+                        {
+                            // Check to see if the unit is an enemy unit
+                            if (unitSlot.transform.GetChild(0).tag == "PlayerUnit")
+                            {
+
+                                targets.Add(validMoveNode);
+
+                                // If the unit attackset does not allow the unit to attack over units, prevent it from calculating more attacks past this node
+                                if (unitAttackSet.Count > 1)
+                                {
+                                    break;
+                                }
+                            }
+
+                            // THIS COMMENTED OUT SECTION MAKES IT SO AN ENEMY UNIT HAS THE CHANCE OF NOT ATTACKING ANOTHER (ARCHIVED)
+                            /*
+                            else if (unitSlot.transform.GetChild(0).gameObject == transform.gameObject)
+                            {
+                                // Add itself as a place it can attack, indicating that the enemy unit will not attack anything
+                                targets.Add(validMoveNode);
+                            }
+                            */
+                        }
+                    }
+                }
+            }
         }
 
-        // Indicate that the selected enemy unit is acting and calculate all of its valid moves
-        gridSystem.selectedUnit = enemysUnits[index];
-        gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
-        gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.grid);
+        yield return new WaitForSeconds(1f);
+
+        if (targets.Count != 0)
+        {
+            // If there are multiple targets, pick a random one
+
+            // INSERT DECISION MAKING FOR WHICH VALID TARGET MOVE NODE TO CHOOSE HERE.
+
+            int index = Random.Range(0, targets.Count);
+            GameObject moveNode = targets[index];
+            yield return StartCoroutine(gridSystem.MoveSelectedUnit(moveNode));
+            gridSystem.resetValidMoveNodes();
+
+            yield return new WaitForSeconds(1f);
+
+            // Find all of the valid attack nodes for the enemy unit and select one
+            gridSystem.validAttackNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidAttacks(gridSystem.grid, "PlayerUnit");
+            yield return StartCoroutine(enemyAIChooseUnitToAttack());
+
+            if (gridSystem.selectedUnit != null)
+            {
+                // Disable the attack indicator for the unit
+                gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
+
+                // Show that the unit cannot be moved the rest of this turn
+                gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
+                gridSystem.selectedUnit.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
+
+                // Do not increment this value if the unit is defeated, or else the enemy's turn will end early when there are less units on the board
+                enemysUnitsMoved++;
+
+                gridSystem.selectedUnit = null;
+            }
+        }
+        else
+        {
+            // If there are no valid attacks to perform, move the enemy unit near the closest player unit
+            yield return StartCoroutine(calculateMoveCloserEnemyAI());
+        }
+
+        yield return null;
+    }
+
+    IEnumerator calculateAggressiveEnemyAI()
+    {
+        gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().calculateValidMoves(gridSystem.grid);
+        gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.validMoveNodes);
 
         // Store the valid moves nodes that lead to an attack on a player unit
         List<GameObject> targets = new List<GameObject>();
@@ -518,9 +658,9 @@ public class TurnSystem : MonoBehaviour
 
             // INSERT DECISION MAKING FOR WHICH VALID TARGET MOVE NODE TO CHOOSE HERE.
 
-            index = Random.Range(0, targets.Count);
+            int index  = Random.Range(0, targets.Count);
             GameObject moveNode = targets[index];
-            gridSystem.moveSelectedUnit(moveNode);
+            yield return StartCoroutine(gridSystem.MoveSelectedUnit(moveNode));
             gridSystem.resetValidMoveNodes();
 
             yield return new WaitForSeconds(1f);
@@ -551,6 +691,39 @@ public class TurnSystem : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    public List<GameObject> restrictEnemyAIToDefensiveZone(List<GameObject> validMoveNodes)
+    {
+        List<GameObject> newValidMoveNodes = new List<GameObject>();
+
+        for (int i = 0; i < validMoveNodes.Count; i++)
+        {
+            if (gridSystem.selectedUnit.GetComponent<Unit>().defensiveZoneNodes.Contains(validMoveNodes[i]))
+            {
+                newValidMoveNodes.Add(validMoveNodes[i]);
+            }
+        }
+
+        return newValidMoveNodes;
+    }
+
+    public void calculateEnemyUnitDefensiveZone(GameObject enemyUnit)
+    {
+        List<GameObject> defensiveZoneNodes = new List<GameObject>();
+
+        Vector2 topLeftCoordinates = enemyUnit.GetComponent<Unit>().topLeftCornerNode.GetComponent<GridNode>().nodeGridPos;
+        Vector2 bottomRightCoordinates = enemyUnit.GetComponent<Unit>().bottomRightCornerNode.GetComponent<GridNode>().nodeGridPos;
+
+        for (int i = (int) topLeftCoordinates.x; i <= (int)bottomRightCoordinates.x; i++)
+        {
+            for (int j = (int)topLeftCoordinates.y; j <= (int)bottomRightCoordinates.y; j++)
+            {
+                defensiveZoneNodes.Add(gridSystem.grid[i, j]);
+            }
+        }
+
+        enemyUnit.GetComponent<Unit>().defensiveZoneNodes = defensiveZoneNodes;
     }
 
     IEnumerator enemyAIChooseUnitToAttack()
@@ -586,6 +759,8 @@ public class TurnSystem : MonoBehaviour
                     // If the enemy unit has higher current HP than the player unit, do the same thing as above.
                     // MAG ATK to MAG DEF and vice versa are calculated the same as the PHY to ATK and vice versa.
                 // The enemy unit will choose the unit with the highest "battle success" score associated with it.
+                // Take into account the unit's element
+                // Perhaps take into account the number of cards
                 
                 // Look into finding the MAX modifier for each stat and adding it to its associated base stat to see how well a unit could do at its best
 
@@ -639,7 +814,7 @@ public class TurnSystem : MonoBehaviour
         GameObject closestMoveNodetoPlayerUnit = gridSystem.selectedUnit.transform.parent.transform.parent.gameObject;
 
         // Create a placeholder value that will never be close enough to the units
-        float smallestDistanceBetweenNodePos = 1000f;
+        double smallestDistanceBetweenNodePos = 1000f;
 
         // Begin by checking for the enemy unit's current position
         for (int i = 0; i < playerUnitPos.Count; i++)
@@ -667,7 +842,7 @@ public class TurnSystem : MonoBehaviour
             }
         }
 
-        gridSystem.moveSelectedUnit(closestMoveNodetoPlayerUnit);
+        yield return StartCoroutine(gridSystem.MoveSelectedUnit(closestMoveNodetoPlayerUnit));
         gridSystem.resetValidMoveNodes();
 
         yield return new WaitForSeconds(1f);

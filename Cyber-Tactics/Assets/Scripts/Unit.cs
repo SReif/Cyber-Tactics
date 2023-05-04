@@ -18,7 +18,14 @@ public class Unit : MonoBehaviour
 
     public bool hasMoved;               // Whether the unit has moved or not
 
+    public string enemyAI = "N/A";              // FOR ENEMY UNITS USE ONLY; for player units, input N/A. Valid inputs are: Passive, Defensive, Aggressive
+    //public int enemyAIDefensiveZoneWidth = 0;   // FOR DEFENSIVE ENEMY UNITS USE ONLY; for player units or non-defensive enemy units, input 0
+    //public int enemyAIDefensiveZoneHeight = 0;  // FOR DEFENSIVE ENEMY UNITS USE ONLY; for player units or non-defensive enemy units, input 0
 
+    public GameObject topLeftCornerNode;      // FOR DEFENSIVE ENEMY UNITS USE ONLY; for player units or non-defensive enemy units, input null (Used to form the enemy unit's defensive zone)
+    public GameObject bottomRightCornerNode;     // FOR DEFENSIVE ENEMY UNITS USE ONLY; for player units or non-defensive enemy units, input null (Used to form the enemy unit's defensive zone)
+
+    [System.NonSerialized] public List<GameObject> defensiveZoneNodes;  // The defensive zone for the defensive enemy unit calculated at runtime
 
     // Start is called before the first frame update
     void Start()
@@ -103,7 +110,7 @@ public class Unit : MonoBehaviour
         return validAttackNodes;
     }
 
-    public List<GameObject> showValidMoves(GameObject[,] grid)
+    public List<GameObject> calculateValidMoves(GameObject[,] grid)
     {
         // All of the possible nodes that the unit can move to are calculated
         List<List<Vector2>> unitMoveset = selectMoveSet(grid);
@@ -146,9 +153,6 @@ public class Unit : MonoBehaviour
                     // Check to see if a unit/obstacle GameObject currently occupies that space
                     if (unitSlot.transform.childCount == 0)
                     {
-                        // Change the color of the node to show that it is a valid move
-                        moveNode.transform.Find("Indicators").Find("Valid Move Indicator").GetComponent<MeshRenderer>().enabled = true;
-
                         // This is used later to ensure that you cannot select a node outside of the moveset
                         moveNode.GetComponent<GridNode>().validMove = true;
 
@@ -157,9 +161,6 @@ public class Unit : MonoBehaviour
                     }
                     else if (unitSlot.transform.GetChild(0).gameObject == transform.gameObject)
                     {
-                        // Change the color of the node to show that it is a valid move
-                        moveNode.transform.Find("Indicators").Find("Valid Move Indicator").GetComponent<MeshRenderer>().enabled = true;
-
                         // This is used later to ensure that you cannot select a node outside of the moveset
                         moveNode.GetComponent<GridNode>().validMove = true;
 
@@ -188,6 +189,15 @@ public class Unit : MonoBehaviour
         Debug.Log("Valid moves have been calculated.");
 
         return validMoveNodes;
+    }
+
+    public void showValidMoves(List<GameObject> validMoveNodes)
+    {
+        for (int i = 0; i < validMoveNodes.Count; i++)
+        {
+            // Change the color of the node to show that it is a valid move
+            validMoveNodes[i].transform.Find("Indicators").Find("Valid Move Indicator").GetComponent<MeshRenderer>().enabled = true;
+        }
     }
 
     /*
