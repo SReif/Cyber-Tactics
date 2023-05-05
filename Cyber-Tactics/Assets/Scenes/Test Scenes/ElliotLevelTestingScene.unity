@@ -4366,6 +4366,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &153342709 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7201133339410217968, guid: b36a9ada75e6675419d57f41be490a52, type: 3}
+  m_PrefabInstance: {fileID: 6972146515911301535}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &154545315
 GameObject:
   m_ObjectHideFlags: 0
@@ -13533,6 +13538,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 118e4ef7da639184aa517a5375dff86d, type: 3}
+--- !u!1 &480224904 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7327608112414222936, guid: 30120775b2708c646af9b43d19846150, type: 3}
+  m_PrefabInstance: {fileID: 4568462960800284589}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &480702452
 GameObject:
   m_ObjectHideFlags: 0
@@ -16016,11 +16026,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &559825764 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5857182962161886023, guid: 30120775b2708c646af9b43d19846150, type: 3}
-  m_PrefabInstance: {fileID: 4568462960800284589}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &560727461
 GameObject:
   m_ObjectHideFlags: 0
@@ -20666,6 +20671,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
+      propertyPath: element
+      value: Hearts
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
       propertyPath: unitName
       value: Rebel Leader
       objectReference: {fileID: 0}
@@ -20675,11 +20684,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
       propertyPath: unitMoveID
-      value: Pseudo Bishop
+      value: Footpad
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
+      propertyPath: unitAttackID
+      value: Footpad
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
       propertyPath: cards.Array.size
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
       propertyPath: basePhysicalAttack
@@ -20692,11 +20705,11 @@ PrefabInstance:
     - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
       propertyPath: cards.Array.data[0]
       value: 
-      objectReference: {fileID: 1220685993}
+      objectReference: {fileID: 1220685990}
     - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
       propertyPath: cards.Array.data[1]
       value: 
-      objectReference: {fileID: 1882310434}
+      objectReference: {fileID: 1220685990}
     - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
       propertyPath: cards.Array.data[2]
       value: 
@@ -20704,27 +20717,67 @@ PrefabInstance:
     - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
       propertyPath: cards.Array.data[3]
       value: 
-      objectReference: {fileID: 1220685990}
+      objectReference: {fileID: 1220685991}
     - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
       propertyPath: cards.Array.data[4]
       value: 
-      objectReference: {fileID: 1220685991}
+      objectReference: {fileID: 1220685993}
     - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
       propertyPath: cards.Array.data[5]
       value: 
-      objectReference: {fileID: 1882310434}
+      objectReference: {fileID: 4568462960800284591}
     - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
       propertyPath: cards.Array.data[6]
       value: 
-      objectReference: {fileID: 1601551167}
+      objectReference: {fileID: 1683447843}
     - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
       propertyPath: cards.Array.data[7]
       value: 
-      objectReference: {fileID: 1220685990}
+      objectReference: {fileID: 581582194}
     - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
       propertyPath: cards.Array.data[8]
       value: 
-      objectReference: {fileID: 1220685991}
+      objectReference: {fileID: 2079143101}
+    - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
+      propertyPath: cards.Array.data[9]
+      value: 
+      objectReference: {fileID: 2079143101}
+    - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
+      propertyPath: cards.Array.data[10]
+      value: 
+      objectReference: {fileID: 4568462960800284591}
+    - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
+      propertyPath: cards.Array.data[11]
+      value: 
+      objectReference: {fileID: 4568462960800284591}
+    - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
+      propertyPath: cards.Array.data[12]
+      value: 
+      objectReference: {fileID: 4568462960800284591}
+    - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
+      propertyPath: cards.Array.data[13]
+      value: 
+      objectReference: {fileID: 4568462960800284591}
+    - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
+      propertyPath: cards.Array.data[14]
+      value: 
+      objectReference: {fileID: 4568462960800284591}
+    - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
+      propertyPath: cards.Array.data[15]
+      value: 
+      objectReference: {fileID: 4568462960800284591}
+    - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
+      propertyPath: cards.Array.data[16]
+      value: 
+      objectReference: {fileID: 4568462960800284591}
+    - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
+      propertyPath: cards.Array.data[17]
+      value: 
+      objectReference: {fileID: 4568462960800284591}
+    - target: {fileID: 2718324601301934227, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
+      propertyPath: cards.Array.data[18]
+      value: 
+      objectReference: {fileID: 4568462960800284591}
     - target: {fileID: 8639858795999808842, guid: b09ec3443b07365489d9afa3f5df7937, type: 3}
       propertyPath: m_Name
       value: Player Unit
@@ -23684,6 +23737,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
+      propertyPath: element
+      value: Diamonds
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
       propertyPath: enemyAI
       value: Defensive
       objectReference: {fileID: 0}
@@ -23697,11 +23754,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
       propertyPath: unitMoveID
-      value: Knight
+      value: Magano
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
+      propertyPath: unitAttackID
+      value: Magano
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
       propertyPath: cards.Array.size
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
       propertyPath: topLeftCornerNode
@@ -23718,27 +23779,47 @@ PrefabInstance:
     - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
       propertyPath: cards.Array.data[0]
       value: 
-      objectReference: {fileID: 1764552870}
+      objectReference: {fileID: 480224904}
     - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
       propertyPath: cards.Array.data[1]
       value: 
-      objectReference: {fileID: 559825764}
+      objectReference: {fileID: 1882310434}
     - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
       propertyPath: cards.Array.data[2]
       value: 
-      objectReference: {fileID: 1668671908}
+      objectReference: {fileID: 4568462960800284591}
     - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
       propertyPath: cards.Array.data[3]
       value: 
-      objectReference: {fileID: 581582194}
+      objectReference: {fileID: 1683447843}
     - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
       propertyPath: cards.Array.data[4]
       value: 
+      objectReference: {fileID: 1220685993}
+    - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
+      propertyPath: cards.Array.data[5]
+      value: 
+      objectReference: {fileID: 1630719868}
+    - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
+      propertyPath: cards.Array.data[6]
+      value: 
       objectReference: {fileID: 1590364988}
+    - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
+      propertyPath: cards.Array.data[7]
+      value: 
+      objectReference: {fileID: 1601551167}
+    - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
+      propertyPath: cards.Array.data[8]
+      value: 
+      objectReference: {fileID: 1590364988}
+    - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
+      propertyPath: cards.Array.data[9]
+      value: 
+      objectReference: {fileID: 1220685991}
     - target: {fileID: 7163243478612991738, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
       propertyPath: bottomRightCornerNode
       value: 
-      objectReference: {fileID: 2126803609}
+      objectReference: {fileID: 153342709}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80ff05b5bd9db0b4fba87f6b71b5aa7f, type: 3}
 --- !u!1 &844494510
@@ -43404,6 +43485,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1630719868 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1178876248035294405, guid: 30120775b2708c646af9b43d19846150, type: 3}
+  m_PrefabInstance: {fileID: 4568462960800284589}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1632466743
 GameObject:
   m_ObjectHideFlags: 0
@@ -44201,11 +44287,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1659618957}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1668671908 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5314379779590715097, guid: 30120775b2708c646af9b43d19846150, type: 3}
-  m_PrefabInstance: {fileID: 4568462960800284589}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1672895340
 GameObject:
   m_ObjectHideFlags: 0
@@ -44808,6 +44889,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1683447843 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5675227364758007652, guid: 30120775b2708c646af9b43d19846150, type: 3}
+  m_PrefabInstance: {fileID: 4568462960800284589}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1692816087
 GameObject:
   m_ObjectHideFlags: 0
@@ -46493,11 +46579,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 118e4ef7da639184aa517a5375dff86d, type: 3}
---- !u!1 &1764552870 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8825851507106786678, guid: 30120775b2708c646af9b43d19846150, type: 3}
-  m_PrefabInstance: {fileID: 4568462960800284589}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1766995697
 GameObject:
   m_ObjectHideFlags: 0
@@ -54224,6 +54305,11 @@ Transform:
   m_Father: {fileID: 82086235}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2079143101 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6065110828102046407, guid: 30120775b2708c646af9b43d19846150, type: 3}
+  m_PrefabInstance: {fileID: 4568462960800284589}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2080082042
 GameObject:
   m_ObjectHideFlags: 0
@@ -56057,11 +56143,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &2126803609 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7201133339410217968, guid: b36a9ada75e6675419d57f41be490a52, type: 3}
-  m_PrefabInstance: {fileID: 6972146514368281126}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2126895997
 GameObject:
   m_ObjectHideFlags: 0
@@ -58874,6 +58955,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0.6644
       objectReference: {fileID: 0}
+    - target: {fileID: 5675227364758007650, guid: 30120775b2708c646af9b43d19846150, type: 3}
+      propertyPath: cardType
+      value: DEBUFF
+      objectReference: {fileID: 0}
     - target: {fileID: 5918893374868694733, guid: 30120775b2708c646af9b43d19846150, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0.3254
@@ -58991,6 +59076,11 @@ PrefabInstance:
 --- !u!4 &4568462960800284590 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 290095366340462211, guid: 30120775b2708c646af9b43d19846150, type: 3}
+  m_PrefabInstance: {fileID: 4568462960800284589}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4568462960800284591 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5264068488883452420, guid: 30120775b2708c646af9b43d19846150, type: 3}
   m_PrefabInstance: {fileID: 4568462960800284589}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4736649124856492152
