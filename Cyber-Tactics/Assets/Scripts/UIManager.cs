@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
 
     //UI Elements
     public GameObject pausePane;
-    [System.NonSerialized] public GameObject turnPane, unitPane, winPane, losePane;
+    [System.NonSerialized] public GameObject turnPane, selectedUnitPane, winPane, losePane, viewedUnitPane;
     [System.NonSerialized] public GameObject playerStat, playerHealth, enemyStat, enemyHealth;
 
     //Elements of the Stat Panel
@@ -108,27 +108,46 @@ public class UIManager : MonoBehaviour
     {
         if (gridSystem.selectedUnit != null)
         {
-            OpenPanel(unitPane);
-            unitName = gridSystem.selectedUnit.GetComponent<Unit>().unitName;
-            unitType = gridSystem.selectedUnit.GetComponent<Unit>().unitMoveID;
-            unitHp = gridSystem.selectedUnit.GetComponent<Unit>().currentHP;
-            unitPRes = gridSystem.selectedUnit.GetComponent<Unit>().basePhysicalDefense;
-            unitMRes = gridSystem.selectedUnit.GetComponent<Unit>().baseMagicalDefense;
-            unitPDmg = gridSystem.selectedUnit.GetComponent<Unit>().basePhysicalAttack;
-            unitMDmg = gridSystem.selectedUnit.GetComponent<Unit>().baseMagicalAttack;
+            OpenPanel(selectedUnitPane);
 
-            GameObject.Find("UnitName").GetComponent<TextMeshProUGUI>().text = unitName;
-            GameObject.Find("ClassName").GetComponent<TextMeshProUGUI>().text = unitType;
-            GameObject.Find("Health_Num").GetComponent<TextMeshProUGUI>().text = "" + unitHp;
-            GameObject.Find("PhysDEF_Num").GetComponent<TextMeshProUGUI>().text = "" + unitPRes;
-            GameObject.Find("MagDEF_Num").GetComponent<TextMeshProUGUI>().text = "" + unitMRes;
-            GameObject.Find("PhysATK_Num").GetComponent<TextMeshProUGUI>().text = "" + unitPDmg;
-            GameObject.Find("MagATK_Num").GetComponent<TextMeshProUGUI>().text = "" + unitMDmg;
+            GameObject selectedUnitNameStats = selectedUnitPane.transform.Find("StatsTemplate").gameObject;
+            GameObject selectedUnitNumStats = selectedUnitPane.transform.Find("StatsNum").gameObject;
+
+            selectedUnitNameStats.transform.Find("UnitName").GetComponent<TextMeshProUGUI>().text = gridSystem.selectedUnit.GetComponent<Unit>().unitName;
+            selectedUnitNameStats.transform.Find("ClassName").GetComponent<TextMeshProUGUI>().text = gridSystem.selectedUnit.GetComponent<Unit>().unitMoveID;
+
+            selectedUnitNumStats.transform.Find("Health_Num").GetComponent<TextMeshProUGUI>().text = "" + gridSystem.selectedUnit.GetComponent<Unit>().currentHP;
+            selectedUnitNumStats.transform.Find("PhysDEF_Num").GetComponent<TextMeshProUGUI>().text = "" + gridSystem.selectedUnit.GetComponent<Unit>().basePhysicalDefense;
+            selectedUnitNumStats.transform.Find("MagDEF_Num").GetComponent<TextMeshProUGUI>().text = "" + gridSystem.selectedUnit.GetComponent<Unit>().baseMagicalDefense;
+            selectedUnitNumStats.transform.Find("PhysATK_Num").GetComponent<TextMeshProUGUI>().text = "" + gridSystem.selectedUnit.GetComponent<Unit>().basePhysicalAttack;
+            selectedUnitNumStats.transform.Find("MagATK_Num").GetComponent<TextMeshProUGUI>().text = "" + gridSystem.selectedUnit.GetComponent<Unit>().baseMagicalAttack;
         }
-
+        
         if (gridSystem.selectedUnit == null)
         {
-            ClosePanel(unitPane);
+            ClosePanel(selectedUnitPane);
+        }
+
+        if (turnSystem.viewedUnit != null)
+        {
+            OpenPanel(viewedUnitPane);
+
+            GameObject viewedUnitNameStats = viewedUnitPane.transform.Find("StatsTemplate").gameObject;
+            GameObject viewedUnitNumStats = viewedUnitPane.transform.Find("StatsNum").gameObject;
+
+            viewedUnitNameStats.transform.Find("UnitName").GetComponent<TextMeshProUGUI>().text = turnSystem.viewedUnit.GetComponent<Unit>().unitName;
+            viewedUnitNameStats.transform.Find("ClassName").GetComponent<TextMeshProUGUI>().text = turnSystem.viewedUnit.GetComponent<Unit>().unitMoveID;
+
+            viewedUnitNumStats.transform.Find("Health_Num").GetComponent<TextMeshProUGUI>().text = "" + turnSystem.viewedUnit.GetComponent<Unit>().currentHP;
+            viewedUnitNumStats.transform.Find("PhysDEF_Num").GetComponent<TextMeshProUGUI>().text = "" + turnSystem.viewedUnit.GetComponent<Unit>().basePhysicalDefense;
+            viewedUnitNumStats.transform.Find("MagDEF_Num").GetComponent<TextMeshProUGUI>().text = "" + turnSystem.viewedUnit.GetComponent<Unit>().baseMagicalDefense;
+            viewedUnitNumStats.transform.Find("PhysATK_Num").GetComponent<TextMeshProUGUI>().text = "" + turnSystem.viewedUnit.GetComponent<Unit>().basePhysicalAttack;
+            viewedUnitNumStats.transform.Find("MagATK_Num").GetComponent<TextMeshProUGUI>().text = "" + turnSystem.viewedUnit.GetComponent<Unit>().baseMagicalAttack;
+        }
+
+        if (turnSystem.viewedUnit == null)
+        {
+            ClosePanel(viewedUnitPane);
         }
     }
 
@@ -213,14 +232,14 @@ public class UIManager : MonoBehaviour
         {
             turnPane.transform.GetChild(0).gameObject.SetActive(false); //Enemy Phase Panel
             turnPane.transform.GetChild(1).gameObject.SetActive(true); //Player Phase Panel
-            //levelUI.transform.GetChild(4).gameObject.SetActive(true); //End Turn Button
+            //levelUI.transform.GetChild(5).gameObject.SetActive(true); //End Turn Button
         }
 
         else
         {
             turnPane.transform.GetChild(0).gameObject.SetActive(true); //Enemy Phase Panel
             turnPane.transform.GetChild(1).gameObject.SetActive(false); //Player Phase Panel
-            //levelUI.transform.GetChild(4).gameObject.SetActive(false); //End Turn Button
+            //levelUI.transform.GetChild(5).gameObject.SetActive(false); //End Turn Button
         }
     }
 
@@ -231,9 +250,10 @@ public class UIManager : MonoBehaviour
             levelUI.SetActive(true);
             battleUI.SetActive(false);
             turnPane = levelUI.transform.GetChild(0).gameObject; //Turn Pane
-            unitPane = levelUI.transform.GetChild(1).gameObject; //Stats Pane
+            selectedUnitPane = levelUI.transform.GetChild(1).gameObject; //Stats Pane
             winPane = levelUI.transform.GetChild(2).gameObject; //Victory Pane
             losePane = levelUI.transform.GetChild(3).gameObject; //Defeat Pane
+            viewedUnitPane = levelUI.transform.GetChild(4).gameObject; //Viewed Unit Pane
         }
 
         else if(battleViewCam.activeSelf == true)

@@ -28,12 +28,20 @@ public class BattleTurnSystem : MonoBehaviour
     public int totalEnemyMAGDEFModifier = 0;            // The total amount of MAGICAL DEFENSE that is being applied to the enemy from cards
     public int totalEnemyHEALModifier = 0;              // The total amount of HEALING that is being applied to the enemy from cards
 
-    [System.NonSerialized]
-    public List<GameObject> playerSelectedCards;        // The list of cards that the player selected for their turn
-    private List<GameObject> enemySelectedCards;        // The list of cards that the enemy selected for their turn
+    [System.NonSerialized] public List<GameObject> playerSelectedCards;         // The list of cards that the player selected for their turn
+    [System.NonSerialized] public List<GameObject> enemySelectedCards;          // The list of cards that the enemy selected for their turn
 
-    [System.NonSerialized] public GameObject playerUnitClone;                 // A clone of the player unit in the battle for visual reference
-    [System.NonSerialized] public GameObject enemyUnitClone;                  // A clone of the enemy unit in the battle for visual reference
+    [System.NonSerialized] public GameObject playerUnitClone;       // A clone of the player unit in the battle for visual reference
+    [System.NonSerialized] public GameObject enemyUnitClone;        // A clone of the enemy unit in the battle for visual reference
+    private List<GameObject> playerDeck;                            // A copy of the player's deck; cards are removed from here when they are placed in the player's hand
+    private List<GameObject> enemyDeck;                             // A copy of the enemy's deck; cards are removed from here when they are placed in the enemy's hand
+
+    private List<GameObject> enemyHand;
+
+    private int playerNumBuffCards = 0;
+    private int playerNumDebuffCards = 0;
+    private int enemyNumBuffCards = 0;
+    private int enemyNumDebuffCards = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -61,24 +69,62 @@ public class BattleTurnSystem : MonoBehaviour
         enemyUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
 
         //Make a copy of the player unit's deck
-        List<GameObject> playerDeck = new List<GameObject>(playerUnit.GetComponent<Unit>().cards);
+        playerDeck = new List<GameObject>(playerUnit.GetComponent<Unit>().cards);
+        enemyDeck = new List<GameObject>(enemyUnit.GetComponent<Unit>().cards);
+
+        //playerHand = new List<GameObject>();
+        enemyHand = new List<GameObject>();
 
         // Iterate through the unit's cards list and populate the card slots with them
         for (int i = 0; i < playerCardSlots.transform.childCount; i++)
         {
-            // Pick a random card from the player unit's deck
-            int index = Random.Range(0, playerDeck.Count);
-            GameObject card = GameObject.Instantiate(playerDeck[index].gameObject, playerCardSlots.transform.GetChild(i).Find("Card").transform);
-            card.SetActive(true);
+            //if (currentPlayerDeckSize == 0)
+            if (playerDeck.Count == 0)
+            {
+                break;
+            }
+            else
+            {
+                // Pick a random card from the player unit's deck
+                int index = Random.Range(0, playerDeck.Count);
+                GameObject card = GameObject.Instantiate(playerDeck[index].gameObject, playerCardSlots.transform.GetChild(i).Find("Card").transform);
 
-            // Remove the card from the copy of the player unit's deck
-            playerDeck.Remove(playerDeck[index]);
-            playerDeck.TrimExcess();
+                card.SetActive(true);
+
+                // Remove the card from the copy of the player unit's deck
+                playerDeck.Remove(playerDeck[index]);
+                playerDeck.TrimExcess();
+            }
+        }
+
+        int maxCardsInHand = 5;
+
+        // Randomly select up to 5 cards from the enemy's deck
+        for (int i = 0; i < maxCardsInHand; i++)
+        {
+            if (enemyDeck.Count > 0)
+            {
+                // Pick a random card from the enemy unit's deck
+                int index = Random.Range(0, enemyDeck.Count);
+                enemyHand.Add(enemyDeck[index]);
+
+                enemyDeck.Remove(enemyDeck[index]);
+                enemyDeck.TrimExcess();
+            }
+        }
+
+        // FOR DEBUG USE ONLY BECAUSE THERE IS NO VISUAL FOR ENEMY HAND
+        Debug.Log("Enemy's hand includes: ");
+        for (int i = 0; i < enemyHand.Count; i++)
+        {
+            Debug.Log(enemyHand[i].GetComponent<Card>().cardType + " " + enemyHand[i].GetComponent<Card>().modifier + " " + enemyHand[i].GetComponent<Card>().element);
         }
 
         // Change over to the Battle View Camera
         gridViewCamera.SetActive(false);
         battleViewCamera.SetActive(true);
+
+        checkForInitiatorBoost(battleInitiator);
 
         if (battleInitiator == "Player")
         {
@@ -117,6 +163,8 @@ public class BattleTurnSystem : MonoBehaviour
              */
             //state = State.PlayerTurn;
             Debug.Log("Player's turn!");
+
+
             yield return StartCoroutine(BeginPlayersTurn(playerUnit));
 
             /*
@@ -131,7 +179,7 @@ public class BattleTurnSystem : MonoBehaviour
         battleViewCamera.SetActive(false);
         gridViewCamera.SetActive(true);
 
-        cleanUpBattleView();
+        cleanUpBattleView(playerUnit, enemyUnit);
 
         yield return null;
     }
@@ -162,6 +210,14 @@ public class BattleTurnSystem : MonoBehaviour
                 {
                     totalPlayerHEALModifier += modifier;
                 }
+                else if (cardType == "BUFF")
+                {
+                    playerNumBuffCards++;
+                }
+                else if (cardType == "DEBUFF")
+                {
+                    playerNumDebuffCards++;
+                }
             }
             else if (action == "Deselecting")
             {
@@ -184,6 +240,16 @@ public class BattleTurnSystem : MonoBehaviour
                 else if (cardType == "HEAL")
                 {
                     totalPlayerHEALModifier -= modifier;
+                }
+                else if (cardType == "BUFF")
+                {
+                    //playerHasBuffCard = false;
+                    playerNumBuffCards--;
+                }
+                else if (cardType == "DEBUFF")
+                {
+                    //playerHasDebuffCard = false;
+                    playerNumDebuffCards--;
                 }
             }
 
@@ -212,6 +278,16 @@ public class BattleTurnSystem : MonoBehaviour
                 {
                     totalEnemyHEALModifier += modifier;
                 }
+                else if (cardType == "BUFF")
+                {
+                    //enemyHasBuffCard = true;
+                    enemyNumBuffCards++;
+                }
+                else if (cardType == "DEBUFF")
+                {
+                    //enemyHasDebuffCard = true;
+                    enemyNumDebuffCards++;
+                }
             }
             else if (action == "Deselecting")
             {
@@ -234,6 +310,16 @@ public class BattleTurnSystem : MonoBehaviour
                 else if (cardType == "HEAL")
                 {
                     totalEnemyHEALModifier -= modifier;
+                }
+                else if (cardType == "BUFF")
+                {
+                    //enemyHasBuffCard = false;
+                    enemyNumBuffCards--;
+                }
+                else if (cardType == "DEBUFF")
+                {
+                    //enemyHasDebuffCard = false;
+                    enemyNumDebuffCards--;
                 }
             }
         }
@@ -279,6 +365,26 @@ public class BattleTurnSystem : MonoBehaviour
                         {
                             Debug.Log("Player is at full health!");
                         }
+                        else if (cardType == "BUFF")
+                        {
+                            Debug.Log("Player selected buff card. Adding it to selected pool.");
+
+                            updateStatsFromCard(cardType, cardModifier, "Player", "Selecting");
+                            playerSelectedCards.Add(hit.transform.gameObject);
+
+                            // Find the Selected Card Indicator of the Card Slot and activate it
+                            hit.transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(true);
+                        }
+                        else if (cardType == "DEBUFF")
+                        {
+                            Debug.Log("Player selected debuff card. Adding it to selected pool.");
+
+                            updateStatsFromCard(cardType, cardModifier, "Player", "Selecting");
+                            playerSelectedCards.Add(hit.transform.gameObject);
+
+                            // Find the Selected Card Indicator of the Card Slot and activate it
+                            hit.transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(true);
+                        }
                         else if (hit.transform.gameObject.GetComponent<Card>().cardType != "HEAL")
                         {
                             Debug.Log("Adding card to selected pool!");
@@ -303,17 +409,6 @@ public class BattleTurnSystem : MonoBehaviour
                 }
             }
 
-            /*
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Debug.Log("Shifting to enemy turn!");
-
-                takingTurn = false;
-                playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
-
-            }
-            */
-
             yield return null;
         }
 
@@ -324,23 +419,74 @@ public class BattleTurnSystem : MonoBehaviour
     {
         enemyUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
 
-        List<GameObject> enemyCards = enemyUnitClone.GetComponent<Unit>().cards;
+        bool selectedHEALCard = false;
+        bool selectedATKCard = false;
+        bool selectedDEFCard = false;
 
-        // Select one card at random from the enemy unit's deck to play
-        int index = Random.Range(0, enemyCards.Count);
-
-        while (enemyCards[index].GetComponent<Card>().cardType == "HEAL" && (enemyUnit.GetComponent<Unit>().currentHP == enemyUnit.GetComponent<Unit>().maxHP))
+        // Select cards for the enemy to play
+        for (int i = 0; i < enemyHand.Count; i++)
         {
-            Debug.Log("Enemy unit already at full HP, find another card.");
-            index = Random.Range(0, enemyCards.Count);
+            string cardType = enemyHand[i].GetComponent<Card>().cardType;
+            int cardModifier = enemyHand[i].GetComponent<Card>().modifier;
+            string cardElement = enemyHand[i].GetComponent<Card>().element;
+
+            // Select up to one ATK card
+            if ((cardType == "PHYS ATK" || cardType == "MAG ATK") && !selectedATKCard)
+            {
+                Debug.Log("Enemy selects an attack card.");
+
+                enemySelectedCards.Add(enemyHand[i]);
+                updateStatsFromCard(cardType, cardModifier, "Enemy", "Selecting");
+                selectedATKCard = true;
+            }
+
+            // Select up to one DEF card
+            if ((cardType == "PHYS DEF" || cardType == "MAG DEF") && !selectedDEFCard)
+            {
+                Debug.Log("Enemy selects a defense card.");
+
+                enemySelectedCards.Add(enemyHand[i]);
+                updateStatsFromCard(cardType, cardModifier, "Enemy", "Selecting");
+                selectedDEFCard = true;
+            }
+
+            // Select up to one HEAL card, if the enemy is missing health
+            if (cardType == "HEAL" && !selectedHEALCard && (enemyUnitClone.GetComponent<Unit>().currentHP < enemyUnitClone.GetComponent<Unit>().maxHP))
+            {
+                Debug.Log("Enemy selects a heal card.");
+
+                enemySelectedCards.Add(enemyHand[i]);
+                updateStatsFromCard(cardType, cardModifier, "Enemy", "Selecting");
+                selectedHEALCard = true;
+            }
+
+            // Select ALL BUFF cards in hand
+            if (cardType == "BUFF")
+            {
+                Debug.Log("Enemy selects a buff card.");
+
+                enemySelectedCards.Add(enemyHand[i]);
+                updateStatsFromCard(cardType, cardModifier, "Enemy", "Selecting");
+            }
+
+            // Select ALL DEBUFF cards in hand
+            if (cardType == "DEBUFF")
+            {
+                Debug.Log("Enemy selects a debuff card.");
+
+                enemySelectedCards.Add(enemyHand[i]);
+                updateStatsFromCard(cardType, cardModifier, "Enemy", "Selecting");
+            }
         }
 
-        enemySelectedCards.Add(enemyCards[index]);
-
-        string cardType = enemyCards[index].GetComponent<Card>().cardType;
-        int cardModifier = enemyCards[index].GetComponent<Card>().modifier;
-
-        updateStatsFromCard(cardType, cardModifier, "Enemy", "Selecting");
+        // FOR DEBUG USE ONLY BECAUSE THERE IS NO VISUAL FOR ENEMY SELECTED CARDS
+        Debug.Log("Enemy's selected cards includes: " + enemySelectedCards.Count);
+        for (int i = 0; i < enemySelectedCards.Count; i++)
+        {
+            Debug.Log(enemySelectedCards[i].GetComponent<Card>().cardType + " "
+                + enemySelectedCards[i].GetComponent<Card>().modifier + " "
+                + enemySelectedCards[i].GetComponent<Card>().element);
+        }
 
         yield return new WaitForSeconds(1);
 
@@ -353,15 +499,177 @@ public class BattleTurnSystem : MonoBehaviour
     {
         Debug.Log("Resolving cards!");
 
-        int totalPlayerPhysicalDefense = playerUnit.GetComponent<Unit>().basePhysicalDefense + totalPlayerPHYSDEFModifier;
-        int totalPlayerPhysicalAttack = playerUnit.GetComponent<Unit>().basePhysicalAttack + totalPlayerPHYSATKModifier;
-        int totalPlayerMagicalAttack = playerUnit.GetComponent<Unit>().baseMagicalAttack + totalPlayerMAGATKModifier;
-        int totalPlayerMagicalDefense = playerUnit.GetComponent<Unit>().baseMagicalDefense + totalEnemyMAGDEFModifier;
+        if (playerNumBuffCards > enemyNumDebuffCards)
+        {
+            Debug.Log("Player has more buff cards than the enemy has debuff cards!");
 
-        int totalEnemyPhysicalDefense = enemyUnit.GetComponent<Unit>().basePhysicalDefense + totalEnemyPHYSDEFModifier;
-        int totalEnemyPhysicalAttack = enemyUnit.GetComponent<Unit>().basePhysicalAttack + totalEnemyPHYSATKModifier;
-        int totalEnemyMagicalAttack = enemyUnit.GetComponent<Unit>().baseMagicalAttack + totalEnemyMAGATKModifier;
-        int totalEnemyMagicalDefense = enemyUnit.GetComponent<Unit>().baseMagicalDefense + totalEnemyMAGDEFModifier;
+            int numActivatedBuffCards = playerNumBuffCards - enemyNumDebuffCards;
+
+            for (int i = 0; i < playerSelectedCards.Count; i++)
+            {
+                if (numActivatedBuffCards == 0)
+                {
+                    break;
+                }
+                else
+                {
+                    string cardType = playerSelectedCards[i].GetComponent<Card>().cardType;
+
+                    if (cardType == "BUFF")
+                    {
+                        // Player receives the BUFF
+                        if (playerDeck.Count != 0)
+                        {
+                            Debug.Log("Deck is not empty!");
+
+                            int index = Random.Range(0, playerDeck.Count);
+
+                            // Add the new random card in the same location as the old buff card's location
+                            GameObject card = GameObject.Instantiate(playerDeck[index].gameObject, playerSelectedCards[i].transform.parent.transform);
+
+                            card.SetActive(true);
+                            updateStatsFromCard(card.GetComponent<Card>().cardType, card.GetComponent<Card>().modifier, "Player", "Selecting");
+
+                            Debug.Log("Playing " + card.GetComponent<Card>().cardType);
+                        }
+
+                        numActivatedBuffCards--;
+                    }
+                }
+            }
+        }
+
+        if (enemyNumBuffCards > playerNumDebuffCards)
+        {
+            Debug.Log("Enemy has more buff cards than the player has debuff cards!");
+
+            int numActivatedBuffCards = enemyNumBuffCards - playerNumDebuffCards;
+
+            for (int i = 0; i < enemySelectedCards.Count; i++)
+            {
+                if (numActivatedBuffCards == 0)
+                {
+                    break;
+                }
+                else
+                {
+                    string cardType = enemySelectedCards[i].GetComponent<Card>().cardType;
+
+                    if (cardType == "BUFF")
+                    {
+                        // Enemy receives the BUFF
+
+                        if (enemyDeck.Count != 0)
+                        {
+                            Debug.Log("Deck is not empty!");
+
+                            int index = Random.Range(0, enemyDeck.Count);
+                            updateStatsFromCard(enemyDeck[index].GetComponent<Card>().cardType, enemyDeck[index].GetComponent<Card>().modifier, "Enemy", "Selecting");
+
+                            Debug.Log("Playing " + enemyDeck[index].GetComponent<Card>().cardType);
+                        }
+
+                        numActivatedBuffCards--;
+                    }
+                }
+            }
+        }
+
+        if (playerNumDebuffCards > enemyNumBuffCards)
+        {
+            Debug.Log("Player has more debuff cards than the enemy has buff cards!");
+
+            int numActivatedDebuffCards = playerNumDebuffCards - enemyNumBuffCards;
+
+            for (int i = 0; i < playerSelectedCards.Count; i++)
+            {
+                if (numActivatedDebuffCards == 0)
+                {
+                    break;
+                }
+                else
+                {
+                    string cardType = playerSelectedCards[i].GetComponent<Card>().cardType;
+
+                    if (cardType == "DEBUFF")
+                    {
+                        // Player successfully debuffs the enemy
+
+                        if (enemySelectedCards.Count > 0)
+                        {
+                            Debug.Log("Enemy has played cards to remove with DEBUFF");
+
+                            // Pick a random card from the enemy's selected cards to remove from this battle. Update the stats as if the card was deselected, but don't remove the card from the scenario.
+                            int index = Random.Range(0, enemySelectedCards.Count);
+                            updateStatsFromCard(enemySelectedCards[index].GetComponent<Card>().cardType, enemySelectedCards[index].GetComponent<Card>().modifier, "Enemy", "Deselecting");
+                            enemySelectedCards.Remove(enemySelectedCards[index]);
+                            enemySelectedCards.TrimExcess();
+                        }
+
+                        numActivatedDebuffCards--;
+                    }
+                }
+            }
+        }
+
+        if (enemyNumDebuffCards > playerNumBuffCards)
+        {
+            Debug.Log("Enemy has more debuff cards than the player has buff cards!");
+
+            int numActivatedDebuffCards = enemyNumDebuffCards - playerNumBuffCards;
+
+            for (int i = 0; i < enemySelectedCards.Count; i++)
+            {
+                if (numActivatedDebuffCards == 0)
+                {
+                    break;
+                }
+                else
+                {
+                    string cardType = enemySelectedCards[i].GetComponent<Card>().cardType;
+
+                    if (cardType == "DEBUFF")
+                    {
+                        // Enemy successfully debuffs the player
+
+                        if (playerSelectedCards.Count > 0)
+                        {
+                            Debug.Log("Player has played cards to remove with DEBUFF");
+
+                            // Pick a random card from the enemy's selected cards to remove from this battle. Update the stats as if the card was deselected, but don't remove the card from the scenario.
+                            int index = Random.Range(0, playerSelectedCards.Count);
+                            updateStatsFromCard(playerSelectedCards[index].GetComponent<Card>().cardType, playerSelectedCards[index].GetComponent<Card>().modifier, "Player", "Deselecting");
+                            playerSelectedCards.Remove(playerSelectedCards[index]);
+                            playerSelectedCards.TrimExcess();
+                        }
+
+                        numActivatedDebuffCards--;
+                    }
+                }
+            }
+        }
+
+        if ((playerNumBuffCards == enemyNumDebuffCards) && playerNumBuffCards != 0)
+        {
+            // Do nothing because they cancelled each other out
+            Debug.Log("Player BUFF and enemy DEBUFF cards cancelled out!");
+        }
+
+        if ((enemyNumBuffCards == playerNumDebuffCards) && enemyNumBuffCards != 0)
+        {
+            // Do nothing because they cancelled each other out
+            Debug.Log("Enemy BUFF and player DEBUFF cards cancelled out!");
+        }
+
+        int totalPlayerPhysicalDefense = playerUnitClone.GetComponent<Unit>().basePhysicalDefense + totalPlayerPHYSDEFModifier;
+        int totalPlayerPhysicalAttack = playerUnitClone.GetComponent<Unit>().basePhysicalAttack + totalPlayerPHYSATKModifier;
+        int totalPlayerMagicalAttack = playerUnitClone.GetComponent<Unit>().baseMagicalAttack + totalPlayerMAGATKModifier;
+        int totalPlayerMagicalDefense = playerUnitClone.GetComponent<Unit>().baseMagicalDefense + totalEnemyMAGDEFModifier;
+
+        int totalEnemyPhysicalDefense = enemyUnitClone.GetComponent<Unit>().basePhysicalDefense + totalEnemyPHYSDEFModifier;
+        int totalEnemyPhysicalAttack = enemyUnitClone.GetComponent<Unit>().basePhysicalAttack + totalEnemyPHYSATKModifier;
+        int totalEnemyMagicalAttack = enemyUnitClone.GetComponent<Unit>().baseMagicalAttack + totalEnemyMAGATKModifier;
+        int totalEnemyMagicalDefense = enemyUnitClone.GetComponent<Unit>().baseMagicalDefense + totalEnemyMAGDEFModifier;
 
         // Calculate total damage taken by the player
         int totalPlayerDamageTaken = (totalEnemyPhysicalAttack - totalPlayerPhysicalDefense < 0) ? 0 : totalEnemyPhysicalAttack - totalPlayerPhysicalDefense;
@@ -395,14 +703,17 @@ public class BattleTurnSystem : MonoBehaviour
         //state = State.None;
     }
 
-    public void cleanUpBattleView()
+    public void cleanUpBattleView(GameObject playerUnit, GameObject enemyUnit)
     {
         // Remove the players cards from the card slots
         for (int i = 0; i < playerCardSlots.transform.childCount; i++)
         {
-            Destroy(playerCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject);
+            if (playerCardSlots.transform.GetChild(i).Find("Card").transform.childCount > 0)
+            {
+                Destroy(playerCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject);
 
-            playerCardSlots.transform.GetChild(i).Find("Selected Card Indicator").gameObject.SetActive(false);
+                playerCardSlots.transform.GetChild(i).Find("Selected Card Indicator").gameObject.SetActive(false);
+            }
         }
 
         // Remove the player unit clone
@@ -425,8 +736,71 @@ public class BattleTurnSystem : MonoBehaviour
         totalEnemyMAGDEFModifier = 0;
         totalEnemyHEALModifier = 0;
 
+        // Destroy player cards that were used in this battle
+        for (int i = 0; i < playerSelectedCards.Count; i++)
+        {
+            for (int j = 0; j < playerUnit.GetComponent<Unit>().cards.Count; j++)
+            {
+                string selectedCardCardType = playerSelectedCards[i].GetComponent<Card>().cardType;
+                int selectedCardModifier = playerSelectedCards[i].GetComponent<Card>().modifier;
+                string selectedCardElement = playerSelectedCards[i].GetComponent<Card>().element;
+
+                string cardInDeckCardType = playerUnit.GetComponent<Unit>().cards[j].GetComponent<Card>().cardType;
+                int cardInDeckModifier = playerUnit.GetComponent<Unit>().cards[j].GetComponent<Card>().modifier;
+                string cardInDeckElement = playerUnit.GetComponent<Unit>().cards[j].GetComponent<Card>().element;
+
+                if (selectedCardCardType == cardInDeckCardType && selectedCardModifier == cardInDeckModifier && selectedCardElement == cardInDeckElement)
+                {
+                    Debug.Log("Found selected card in player deck! Removing it from scenario!");
+                    playerUnit.GetComponent<Unit>().cards.Remove(playerUnit.GetComponent<Unit>().cards[j]);
+                    break;
+                }
+            }
+        }
+        playerUnit.GetComponent<Unit>().cards.TrimExcess();
+
+        // Destroy enemy cards that were used in this battle
+        for (int i = 0; i < enemySelectedCards.Count; i++)
+        {
+            for (int j = 0; j < enemyUnit.GetComponent<Unit>().cards.Count; j++)
+            {
+                string selectedCardCardType = enemySelectedCards[i].GetComponent<Card>().cardType;
+                int selectedCardModifier = enemySelectedCards[i].GetComponent<Card>().modifier;
+                string selectedCardElement = enemySelectedCards[i].GetComponent<Card>().element;
+
+                string cardInDeckCardType = enemyUnit.GetComponent<Unit>().cards[j].GetComponent<Card>().cardType;
+                int cardInDeckModifier = enemyUnit.GetComponent<Unit>().cards[j].GetComponent<Card>().modifier;
+                string cardInDeckElement = enemyUnit.GetComponent<Unit>().cards[j].GetComponent<Card>().element;
+
+                if (selectedCardCardType == cardInDeckCardType && selectedCardModifier == cardInDeckModifier && selectedCardElement == cardInDeckElement)
+                {
+                    Debug.Log("Found selected card in enemy deck! Removing it from scenario!");
+                    enemyUnit.GetComponent<Unit>().cards.Remove(enemyUnit.GetComponent<Unit>().cards[j]);
+                    break;
+                }
+            }
+        }
+        enemyUnit.GetComponent<Unit>().cards.TrimExcess();
+
         playerSelectedCards.Clear();
         enemySelectedCards.Clear();
+
+        playerDeck.Clear();
+        enemyDeck.Clear();
+
+        /*
+        playerBuffCardIndex = -1;
+        playerDebuffCardIndex = -1;
+        enemyBuffCardIndex = -1;
+        enemyDebuffCardIndex = -1;
+        */
+
+        /*
+        playerHasBuffCard = false;
+        playerHasDebuffCard = false;
+        enemyHasBuffCard = false;
+        enemyHasDebuffCard = false;
+        */
     }
 
     IEnumerator attackAnimation()
@@ -529,5 +903,252 @@ public class BattleTurnSystem : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    public void checkForInitiatorBoost(string battleInitiator)
+    {
+        string playerElement = playerUnitClone.GetComponent<Unit>().element;
+        string enemyElement = enemyUnitClone.GetComponent<Unit>().element;
+
+        if (playerElement == "Hearts" && enemyElement == "Hearts")
+        {
+            if (battleInitiator == "Player")
+            {
+                // Nothing happens
+            }
+            else
+            {
+                // Nothing happens
+            }
+        }
+        else if (playerElement == "Hearts" && enemyElement == "Diamonds")
+        {
+            if (battleInitiator == "Player")
+            {
+                playerUnitClone.GetComponent<Unit>().basePhysicalAttack++;
+                playerUnitClone.GetComponent<Unit>().basePhysicalDefense++;
+                playerUnitClone.GetComponent<Unit>().baseMagicalAttack++;
+                playerUnitClone.GetComponent<Unit>().baseMagicalDefense++;
+            }
+            else
+            {
+                enemyUnitClone.GetComponent<Unit>().basePhysicalAttack++;
+                enemyUnitClone.GetComponent<Unit>().basePhysicalDefense++;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalAttack++;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalDefense++;
+            }
+        }
+        else if (playerElement == "Hearts" && enemyElement == "Clubs")
+        {
+            if (battleInitiator == "Player")
+            {
+                // Nothing happens
+            }
+            else
+            {
+                // Nothing happens
+            }
+        }
+        else if (playerElement == "Hearts" && enemyElement == "Spades")
+        {
+            if (battleInitiator == "Player")
+            {
+                playerUnitClone.GetComponent<Unit>().basePhysicalAttack += 2;
+                playerUnitClone.GetComponent<Unit>().basePhysicalDefense += 2;
+                playerUnitClone.GetComponent<Unit>().baseMagicalAttack += 2;
+                playerUnitClone.GetComponent<Unit>().baseMagicalDefense += 2;
+            }
+            else
+            {
+                enemyUnitClone.GetComponent<Unit>().basePhysicalAttack = (enemyUnitClone.GetComponent<Unit>().basePhysicalAttack == 0) 
+                    ? enemyUnitClone.GetComponent<Unit>().basePhysicalAttack : enemyUnitClone.GetComponent<Unit>().basePhysicalAttack--;
+                enemyUnitClone.GetComponent<Unit>().basePhysicalDefense = (enemyUnitClone.GetComponent<Unit>().basePhysicalDefense == 0)
+                    ? enemyUnitClone.GetComponent<Unit>().basePhysicalDefense : enemyUnitClone.GetComponent<Unit>().basePhysicalDefense--;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalAttack = (enemyUnitClone.GetComponent<Unit>().baseMagicalAttack == 0)
+                    ? enemyUnitClone.GetComponent<Unit>().baseMagicalAttack : enemyUnitClone.GetComponent<Unit>().baseMagicalAttack--;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalDefense = (enemyUnitClone.GetComponent<Unit>().baseMagicalDefense == 0)
+                    ? enemyUnitClone.GetComponent<Unit>().baseMagicalDefense : enemyUnitClone.GetComponent<Unit>().baseMagicalDefense--;
+            }
+        }
+        else if (playerElement == "Diamonds" && enemyElement == "Hearts")
+        {
+            if (battleInitiator == "Player")
+            {
+                playerUnitClone.GetComponent<Unit>().basePhysicalAttack++;
+                playerUnitClone.GetComponent<Unit>().basePhysicalDefense++;
+                playerUnitClone.GetComponent<Unit>().baseMagicalAttack++;
+                playerUnitClone.GetComponent<Unit>().baseMagicalDefense++;
+            }
+            else
+            {
+                enemyUnitClone.GetComponent<Unit>().basePhysicalAttack++;
+                enemyUnitClone.GetComponent<Unit>().basePhysicalDefense++;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalAttack++;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalDefense++;
+            }
+        }
+        else if (playerElement == "Diamonds" && enemyElement == "Diamonds")
+        {
+            if (battleInitiator == "Player")
+            {
+                // Nothing happens
+            }
+            else
+            {
+                // Nothing happens
+            }
+        }
+        else if (playerElement == "Diamonds" && enemyElement == "Clubs")
+        {
+            if (battleInitiator == "Player")
+            {
+                playerUnitClone.GetComponent<Unit>().basePhysicalAttack += 2;
+                playerUnitClone.GetComponent<Unit>().basePhysicalDefense += 2;
+                playerUnitClone.GetComponent<Unit>().baseMagicalAttack += 2;
+                playerUnitClone.GetComponent<Unit>().baseMagicalDefense += 2;
+            }
+            else
+            {
+                enemyUnitClone.GetComponent<Unit>().basePhysicalAttack = (enemyUnitClone.GetComponent<Unit>().basePhysicalAttack == 0)
+                    ? enemyUnitClone.GetComponent<Unit>().basePhysicalAttack : enemyUnitClone.GetComponent<Unit>().basePhysicalAttack--;
+                enemyUnitClone.GetComponent<Unit>().basePhysicalDefense = (enemyUnitClone.GetComponent<Unit>().basePhysicalDefense == 0)
+                    ? enemyUnitClone.GetComponent<Unit>().basePhysicalDefense : enemyUnitClone.GetComponent<Unit>().basePhysicalDefense--;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalAttack = (enemyUnitClone.GetComponent<Unit>().baseMagicalAttack == 0)
+                    ? enemyUnitClone.GetComponent<Unit>().baseMagicalAttack : enemyUnitClone.GetComponent<Unit>().baseMagicalAttack--;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalDefense = (enemyUnitClone.GetComponent<Unit>().baseMagicalDefense == 0)
+                    ? enemyUnitClone.GetComponent<Unit>().baseMagicalDefense : enemyUnitClone.GetComponent<Unit>().baseMagicalDefense--;
+            }
+        }
+        else if (playerElement == "Diamonds" && enemyElement == "Spades")
+        {
+            if (battleInitiator == "Player")
+            {
+                // Nothing happens
+            }
+            else
+            {
+                // Nothing happens
+            }
+        }
+        else if (playerElement == "Clubs" && enemyElement == "Hearts")
+        {
+            if (battleInitiator == "Player")
+            {
+                // Nothing happens
+            }
+            else
+            {
+                // Nothing happens
+            }
+        }
+        else if (playerElement == "Clubs" && enemyElement == "Diamonds")
+        {
+            if (battleInitiator == "Player")
+            {
+                playerUnitClone.GetComponent<Unit>().basePhysicalAttack = (playerUnitClone.GetComponent<Unit>().basePhysicalAttack == 0)
+                    ? playerUnitClone.GetComponent<Unit>().basePhysicalAttack : playerUnitClone.GetComponent<Unit>().basePhysicalAttack--;
+                playerUnitClone.GetComponent<Unit>().basePhysicalDefense = (playerUnitClone.GetComponent<Unit>().basePhysicalDefense == 0)
+                    ? playerUnitClone.GetComponent<Unit>().basePhysicalDefense : playerUnitClone.GetComponent<Unit>().basePhysicalDefense--;
+                playerUnitClone.GetComponent<Unit>().baseMagicalAttack = (playerUnitClone.GetComponent<Unit>().baseMagicalAttack == 0)
+                    ? playerUnitClone.GetComponent<Unit>().baseMagicalAttack : playerUnitClone.GetComponent<Unit>().baseMagicalAttack--;
+                playerUnitClone.GetComponent<Unit>().baseMagicalDefense = (playerUnitClone.GetComponent<Unit>().baseMagicalDefense == 0)
+                    ? playerUnitClone.GetComponent<Unit>().baseMagicalDefense : playerUnitClone.GetComponent<Unit>().baseMagicalDefense--;
+            }
+            else
+            {
+                enemyUnitClone.GetComponent<Unit>().basePhysicalAttack += 2;
+                enemyUnitClone.GetComponent<Unit>().basePhysicalDefense += 2;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalAttack += 2;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalDefense += 2;
+            }
+        }
+        else if (playerElement == "Clubs" && enemyElement == "Clubs")
+        {
+            if (battleInitiator == "Player")
+            {
+                // Nothing happens
+            }
+            else
+            {
+                // Nothing happens
+            }
+        }
+        else if (playerElement == "Clubs" && enemyElement == "Spades")
+        {
+            if (battleInitiator == "Player")
+            {
+                playerUnitClone.GetComponent<Unit>().basePhysicalAttack++;
+                playerUnitClone.GetComponent<Unit>().basePhysicalDefense++;
+                playerUnitClone.GetComponent<Unit>().baseMagicalAttack++;
+                playerUnitClone.GetComponent<Unit>().baseMagicalDefense++;
+            }
+            else
+            {
+                enemyUnitClone.GetComponent<Unit>().basePhysicalAttack++;
+                enemyUnitClone.GetComponent<Unit>().basePhysicalDefense++;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalAttack++;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalDefense++;
+            }
+        }
+        else if (playerElement == "Spades" && enemyElement == "Hearts")
+        {
+            if (battleInitiator == "Player")
+            {
+                playerUnitClone.GetComponent<Unit>().basePhysicalAttack = (playerUnitClone.GetComponent<Unit>().basePhysicalAttack == 0)
+                    ? playerUnitClone.GetComponent<Unit>().basePhysicalAttack : playerUnitClone.GetComponent<Unit>().basePhysicalAttack--;
+                playerUnitClone.GetComponent<Unit>().basePhysicalDefense = (playerUnitClone.GetComponent<Unit>().basePhysicalDefense == 0)
+                    ? playerUnitClone.GetComponent<Unit>().basePhysicalDefense : playerUnitClone.GetComponent<Unit>().basePhysicalDefense--;
+                playerUnitClone.GetComponent<Unit>().baseMagicalAttack = (playerUnitClone.GetComponent<Unit>().baseMagicalAttack == 0)
+                    ? playerUnitClone.GetComponent<Unit>().baseMagicalAttack : playerUnitClone.GetComponent<Unit>().baseMagicalAttack--;
+                playerUnitClone.GetComponent<Unit>().baseMagicalDefense = (playerUnitClone.GetComponent<Unit>().baseMagicalDefense == 0)
+                    ? playerUnitClone.GetComponent<Unit>().baseMagicalDefense : playerUnitClone.GetComponent<Unit>().baseMagicalDefense--;
+            }
+            else
+            {
+                enemyUnitClone.GetComponent<Unit>().basePhysicalAttack += 2;
+                enemyUnitClone.GetComponent<Unit>().basePhysicalDefense += 2;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalAttack += 2;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalDefense += 2;
+            }
+        }
+        else if (playerElement == "Spades" && enemyElement == "Diamonds")
+        {
+            if (battleInitiator == "Player")
+            {
+                // Nothing happens
+            }
+            else
+            {
+                // Nothing happens
+            }
+        }
+        else if (playerElement == "Spades" && enemyElement == "Clubs")
+        {
+            if (battleInitiator == "Player")
+            {
+                playerUnitClone.GetComponent<Unit>().basePhysicalAttack++;
+                playerUnitClone.GetComponent<Unit>().basePhysicalDefense++;
+                playerUnitClone.GetComponent<Unit>().baseMagicalAttack++;
+                playerUnitClone.GetComponent<Unit>().baseMagicalDefense++;
+            }
+            else
+            {
+                enemyUnitClone.GetComponent<Unit>().basePhysicalAttack++;
+                enemyUnitClone.GetComponent<Unit>().basePhysicalDefense++;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalAttack++;
+                enemyUnitClone.GetComponent<Unit>().baseMagicalDefense++;
+            }
+        }
+        else if (playerElement == "Spades" && enemyElement == "Spades")
+        {
+            if (battleInitiator == "Player")
+            {
+                // Nothing happens
+            }
+            else
+            {
+                // Nothing happens
+            }
+        }
     }
 }
