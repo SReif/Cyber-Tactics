@@ -3125,6 +3125,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4278649347181360608, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278649347181360610, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4339741414397036269, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -3365,6 +3373,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Design Template
       objectReference: {fileID: 0}
+    - target: {fileID: 6972146515697167216, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972146515697167222, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6972146515697167222, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
       propertyPath: unitOffset.y
       value: 1
@@ -3405,6 +3421,10 @@ PrefabInstance:
       propertyPath: playersUnits.Array.data[4]
       value: 
       objectReference: {fileID: 140149903}
+    - target: {fileID: 6972146515815923682, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6992668611493648813, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
       propertyPath: battleTurnSystem
       value: 
@@ -3424,6 +3444,10 @@ PrefabInstance:
     - target: {fileID: 7285326929400886707, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
       propertyPath: currentHP
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7285326929400886707, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7285326929400886707, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
       propertyPath: unitMoveID
@@ -58585,11 +58609,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1165051675988520271, guid: 6dd52810ab7c5254f92089b9b2a77cb9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 1165051675988520271, guid: 6dd52810ab7c5254f92089b9b2a77cb9, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 450.27
       objectReference: {fileID: 0}
     - target: {fileID: 1165051675988520271, guid: 6dd52810ab7c5254f92089b9b2a77cb9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -58625,7 +58649,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1165051675988520271, guid: 6dd52810ab7c5254f92089b9b2a77cb9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.13448
       objectReference: {fileID: 0}
     - target: {fileID: 1165051675988520271, guid: 6dd52810ab7c5254f92089b9b2a77cb9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -58765,15 +58789,7 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1347197013}
     m_Modifications:
-    - target: {fileID: 2963385407110168752, guid: f7dcba09d5585004cab808c3f5782535, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 883455176}
-    - target: {fileID: 2963385407403151770, guid: f7dcba09d5585004cab808c3f5782535, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 883455176}
-    - target: {fileID: 2963385408074306641, guid: f7dcba09d5585004cab808c3f5782535, type: 3}
+    - target: {fileID: 1415711441419289557, guid: f7dcba09d5585004cab808c3f5782535, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 883455176}
@@ -58865,6 +58881,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pause Screen
       objectReference: {fileID: 0}
+    - target: {fileID: 7416042351041231842, guid: f7dcba09d5585004cab808c3f5782535, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 883455176}
+    - target: {fileID: 7477343885399574525, guid: f7dcba09d5585004cab808c3f5782535, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5981837403183447971}
+    - target: {fileID: 8989888241841887799, guid: f7dcba09d5585004cab808c3f5782535, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 883455176}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7dcba09d5585004cab808c3f5782535, type: 3}
 --- !u!1001 &3835563087252595579
@@ -58940,11 +58968,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9019946460495322190, guid: f529fdda769cb494dbc9e405c9db4d36, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 9019946460495322190, guid: f529fdda769cb494dbc9e405c9db4d36, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 450.54
       objectReference: {fileID: 0}
     - target: {fileID: 9019946460495322190, guid: f529fdda769cb494dbc9e405c9db4d36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -59184,6 +59212,10 @@ PrefabInstance:
     - target: {fileID: 7658922283027964821, guid: 2695e5f0d267e9f4baa7293ee26fee49, type: 3}
       propertyPath: m_Name
       value: BattleUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7658922283027964821, guid: 2695e5f0d267e9f4baa7293ee26fee49, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7658922283027964826, guid: 2695e5f0d267e9f4baa7293ee26fee49, type: 3}
       propertyPath: m_Pivot.x

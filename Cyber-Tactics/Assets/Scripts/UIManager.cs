@@ -19,7 +19,8 @@ public class UIManager : MonoBehaviour
 
     //Elements of the Stat Panel
     private string unitName, unitType;
-    private int unitHp, unitPRes, unitMRes, unitPDmg, unitMDmg;
+    private int unitHp, unitPRes, unitMRes, unitPDmg, unitMDmg, highestStat;
+    private List<int> valueList = new List<int>();
 
     //Elements of the Player in Battle
     private string playerName;
@@ -80,12 +81,28 @@ public class UIManager : MonoBehaviour
         if(paused)
         {
             Time.timeScale = 1;
+
             if(GameObject.Find("Grid System") != null)
             {
                 turnPane.SetActive(true);
+                GameObject.Find("Grid View Camera").GetComponent<CameraPan>().enabled = true;
             }
-            
             pausePane.SetActive(false);
+
+            for (int i = 0; i < turnSystem.playersUnits.Count; i++)
+            {
+                turnSystem.playersUnits[i].GetComponent<Unit>().enabled = true;
+            }
+
+            for (int i = 0; i < turnSystem.playersUnits.Count; i++)
+            {
+                turnSystem.playersUnits[i].GetComponent<Unit>().enabled = true;
+            }
+
+            turnSystem.GetComponent<TurnSystem>().enabled = true;
+            battleTurnSystem.GetComponent<BattleTurnSystem>().enabled = true;
+            gridSystem.GetComponent<GridSystem>().enabled = true;
+            
             paused = false;
         }
 
@@ -94,10 +111,29 @@ public class UIManager : MonoBehaviour
             if (GameObject.Find("Grid System") != null)
             {
                 turnPane.SetActive(false);
+                GameObject.Find("Grid View Camera").GetComponent<CameraPan>().enabled = false;
+            }
+
+            if (!winPane.activeSelf && !losePane.activeSelf)
+            {
+                pausePane.SetActive(true);
             }
             
-            pausePane.SetActive(true);
             paused = true;
+
+            for (int i = 0; i < turnSystem.playersUnits.Count; i++)
+            {
+                turnSystem.playersUnits[i].GetComponent<Unit>().enabled = false;
+            }
+
+            for (int i = 0; i < turnSystem.playersUnits.Count; i++)
+            {
+                turnSystem.playersUnits[i].GetComponent<Unit>().enabled = false;
+            }
+
+            turnSystem.GetComponent<TurnSystem>().enabled = false;
+            battleTurnSystem.GetComponent<BattleTurnSystem>().enabled = false;
+            gridSystem.GetComponent<GridSystem>().enabled = false;
             Time.timeScale = 0;
         }
     }
@@ -124,6 +160,8 @@ public class UIManager : MonoBehaviour
             GameObject.Find("MagDEF_Num").GetComponent<TextMeshProUGUI>().text = "" + unitMRes;
             GameObject.Find("PhysATK_Num").GetComponent<TextMeshProUGUI>().text = "" + unitPDmg;
             GameObject.Find("MagATK_Num").GetComponent<TextMeshProUGUI>().text = "" + unitMDmg;
+
+            GetHighValue(unitPRes, unitMRes, unitPDmg, unitMDmg); //Set color of highest value stat
         }
 
         if (gridSystem.selectedUnit == null)
@@ -211,15 +249,15 @@ public class UIManager : MonoBehaviour
 
         if (turnSystem.state == TurnSystem.State.PlayerTurn)
         {
-            turnPane.transform.GetChild(0).gameObject.SetActive(false); //Enemy Phase Panel
-            turnPane.transform.GetChild(1).gameObject.SetActive(true); //Player Phase Panel
+            turnPane.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Player Phase";
+            turnPane.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().color = new Color32(44, 177, 133, 255);
             //levelUI.transform.GetChild(4).gameObject.SetActive(true); //End Turn Button
         }
 
         else
         {
-            turnPane.transform.GetChild(0).gameObject.SetActive(true); //Enemy Phase Panel
-            turnPane.transform.GetChild(1).gameObject.SetActive(false); //Player Phase Panel
+            turnPane.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Enemy Phase";
+            turnPane.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().color = new Color32(140, 45, 168, 255);
             //levelUI.transform.GetChild(4).gameObject.SetActive(false); //End Turn Button
         }
     }
@@ -245,6 +283,63 @@ public class UIManager : MonoBehaviour
             enemyStat = battleUI.transform.GetChild(2).gameObject; //Enemy Battle Stats
             enemyHealth = battleUI.transform.GetChild(3).gameObject; //Enemy Battle Health
             SetBattleStats();
+        }
+    }
+
+    private void GetHighValue(int pR, int mR, int pD, int mD)
+    {
+        valueList.Clear();
+
+        valueList.Add(pR);
+        valueList.Add(mR);
+        valueList.Add(pD);
+        valueList.Add(mD);
+
+        highestStat = Mathf.Max(valueList.ToArray());
+        Debug.Log("Highest Stat " + highestStat);
+
+        //Physical Resistance Stat High or Low
+        if (pR == highestStat)
+        {
+            GameObject.Find("PhysDEF_Num").GetComponent<TextMeshProUGUI>().color = new Color32(44, 177, 133, 255);
+        }
+
+        else
+        {
+            GameObject.Find("PhysDEF_Num").GetComponent<TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
+        }
+
+        //Magical Resistance Stat High or Low
+        if(mR == highestStat)
+        {
+            GameObject.Find("MagDEF_Num").GetComponent<TextMeshProUGUI>().color = new Color32(44, 177, 133, 255);
+        }
+
+        else
+        {
+            GameObject.Find("MagDEF_Num").GetComponent<TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
+        }
+
+        //Physical Damage Stat High or Low
+        if(pD == highestStat)
+        {
+            GameObject.Find("PhysATK_Num").GetComponent<TextMeshProUGUI>().color = new Color32(44, 177, 133, 255);
+        }
+
+        else
+        {
+            GameObject.Find("PhysATK_Num").GetComponent<TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
+        }
+
+        //Magical Damage State High or Low
+        if(mD == highestStat)
+        {
+            GameObject.Find("MagATK_Num").GetComponent<TextMeshProUGUI>().color = new Color32(44, 177, 133, 255);
+        }
+
+        else
+        {
+            GameObject.Find("MagATK_Num").GetComponent<TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
         }
     }
 }
