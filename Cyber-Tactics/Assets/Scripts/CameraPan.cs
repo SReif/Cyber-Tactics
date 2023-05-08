@@ -68,7 +68,7 @@ public class CameraPan : MonoBehaviour
         }
 
         //Mouse Input
-        if (Input.GetKeyDown(KeyCode.Mouse1) && !kbPan)
+        /*if (Input.GetKeyDown(KeyCode.Mouse1) && !kbPan)
         {
             mousePosOrigin = Camera.main.ScreenToViewportPoint(Input.mousePosition);
             mPan = true;
@@ -112,7 +112,7 @@ public class CameraPan : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Mouse1) && !kbPan)
         {
             mPan = false;
-        }
+        }*/
 
         //Resetting camera position to its original position
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse2))

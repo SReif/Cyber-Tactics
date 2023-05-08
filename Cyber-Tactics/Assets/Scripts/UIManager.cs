@@ -27,12 +27,12 @@ public class UIManager : MonoBehaviour
     private int vUnitHp, vUnitMaxHp, vUnitPRes, vUnitMRes, vUnitPDmg, vUnitMDmg;
 
     //Elements of the Player in Battle
-    private string playerName;
+    private string playerClassName;
     private int playerHp, playerMaxHp, playerPRes, playerMRes, playerPDmg, playerMDmg;
     private int playerPResMod, playerMResMod, playerPDmgMod, playerMDmgMod;
 
     //Elements of the Enemy in Battle
-    private string enemyName;
+    private string enemyClassName;
     private int enemyHp, enemyMaxHp,enemyPRes, enemyMRes, enemyPDmg, enemyMDmg;
     private int enemyPResMod, enemyMResMod, enemyPDmgMod, enemyMDmgMod;
 
@@ -85,22 +85,39 @@ public class UIManager : MonoBehaviour
         if(paused)
         {
             Time.timeScale = 1;
-            if(GameObject.Find("Grid System") != null)
+            if(GameObject.Find("Grid View Camera").activeSelf)
             {
                 turnPane.SetActive(true);
+                levelUI.SetActive(true);
             }
-            
+
+            if (!GameObject.Find("Grid View Camera").activeSelf)
+            {
+                battleUI.SetActive(true);
+            }
+
+            turnSystem.enabled = true;
+            battleTurnSystem.enabled = true;
             pausePane.SetActive(false);
             paused = false;
         }
 
         else
         {
-            if (GameObject.Find("Grid System") != null)
+            if (GameObject.Find("Grid View Camera").activeSelf)
             {
                 turnPane.SetActive(false);
+                levelUI.SetActive(false);
             }
-            
+
+            if(!GameObject.Find("Grid View Camera").activeSelf)
+            {
+                battleUI.SetActive(false);
+            }
+
+            turnSystem.enabled = false;
+            battleTurnSystem.enabled = false;
+
             pausePane.SetActive(true);
             paused = true;
             Time.timeScale = 0;
@@ -119,7 +136,7 @@ public class UIManager : MonoBehaviour
             GameObject selectedUnitNumStats = selectedUnitPane.transform.Find("StatsNum").gameObject;
 
             selectedUnitNameStats.transform.Find("UnitName").GetComponent<TextMeshProUGUI>().text = gridSystem.selectedUnit.GetComponent<Unit>().unitName;
-            selectedUnitNameStats.transform.Find("ClassName").GetComponent<TextMeshProUGUI>().text = gridSystem.selectedUnit.GetComponent<Unit>().unitMoveID;
+            selectedUnitNameStats.transform.Find("ClassName").GetComponent<TextMeshProUGUI>().text = gridSystem.selectedUnit.GetComponent<Unit>().className;
 
             selectedUnitNumStats.transform.Find("Health_Num").GetComponent<TextMeshProUGUI>().text = gridSystem.selectedUnit.GetComponent<Unit>().currentHP  + "/" + gridSystem.selectedUnit.GetComponent<Unit>().maxHP;
             selectedUnitNumStats.transform.Find("PhysDEF_Num").GetComponent<TextMeshProUGUI>().text = "" + gridSystem.selectedUnit.GetComponent<Unit>().basePhysicalDefense;
@@ -156,7 +173,7 @@ public class UIManager : MonoBehaviour
             GameObject viewedUnitNumStats = viewedUnitPane.transform.Find("StatsNum").gameObject;
 
             viewedUnitNameStats.transform.Find("UnitName").GetComponent<TextMeshProUGUI>().text = turnSystem.viewedUnit.GetComponent<Unit>().unitName;
-            viewedUnitNameStats.transform.Find("ClassName").GetComponent<TextMeshProUGUI>().text = turnSystem.viewedUnit.GetComponent<Unit>().unitMoveID;
+            viewedUnitNameStats.transform.Find("ClassName").GetComponent<TextMeshProUGUI>().text = turnSystem.viewedUnit.GetComponent<Unit>().className;
 
             viewedUnitNumStats.transform.Find("Health_Num").GetComponent<TextMeshProUGUI>().text = turnSystem.viewedUnit.GetComponent<Unit>().currentHP  + "/" + turnSystem.viewedUnit.GetComponent<Unit>().maxHP;
             viewedUnitNumStats.transform.Find("PhysDEF_Num").GetComponent<TextMeshProUGUI>().text = "" + turnSystem.viewedUnit.GetComponent<Unit>().basePhysicalDefense;
@@ -201,7 +218,7 @@ public class UIManager : MonoBehaviour
         playerStat = GameObject.Find("PlayerBattleStats");
         playerHealth = GameObject.Find("PlayerBattleHealth");
 
-        playerName = player.GetComponent<Unit>().unitName;
+        playerClassName = player.GetComponent<Unit>().className;
         playerHp = player.GetComponent<Unit>().currentHP;
         playerMaxHp = player.GetComponent<Unit>().maxHP;
         playerPDmg = player.GetComponent<Unit>().basePhysicalAttack;
@@ -215,7 +232,7 @@ public class UIManager : MonoBehaviour
         playerMDmgMod = battleTurnSystem.totalPlayerMAGATKModifier;
 
         playerHealth.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = playerHp + "/" + playerMaxHp;
-        playerStat.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + playerName;
+        playerStat.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + playerClassName;
         playerStat.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + playerPDmg;
         playerStat.transform.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "" + playerPRes;
         playerStat.transform.GetChild(2).GetChild(4).GetComponent<TextMeshProUGUI>().text = "" + playerMDmg;
@@ -233,7 +250,7 @@ public class UIManager : MonoBehaviour
         enemyStat = GameObject.Find("EnemyBattleStats");
         enemyHealth = GameObject.Find("EnemyBattleHealth");
 
-        enemyName = enemy.GetComponent<Unit>().unitName;
+        enemyClassName = enemy.GetComponent<Unit>().className;
         enemyHp = enemy.GetComponent<Unit>().currentHP;
         enemyMaxHp = enemy.GetComponent<Unit>().maxHP;
         enemyPDmg = enemy.GetComponent<Unit>().basePhysicalAttack;
@@ -247,7 +264,7 @@ public class UIManager : MonoBehaviour
         enemyMDmgMod = battleTurnSystem.totalEnemyMAGATKModifier;
 
         enemyHealth.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = enemyHp + "/" + enemyMaxHp;
-        enemyStat.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + enemyName;
+        enemyStat.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + enemyClassName;
         enemyStat.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + enemyPDmg;
         enemyStat.transform.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "" + enemyPRes;
         enemyStat.transform.GetChild(2).GetChild(4).GetComponent<TextMeshProUGUI>().text = "" + enemyMDmg;
