@@ -33,10 +33,10 @@ RectTransform:
   m_Father: {fileID: 6232699707579775143}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 63.215, y: 0.00006175}
-  m_SizeDelta: {x: 127.1, y: 42.185}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 99.4595, y: 30.2406}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2000695730130732995
 CanvasRenderer:
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 32
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0.36524963, w: -0.23474121}
+  m_margin: {x: 0, y: 0, z: -21.426773, w: 1.2575073}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -170,8 +170,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -49.2331, y: -67.97206}
-  m_SizeDelta: {x: 217.5935, y: 42.1847}
+  m_AnchoredPosition: {x: -108.29999, y: -62}
+  m_SizeDelta: {x: 99.4595, y: 30.2406}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8856397710203290120
 GameObject:
@@ -206,10 +206,10 @@ RectTransform:
   m_Father: {fileID: 6232699707579775143}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -45.247, y: 0.000029564}
-  m_SizeDelta: {x: 91.164, y: 42.185}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 127.1, y: 0.6}
+  m_SizeDelta: {x: 99.4595, y: 30.2406}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8209299724510616651
 CanvasRenderer:
@@ -273,8 +273,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 33
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0.17207336, w: -0.24386597}
+  m_margin: {x: 0, y: 0, z: -21.426773, w: 1.2575073}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
