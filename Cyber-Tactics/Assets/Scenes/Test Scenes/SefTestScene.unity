@@ -3125,10 +3125,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4278649347008583113, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4278649347181360608, guid: 0f2f0d2395c99c14d950eef412ce255a, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -59217,6 +59213,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BattleUI
       objectReference: {fileID: 0}
+    - target: {fileID: 7658922283027964821, guid: 2695e5f0d267e9f4baa7293ee26fee49, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7658922283027964826, guid: 2695e5f0d267e9f4baa7293ee26fee49, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -59247,11 +59247,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7658922283027964826, guid: 2695e5f0d267e9f4baa7293ee26fee49, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 800
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7658922283027964826, guid: 2695e5f0d267e9f4baa7293ee26fee49, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 450.54
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7658922283027964826, guid: 2695e5f0d267e9f4baa7293ee26fee49, type: 3}
       propertyPath: m_LocalPosition.x
@@ -59287,7 +59287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7658922283027964826, guid: 2695e5f0d267e9f4baa7293ee26fee49, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00050354004
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7658922283027964826, guid: 2695e5f0d267e9f4baa7293ee26fee49, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
