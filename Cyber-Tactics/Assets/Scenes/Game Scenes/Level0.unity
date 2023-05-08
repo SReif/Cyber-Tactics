@@ -9879,6 +9879,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BattleUI
       objectReference: {fileID: 0}
+    - target: {fileID: 7658922283027964821, guid: 2695e5f0d267e9f4baa7293ee26fee49, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7658922283027964826, guid: 2695e5f0d267e9f4baa7293ee26fee49, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -20468,6 +20472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: MAG DEF
+  element: 
   modifier: 3
 --- !u!33 &743605811229385562
 MeshFilter:
@@ -23536,6 +23541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: MAG ATK
+  element: 
   modifier: 4
 --- !u!4 &1748636370187914651
 Transform:
@@ -23862,6 +23868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: PHYS ATK
+  element: 
   modifier: 1
 --- !u!4 &1812515115485481851
 Transform:
@@ -26729,6 +26736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: HEAL
+  element: 
   modifier: 2
 --- !u!1 &2569140428330211925
 GameObject:
@@ -33436,6 +33444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: PHYS DEF
+  element: 
   modifier: 4
 --- !u!114 &3403108783147957378
 MonoBehaviour:
@@ -34553,6 +34562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: MAG DEF
+  element: 
   modifier: 4
 --- !u!4 &4339741413595643615
 Transform:
@@ -36761,6 +36771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: MAG ATK
+  element: 
   modifier: 3
 --- !u!4 &4705725786406747277
 Transform:
@@ -37139,6 +37150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: PHYS ATK
+  element: 
   modifier: 4
 --- !u!114 &4853372067911235106
 MonoBehaviour:
@@ -37314,6 +37326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: HEAL
+  element: 
   modifier: 1
 --- !u!4 &4980358814998141517
 Transform:
@@ -43797,6 +43810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: PHYS ATK
+  element: 
   modifier: 2
 --- !u!1 &5859742885683089285
 GameObject:
@@ -45940,6 +45954,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: MAG DEF
+  element: 
   modifier: 2
 --- !u!33 &6482354798682207978
 MeshFilter:
@@ -50503,6 +50518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: PHYS ATK
+  element: 
   modifier: 3
 --- !u!4 &6545581951933832547
 Transform:
@@ -51757,6 +51773,7 @@ MonoBehaviour:
   - {fileID: 1674323663}
   - {fileID: 305751953}
   state: 0
+  viewedUnit: {fileID: 0}
 --- !u!1 &6972146515014567895
 GameObject:
   m_ObjectHideFlags: 0
@@ -51945,8 +51962,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f1185bd6c3fe94d90ca4c802dc03b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerLeader: {fileID: 0}
+  enemyLeader: {fileID: 0}
+  objectiveNode: {fileID: 0}
+  isPlayerObjective: 0
   gridSystem: {fileID: 6972146514896343875}
   uiManager: {fileID: 1004908102}
+  winLoseConditionMet: 0
 --- !u!114 &7296908603106038637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53902,6 +53924,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: PHYS DEF
+  element: 
   modifier: 3
 --- !u!64 &7732094461523846654
 MeshCollider:
@@ -54264,6 +54287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: PHYS DEF
+  element: 
   modifier: 2
 --- !u!4 &7928313944126856807
 Transform:
@@ -54441,6 +54465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: MAG ATK
+  element: 
   modifier: 1
 --- !u!64 &7939445940696388734
 MeshCollider:
@@ -56760,6 +56785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: DEBUFF
+  element: 
   modifier: 0
 --- !u!4 &8188676497188001887
 Transform:
@@ -57021,6 +57047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: PHYS DEF
+  element: 
   modifier: 1
 --- !u!33 &8250046748503383658
 MeshFilter:
@@ -57343,6 +57370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: BUFF
+  element: 
   modifier: 0
 --- !u!4 &8533136832982453567
 Transform:
@@ -57569,6 +57597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: MAG DEF
+  element: 
   modifier: 1
 --- !u!1 &8549530404431118821
 GameObject:
@@ -59756,6 +59785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: MAG ATK
+  element: 
   modifier: 2
 --- !u!64 &8799076011726295850
 MeshCollider:
