@@ -13,8 +13,7 @@ public class GridSystem : MonoBehaviour
     public List<GameObject> validMoveNodes;     // The nodes that the current selected unit can move to
     public List<GameObject> validAttackNodes;   // The nodes that the current selected unit can attack
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         validMoveNodes = new List<GameObject>();
         validAttackNodes = new List<GameObject>();
@@ -37,12 +36,12 @@ public class GridSystem : MonoBehaviour
                 node.GetComponent<GridNode>().nodeGridPos = new Vector2(x, y);
                 grid[x, y] = node;
 
-                // Disable the SpriteRenderer for nodes that contain an Obstacle
+                // Disable the MeshRenderer for nodes that contain an Obstacle
                 if (node.transform.Find("Unit Slot").childCount != 0)
                 {
                     if (node.transform.Find("Unit Slot").GetChild(0).tag == "Obstacle")
                     {
-                        node.transform.Find("Grid Sprite").GetComponent<SpriteRenderer>().enabled = false;
+                        node.transform.GetComponent<MeshRenderer>().enabled = false;
                     }
                 }
             }
@@ -57,7 +56,7 @@ public class GridSystem : MonoBehaviour
         
     }
 
-    public void moveSelectedUnit(GameObject newNode)
+    public IEnumerator MoveSelectedUnit(GameObject newNode)
     {
         // Get the parent (Node) of the parent (Unit Slot)
         GameObject previousNode = selectedUnit.transform.parent.transform.parent.gameObject;
@@ -65,19 +64,39 @@ public class GridSystem : MonoBehaviour
         if (previousNode != newNode)
         {
             Vector3 nodeGridPos = previousNode.GetComponent<GridNode>().nodeGridPos;
+            Vector3 nodeWorldPos = newNode.GetComponent<GridNode>().nodeWorldPos;
+            Vector3 finalPosition = nodeWorldPos + unitOffset;
 
-            // Move the GameObject to the new node location, based off its position transform
-            selectedUnit.transform.position = newNode.GetComponent<GridNode>().nodeWorldPos + unitOffset;
+            Vector3 direction = finalPosition - selectedUnit.transform.position;
+
+            Debug.Log(direction);
+
+            float increment = 0.1f;
+
+            // IF THE UNITS FLY OFF INTO THE SUNSET, THIS IS WHERE THE PROBLEM IS
+            // IF THE SELECTED UNIT DOESN'T MAKE IT TO THE EXACT FINAL NODE POSITION, IT WILL FLY OFF AND NEVER FINISH
+            // THIS NEEDS TO BE ADDRESSED LATER BUT IT IS CURRENTLY SORT OF STABLE
+
+            // Move the unit by the increment until it reaches its destination
+            while (selectedUnit.transform.position != finalPosition)
+            {
+                selectedUnit.transform.position += direction * increment;
+
+                yield return null;
+            }
 
             // Transfer the GameObject to the new node
             selectedUnit.transform.SetParent(newNode.transform.Find("Unit Slot"));
-        }        
+            selectedUnit.transform.position = nodeWorldPos + unitOffset;
+        }
 
         // Stop showing the valid moves for the unit's previous location
         resetValidMoveNodes();
 
         Debug.Log("Unit moved.");
-    }
+
+        yield return null;
+    } 
 
     public void resetValidMoveNodes()
     {
@@ -86,7 +105,6 @@ public class GridSystem : MonoBehaviour
         {
             validMoveNodes[i].transform.Find("Indicators").Find("Valid Move Indicator").GetComponent<MeshRenderer>().enabled = false;
             validMoveNodes[i].GetComponent<GridNode>().validMove = false;
-
         }
 
         validMoveNodes.Clear();
