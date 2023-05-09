@@ -65,26 +65,53 @@ public class GridSystem : MonoBehaviour
         {
             Vector3 nodeGridPos = previousNode.GetComponent<GridNode>().nodeGridPos;
             Vector3 nodeWorldPos = newNode.GetComponent<GridNode>().nodeWorldPos;
+            Vector3 startPosition = selectedUnit.transform.position;
             Vector3 finalPosition = nodeWorldPos + unitOffset;
 
             Vector3 direction = finalPosition - selectedUnit.transform.position;
 
             Debug.Log(direction);
 
+            /*
+            float maxDistance = Vector3.Distance(finalPosition, selectedUnit.transform.position) / 2;
+            float curDistance = 0.0f;
             float increment = 0.1f;
 
-            // IF THE UNITS FLY OFF INTO THE SUNSET, THIS IS WHERE THE PROBLEM IS
-            // IF THE SELECTED UNIT DOESN'T MAKE IT TO THE EXACT FINAL NODE POSITION, IT WILL FLY OFF AND NEVER FINISH
-            // THIS NEEDS TO BE ADDRESSED LATER BUT IT IS CURRENTLY SORT OF STABLE
-
             // Move the unit by the increment until it reaches its destination
-            while (selectedUnit.transform.position != finalPosition)
+            while (curDistance < maxDistance)
             {
                 selectedUnit.transform.position += direction * increment;
 
+                curDistance += increment;
                 yield return null;
             }
+            */
 
+            /*
+            float step = 0.001f * Time.deltaTime;
+
+            while (selectedUnit.transform.position != finalPosition)
+            {
+                selectedUnit.transform.position = Vector3.MoveTowards(selectedUnit.transform.position, finalPosition, step);
+
+                yield return null;
+            }
+            */
+
+            // Perform the unit grid movement animation
+            int frameCount = 40;
+
+            for (int elapsedFrames = 0; elapsedFrames < frameCount; elapsedFrames++)
+            {
+                float interpolationRatio = (float)elapsedFrames / frameCount;
+
+                Vector3 curPosition = Vector3.Lerp(selectedUnit.transform.position, finalPosition, interpolationRatio);
+
+                selectedUnit.transform.position = curPosition;
+
+                yield return null;
+            }
+            
             // Transfer the GameObject to the new node
             selectedUnit.transform.SetParent(newNode.transform.Find("Unit Slot"));
             selectedUnit.transform.position = nodeWorldPos + unitOffset;
@@ -109,7 +136,7 @@ public class GridSystem : MonoBehaviour
 
         validMoveNodes.Clear();
 
-        Debug.Log("Valid moves for unit reset.");
+        //Debug.Log("Valid moves for unit reset.");
     }
 
     public void resetValidAttackNodes()
@@ -123,6 +150,6 @@ public class GridSystem : MonoBehaviour
 
         validAttackNodes.Clear();
 
-        Debug.Log("Valid attacks for unit reset.");
+        //Debug.Log("Valid attacks for unit reset.");
     }
 }

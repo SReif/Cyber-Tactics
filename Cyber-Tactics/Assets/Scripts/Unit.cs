@@ -101,7 +101,7 @@ public class Unit : MonoBehaviour
             }
         }
 
-        Debug.Log("Valid attacks have been calculated.");
+        //Debug.Log("Valid attacks have been calculated.");
 
         return validAttackNodes;
     }
@@ -165,7 +165,7 @@ public class Unit : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Invalid move: Unit/Obstacle in the way!");
+                        //Debug.Log("Invalid move: Unit/Obstacle in the way!");
 
                         // If the unit moveset does not allow the unit to move over obstacles/units, prevent it from calculating more moves in the move pattern
                         if (unitMoveset.Count > 1)
@@ -176,13 +176,13 @@ public class Unit : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Invalid move: Outside of grid!");
+                    //Debug.Log("Invalid move: Outside of grid!");
                 }
             }
             
         }
 
-        Debug.Log("Valid moves have been calculated.");
+        //Debug.Log("Valid moves have been calculated.");
 
         return validMoveNodes;
     }

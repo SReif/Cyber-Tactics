@@ -159,7 +159,7 @@ public class TurnSystem : MonoBehaviour
                                     gridSystem.selectedUnit = null;
                                 }
 
-                                Debug.Log("Unit has taken its turn.");
+                                //Debug.Log("Unit has taken its turn.");
                             }
                         }
                         else if (Input.GetMouseButtonDown(1) && (hit.transform.tag == "PlayerUnit" || hit.transform.tag == "EnemyUnit"))
@@ -240,7 +240,7 @@ public class TurnSystem : MonoBehaviour
                         yield return StartCoroutine(calculateRandomizedEnemyAI());
                     }    
 
-                    Debug.Log("Unit has taken its turn.");
+                    //Debug.Log("Unit has taken its turn.");
                 }
             }
 
@@ -467,13 +467,9 @@ public class TurnSystem : MonoBehaviour
         // Calculate the valid moves for the enemy unit without the defensive zone restriction
         gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().calculateValidMoves(gridSystem.grid);
 
-        Debug.Log(gridSystem.validMoveNodes.Count);
-
         // Apply the restriction to its valid moves then show the new valid move locations
         gridSystem.validMoveNodes = restrictEnemyAIToDefensiveZone(gridSystem.validMoveNodes);
         gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.validMoveNodes);
-
-        Debug.Log(gridSystem.validMoveNodes.Count);
 
         // Store the valid moves nodes that lead to an attack on a player unit
         List<GameObject> targets = new List<GameObject>();
@@ -849,7 +845,7 @@ public class TurnSystem : MonoBehaviour
         // Begin by checking for the enemy unit's current position
         for (int i = 0; i < playerUnitPos.Count; i++)
         {
-            Debug.Log("Distance between: " + Vector3.Distance(playerUnitPos[i], gridSystem.selectedUnit.transform.position));
+            //Debug.Log("Distance between: " + Vector3.Distance(playerUnitPos[i], gridSystem.selectedUnit.transform.position));
 
             if (Vector3.Distance(playerUnitPos[i], gridSystem.selectedUnit.transform.position) < smallestDistanceBetweenNodePos)
             {
@@ -862,7 +858,7 @@ public class TurnSystem : MonoBehaviour
         {
             for (int j = 0; j < playerUnitPos.Count; j++)
             {
-                Debug.Log("Distance between: " + Vector3.Distance(playerUnitPos[j], gridSystem.selectedUnit.transform.position));
+                //Debug.Log("Distance between: " + Vector3.Distance(playerUnitPos[j], gridSystem.selectedUnit.transform.position));
 
                 if (Vector3.Distance(playerUnitPos[j], gridSystem.validMoveNodes[i].transform.position) < smallestDistanceBetweenNodePos)
                 {

@@ -206,6 +206,8 @@ public class UIManager : MonoBehaviour
     //Executes player turn within battle scene
     public void BattleEndTurn()
     {
+        battleTurnSystem = GameObject.Find("Battle Turn System").GetComponent<BattleTurnSystem>();
+
         battleTurnSystem.takingTurn = false;
         battleTurnSystem.playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
     }
@@ -352,7 +354,7 @@ public class UIManager : MonoBehaviour
         valueList.Add(mD);
 
         highestStat = Mathf.Max(valueList.ToArray());
-        Debug.Log("Highest Stat " + highestStat);
+        //Debug.Log("Highest Stat " + highestStat);
 
         //Determines if Physical Resistance Stat is highest or not
         if (pR == highestStat)

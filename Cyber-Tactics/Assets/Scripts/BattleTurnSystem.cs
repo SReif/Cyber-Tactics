@@ -97,24 +97,6 @@ public class BattleTurnSystem : MonoBehaviour
             }
         }
 
-        /*
-        int maxCardsInHand = 5;
-
-        // Randomly select up to 5 cards from the enemy's deck
-        for (int i = 0; i < maxCardsInHand; i++)
-        {
-            if (enemyDeck.Count > 0)
-            {
-                // Pick a random card from the enemy unit's deck
-                int index = Random.Range(0, enemyDeck.Count);
-                enemyHand.Add(enemyDeck[index]);
-
-                enemyDeck.Remove(enemyDeck[index]);
-                enemyDeck.TrimExcess();
-            }
-        }
-        */
-
         // Iterate through the enemy unit's cards list and populate the card slots with them
         for (int i = 0; i < enemyCardSlots.transform.childCount; i++)
         {
@@ -499,11 +481,8 @@ public class BattleTurnSystem : MonoBehaviour
         // Select cards for the enemy to play
         for (int i = 0; i < enemyCardSlots.transform.childCount; i++)
         {
-            //string cardType = enemyHand[i].GetComponent<Card>().cardType;
-            //int cardModifier = enemyHand[i].GetComponent<Card>().modifier;
-            //string cardElement = enemyHand[i].GetComponent<Card>().element;
 
-            if (enemyCardSlots.transform.GetChild(i).Find("Card") != null)
+            if (enemyCardSlots.transform.GetChild(i).Find("Card").childCount != 0)
             {
                 string cardType = enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).GetComponent<Card>().cardType;
                 int cardModifier = enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).GetComponent<Card>().modifier;
@@ -560,6 +539,7 @@ public class BattleTurnSystem : MonoBehaviour
         }
 
         // FOR DEBUG USE ONLY BECAUSE THERE IS NO VISUAL FOR ENEMY SELECTED CARDS
+        /*
         Debug.Log("Enemy's selected cards includes: " + enemySelectedCards.Count);
         for (int i = 0; i < enemySelectedCards.Count; i++)
         {
@@ -567,6 +547,7 @@ public class BattleTurnSystem : MonoBehaviour
                 + enemySelectedCards[i].GetComponent<Card>().modifier + " "
                 + enemySelectedCards[i].GetComponent<Card>().element);
         }
+        */
 
         yield return new WaitForSeconds(1);
 
@@ -582,7 +563,10 @@ public class BattleTurnSystem : MonoBehaviour
         // Set all cards in the enemy slots to active
         for (int i = 0; i < enemyCardSlots.transform.childCount; i++)
         {
-            enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject.SetActive(true);
+            if (enemyCardSlots.transform.GetChild(i).Find("Card").childCount != 0)
+            {
+                enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject.SetActive(true);
+            }
         }
 
         // Activate the selected card indicator for the cards that the enemy selected
@@ -637,7 +621,7 @@ public class BattleTurnSystem : MonoBehaviour
 
                             updateStatsFromCard(card.GetComponent<Card>().cardType, card.GetComponent<Card>().modifier, card.GetComponent<Card>().element, "Player", "Selecting");
 
-                            Debug.Log("Playing " + card.GetComponent<Card>().cardType);
+                            Debug.Log("Playing " + card.GetComponent<Card>().cardType + " " + card.GetComponent<Card>().modifier + " " + card.GetComponent<Card>().element);
                         }
 
                         numActivatedBuffCards--;
@@ -655,6 +639,7 @@ public class BattleTurnSystem : MonoBehaviour
 
             int numActivatedDebuffCards = playerNumDebuffCards - enemyNumBuffCards;
 
+            /*
             for (int i = 0; i < playerSelectedCards.Count; i++)
             {
                 if (numActivatedDebuffCards == 0)
@@ -680,23 +665,33 @@ public class BattleTurnSystem : MonoBehaviour
 
                             enemySelectedCards[index].transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(false);
 
-                            /*
-                            if (enemySelectedCards[index].GetComponent<Card>().cardType == "BUFF")
-                            {
-                                enemyNumBuffCards--;
-                            }
-                            else if (enemySelectedCards[index].GetComponent<Card>().cardType == "DEBUFF")
-                            {
-                                enemyNumDebuffCards--;
-                            }
-                            */
-
                             enemySelectedCards.Remove(enemySelectedCards[index]);
                             enemySelectedCards.TrimExcess();
                         }
 
                         numActivatedDebuffCards--;
                     }
+                }
+            }
+            */
+
+            for (int i = 0; i < numActivatedDebuffCards; i++)
+            {
+                // Player successfully debuffs the enemy
+
+                if (enemySelectedCards.Count > 0)
+                {
+                    Debug.Log("Enemy must remove a card because of the debuff.");
+
+                    // Pick a random card from the enemy's selected cards to remove from this battle. Update the stats as if the card was deselected, but don't remove the card from the scenario.
+                    int index = Random.Range(0, enemySelectedCards.Count);
+                    updateStatsFromCard(enemySelectedCards[index].GetComponent<Card>().cardType, enemySelectedCards[index].GetComponent<Card>().modifier,
+                        enemySelectedCards[index].GetComponent<Card>().element, "Enemy", "Deselecting");
+
+                    enemySelectedCards[index].transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(false);
+
+                    enemySelectedCards.Remove(enemySelectedCards[index]);
+                    enemySelectedCards.TrimExcess();
                 }
             }
         }
@@ -739,7 +734,7 @@ public class BattleTurnSystem : MonoBehaviour
                             card.SetActive(true);
                             updateStatsFromCard(card.GetComponent<Card>().cardType, card.GetComponent<Card>().modifier, card.GetComponent<Card>().element, "Enemy", "Selecting");
 
-                            Debug.Log("Playing " + card.GetComponent<Card>().cardType);
+                            Debug.Log("Playing " + card.GetComponent<Card>().cardType + " " + card.GetComponent<Card>().modifier + " " + card.GetComponent<Card>().element);
                         }
 
                         numActivatedBuffCards--;
@@ -757,6 +752,27 @@ public class BattleTurnSystem : MonoBehaviour
 
             int numActivatedDebuffCards = enemyNumDebuffCards - playerNumBuffCards;
 
+            for (int i = 0; i < numActivatedDebuffCards; i++)
+            {
+                // Enemy successfully debuffs the player
+
+                if (playerSelectedCards.Count > 0)
+                {
+                    Debug.Log("Player must remove a card because of the debuff.");
+
+                    // Pick a random card from the enemy's selected cards to remove from this battle. Update the stats as if the card was deselected, but don't remove the card from the scenario.
+                    int index = Random.Range(0, playerSelectedCards.Count);
+                    updateStatsFromCard(playerSelectedCards[index].GetComponent<Card>().cardType, playerSelectedCards[index].GetComponent<Card>().modifier,
+                        playerSelectedCards[index].GetComponent<Card>().element, "Player", "Deselecting");
+
+                    playerSelectedCards[index].transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(false);
+
+                    playerSelectedCards.Remove(playerSelectedCards[index]);
+                    playerSelectedCards.TrimExcess();
+                }
+            }
+
+            /*
             for (int i = 0; i < enemySelectedCards.Count; i++)
             {
                 if (numActivatedDebuffCards == 0)
@@ -782,17 +798,6 @@ public class BattleTurnSystem : MonoBehaviour
 
                             playerSelectedCards[index].transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(false);
 
-                            /*
-                            if (playerSelectedCards[index].GetComponent<Card>().cardType == "BUFF")
-                            {
-                                playerNumBuffCards--;
-                            }
-                            else if (playerSelectedCards[index].GetComponent<Card>().cardType == "DEBUFF")
-                            {
-                                playerNumDebuffCards--;
-                            }
-                            */
-
                             playerSelectedCards.Remove(playerSelectedCards[index]);
                             playerSelectedCards.TrimExcess();
                         }
@@ -801,6 +806,7 @@ public class BattleTurnSystem : MonoBehaviour
                     }
                 }
             }
+            */
         }
 
         yield return new WaitForSeconds(.3f);
@@ -817,12 +823,10 @@ public class BattleTurnSystem : MonoBehaviour
             Debug.Log("Enemy BUFF and player DEBUFF cards cancelled out!");
         }
 
-        Debug.Log("Test");
-
         int totalPlayerPhysicalDefense = playerUnitClone.GetComponent<Unit>().basePhysicalDefense + totalPlayerPHYSDEFModifier;
         int totalPlayerPhysicalAttack = playerUnitClone.GetComponent<Unit>().basePhysicalAttack + totalPlayerPHYSATKModifier;
         int totalPlayerMagicalAttack = playerUnitClone.GetComponent<Unit>().baseMagicalAttack + totalPlayerMAGATKModifier;
-        int totalPlayerMagicalDefense = playerUnitClone.GetComponent<Unit>().baseMagicalDefense + totalEnemyMAGDEFModifier;
+        int totalPlayerMagicalDefense = playerUnitClone.GetComponent<Unit>().baseMagicalDefense + totalPlayerMAGDEFModifier;
 
         int totalEnemyPhysicalDefense = enemyUnitClone.GetComponent<Unit>().basePhysicalDefense + totalEnemyPHYSDEFModifier;
         int totalEnemyPhysicalAttack = enemyUnitClone.GetComponent<Unit>().basePhysicalAttack + totalEnemyPHYSATKModifier;
@@ -840,19 +844,19 @@ public class BattleTurnSystem : MonoBehaviour
         // INSERT ATTACK ANIMATIONS COROUTINE HERE
         yield return StartCoroutine(attackAnimation());
 
-        // Resolve the healing done and taken taken for the player unit
+        // Resolve the healing done and make sure the player unit cannot overheal themselves.
         playerUnit.GetComponent<Unit>().currentHP += totalPlayerHEALModifier;
-        playerUnit.GetComponent<Unit>().currentHP -= totalPlayerDamageTaken;
-
-        // Make sure the player unit cannot overheal themselves.
         playerUnit.GetComponent<Unit>().currentHP = (playerUnit.GetComponent<Unit>().currentHP > playerUnit.GetComponent<Unit>().maxHP) ? playerUnit.GetComponent<Unit>().maxHP : playerUnit.GetComponent<Unit>().currentHP;
 
-        // Resolve the healing done and taken taken for the enemy unit
-        enemyUnit.GetComponent<Unit>().currentHP += totalEnemyHEALModifier;
-        enemyUnit.GetComponent<Unit>().currentHP -= totalEnemyDamageTaken;
+        // Resolve the damage taken for the player unit
+        playerUnit.GetComponent<Unit>().currentHP -= totalPlayerDamageTaken;
 
-        // Make sure the player unit cannot overheal themselves.
+        // Resolve the healing done and make sure the enemy unit cannot overheal themselves.
+        enemyUnit.GetComponent<Unit>().currentHP += totalEnemyHEALModifier;
         enemyUnit.GetComponent<Unit>().currentHP = (enemyUnit.GetComponent<Unit>().currentHP > enemyUnit.GetComponent<Unit>().maxHP) ? enemyUnit.GetComponent<Unit>().maxHP : enemyUnit.GetComponent<Unit>().currentHP;
+
+        // Resolve the damage taken for the enemy unit
+        enemyUnit.GetComponent<Unit>().currentHP -= totalEnemyDamageTaken;
 
         yield return new WaitForSeconds(0.33f);
 
@@ -960,11 +964,11 @@ public class BattleTurnSystem : MonoBehaviour
         // Clear out any cards that were created by a player's buff card
         for (int i = 0; i < playerCardSlots.transform.childCount; i++)
         {
-            if (playerCardSlots.transform.GetChild(i).Find("Card").transform.childCount != 0)
+            if (playerCardSlots.transform.GetChild(i).Find("Card").childCount != 0)
             {
                 for (int j = 0; j < playerCardSlots.transform.GetChild(i).Find("Card").transform.childCount; j++)
                 {
-                    Destroy(playerCardSlots.transform.GetChild(i).Find("Card").transform.GetChild(j));
+                    Destroy(playerCardSlots.transform.GetChild(i).Find("Card").transform.GetChild(j).gameObject);
                 }
             }
         }
@@ -972,11 +976,11 @@ public class BattleTurnSystem : MonoBehaviour
         // Clear out any cards that were created by a enemy's buff card
         for (int i = 0; i < enemyCardSlots.transform.childCount; i++)
         {
-            if (enemyCardSlots.transform.GetChild(i).Find("Card").transform.childCount != 0)
+            if (enemyCardSlots.transform.GetChild(i).Find("Card").childCount != 0)
             {
                 for (int j = 0; j < enemyCardSlots.transform.GetChild(i).Find("Card").transform.childCount; j++)
                 {
-                    Destroy(enemyCardSlots.transform.GetChild(i).Find("Card").transform.GetChild(j));
+                    Destroy(enemyCardSlots.transform.GetChild(i).Find("Card").transform.GetChild(j).gameObject);
                 }
             }
         }
