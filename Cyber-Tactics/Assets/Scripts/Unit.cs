@@ -5,6 +5,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public string unitName;             // The name of the unit
+    public string className;
 
     public int maxHP;                   // Maximum HP for the unit
     public int currentHP;               // Current HP for the unit
