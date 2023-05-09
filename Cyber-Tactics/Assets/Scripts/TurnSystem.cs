@@ -17,7 +17,7 @@ public class TurnSystem : MonoBehaviour
     public GameObject viewedUnit;                   // The unit that the player is currently viewing the stats of
 
     private GridSystem gridSystem;                  // The grid system itself for easier reference
-    private List<GameObject> enemysUnitsNotMoved;   // The list of units the enemy has moved yet
+    //private List<GameObject> enemysUnitsNotMoved;   // The list of units the enemy has moved yet
     private int playersUnitsMoved;                  // The number of player units that have already moved
     private int enemysUnitsMoved;                   // The number of enemy units that have already moved
 
@@ -27,7 +27,6 @@ public class TurnSystem : MonoBehaviour
         EnemyTurn,
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         // The player takes the first turn
@@ -38,7 +37,7 @@ public class TurnSystem : MonoBehaviour
 
         playersUnitsMoved = 0;
         enemysUnitsMoved = 0;
-        enemysUnitsNotMoved = enemysUnits;
+        //enemysUnitsNotMoved = enemysUnits;
         viewedUnit = null;
 
         Debug.Log("Beginning grid turn system. Player goes first.");
@@ -61,7 +60,6 @@ public class TurnSystem : MonoBehaviour
         StartCoroutine(GridTurnSystem());
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -94,7 +92,7 @@ public class TurnSystem : MonoBehaviour
                     }
 
                     enemysUnitsMoved = 0;
-                    enemysUnitsNotMoved = enemysUnits;
+                    //enemysUnitsNotMoved = enemysUnits;
 
                     viewedUnit = null;
 
@@ -201,7 +199,7 @@ public class TurnSystem : MonoBehaviour
                     }
 
                     playersUnitsMoved = 0;
-                    enemysUnitsNotMoved = new List<GameObject>();
+                    //enemysUnitsNotMoved = new List<GameObject>();
 
                     viewedUnit = null;
 
@@ -283,7 +281,6 @@ public class TurnSystem : MonoBehaviour
                     gridSystem.resetValidAttackNodes();
 
                     checkIfUnitDefeated(node.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit);
-                    //checkWinLoseCondition();
                 }
 
                 yield return null;
@@ -333,7 +330,6 @@ public class TurnSystem : MonoBehaviour
                                 gridSystem.resetValidAttackNodes();
 
                                 checkIfUnitDefeated(gridSystem.selectedUnit, hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject);
-                                //checkWinLoseCondition();
                             }
                             else
                             {
@@ -344,7 +340,6 @@ public class TurnSystem : MonoBehaviour
                                 gridSystem.resetValidAttackNodes();
 
                                 checkIfUnitDefeated(hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit);
-                                //checkWinLoseCondition();
                             }
                         }
                     }
@@ -361,7 +356,6 @@ public class TurnSystem : MonoBehaviour
                             gridSystem.resetValidAttackNodes();
 
                             checkIfUnitDefeated(gridSystem.selectedUnit, hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject);
-                            //checkWinLoseCondition();
                         }
                         else
                         {
@@ -372,7 +366,6 @@ public class TurnSystem : MonoBehaviour
                             gridSystem.resetValidAttackNodes();
 
                             checkIfUnitDefeated(hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit);
-                            //checkWinLoseCondition();
                         }
                     }
                     else if (Input.GetMouseButtonDown(1) && (hit.transform.tag == "PlayerUnit" || hit.transform.tag == "EnemyUnit"))
@@ -401,8 +394,6 @@ public class TurnSystem : MonoBehaviour
     {
         if (playerUnit.GetComponent<Unit>().currentHP <= 0 && enemyUnit.GetComponent<Unit>().currentHP <= 0)
         {
-            // INSERT FUNCTIONALITY FOR BOTH UNITS DYING HERE
-
             // Remove the player unit from the player unit list, update the size of the list, and destroy the player unit entirely
             playersUnits.Remove(playerUnit);
             playersUnits.TrimExcess();
@@ -417,8 +408,6 @@ public class TurnSystem : MonoBehaviour
         }
         else if (enemyUnit.GetComponent<Unit>().currentHP <= 0)
         {
-            // INSERT FUNCTIONALITY FOR PLAYER VICTORY HERE
-
             // Remove the enemy unit from the enemy unit list, update the size of the list, and destroy the enemy unit entirely
             enemysUnits.Remove(enemyUnit);
             enemysUnits.TrimExcess();
@@ -428,8 +417,6 @@ public class TurnSystem : MonoBehaviour
         }
         else if (playerUnit.GetComponent<Unit>().currentHP <= 0)
         {
-            // INSERT FUNCTIONALITY FOR ENEMY VICTORY HERE
-
             // Remove the player unit from the player unit list, update the size of the list, and destroy the player unit entirely
             playersUnits.Remove(playerUnit);
             playersUnits.TrimExcess();
@@ -550,9 +537,6 @@ public class TurnSystem : MonoBehaviour
         if (targets.Count != 0)
         {
             // If there are multiple targets, pick a random one
-
-            // INSERT DECISION MAKING FOR WHICH VALID TARGET MOVE NODE TO CHOOSE HERE.
-
             int index = Random.Range(0, targets.Count);
             GameObject moveNode = targets[index];
             yield return StartCoroutine(gridSystem.MoveSelectedUnit(moveNode));
@@ -655,9 +639,6 @@ public class TurnSystem : MonoBehaviour
         if (targets.Count != 0)
         {
             // If there are multiple targets, pick a random one
-
-            // INSERT DECISION MAKING FOR WHICH VALID TARGET MOVE NODE TO CHOOSE HERE.
-
             int index  = Random.Range(0, targets.Count);
             GameObject moveNode = targets[index];
             yield return StartCoroutine(gridSystem.MoveSelectedUnit(moveNode));
@@ -728,45 +709,93 @@ public class TurnSystem : MonoBehaviour
 
     IEnumerator enemyAIChooseUnitToAttack()
     {
-        bool hasAttacked = false;
+        //bool hasAttacked = false;
 
         // Check to see if there are any valid attacks
         if (gridSystem.validAttackNodes.Count > 0)
         {
             // INSERT DECISION MAKING FOR WHICH VALID TARGET ATTACK NODE TO CHOOSE HERE.
 
-            // Option 1:
-                // Enemy AI chooses which player unit to attack based on the addition of all of its current stats, producing a "threat" score.
-                    // If a player unit has 3/5 HP, 1 PHY ATK, 2 PHY DEF, 0 MAG ATK, and 0 MAG DEF, the score would be 6.
-                    // If another player unit has 1/3 HP, 2 PHY ATK, 1 PHY DEF, 0 MAG ATk, and 0 MAG DEF, the score would be 4.
-                    // The enemy unit would attack the player unit with the lowest overall threat score
+            // Option 1: CURRENTLY USING THIS METHOD
+            // Enemy AI chooses which player unit to attack based on the addition of all of its current stats, producing a "threat" score.
+            // If a player unit has 3/5 HP, 1 PHY ATK, 2 PHY DEF, 0 MAG ATK, and 0 MAG DEF, the score would be 6.
+            // If another player unit has 1/3 HP, 2 PHY ATK, 1 PHY DEF, 0 MAG ATk, and 0 MAG DEF, the score would be 4.
+            // The enemy unit would attack the player unit with the lowest overall threat score
 
             // Option 2:
-                // The enemy AI compares its overall stats to the different units:
-                    // For each stat, the enemy AI checks to see if it has a higher stat, and marks it as 1.
-                        // Perhaps if the player unit HP is under a certain threshold, it marks it 
-                    // If the enemy unit has a lower stat, it marks it as 0.
-                    // The enemy adds all of these values together to produce a "battle success" score.
-                        // The enemy unit will attack the player unit with the highest battle success score because it knows it has more stats that are better.
-                    // This system is malleable because you can change the weight of the scores.
-                        // If you want the enemy unit to prioritize player units with lower HP, you can increase the score for that stat.
+            // The enemy AI compares its overall stats to the different units:
+            // For each stat, the enemy AI checks to see if it has a higher stat, and marks it as 1.
+            // Perhaps if the player unit HP is under a certain threshold, it marks it 
+            // If the enemy unit has a lower stat, it marks it as 0.
+            // The enemy adds all of these values together to produce a "battle success" score.
+            // The enemy unit will attack the player unit with the highest battle success score because it knows it has more stats that are better.
+            // This system is malleable because you can change the weight of the scores.
+            // If you want the enemy unit to prioritize player units with lower HP, you can increase the score for that stat.
 
             // Option 3:
-                // The enemy AI compares its ATK stats to the player unit's DEF stats and compares its DEF stats to the player unit's ATK stats.
-                    // This system will produce a "battle success" score based on the comparisons between its stats.
-                    // If the enemy unit has a higher PHY ATK than the player unit's PHY DEF, calculate the difference and add it to the overall success score.
-                    // If the enemy unit has a higher PHY DEF than the player unit's PHY ATK, do the same thing as above.
-                    // If the enemy unit has higher current HP than the player unit, do the same thing as above.
-                    // MAG ATK to MAG DEF and vice versa are calculated the same as the PHY to ATK and vice versa.
-                // The enemy unit will choose the unit with the highest "battle success" score associated with it.
-                // Take into account the unit's element
-                // Perhaps take into account the number of cards
-                
-                // Look into finding the MAX modifier for each stat and adding it to its associated base stat to see how well a unit could do at its best
+            // The enemy AI compares its ATK stats to the player unit's DEF stats and compares its DEF stats to the player unit's ATK stats.
+            // This system will produce a "battle success" score based on the comparisons between its stats.
+            // If the enemy unit has a higher PHY ATK than the player unit's PHY DEF, calculate the difference and add it to the overall success score.
+            // If the enemy unit has a higher PHY DEF than the player unit's PHY ATK, do the same thing as above.
+            // If the enemy unit has higher current HP than the player unit, do the same thing as above.
+            // MAG ATK to MAG DEF and vice versa are calculated the same as the PHY to ATK and vice versa.
+            // The enemy unit will choose the unit with the highest "battle success" score associated with it.
+            // Take into account the unit's element
+            // Perhaps take into account the number of cards
+
+            // Look into finding the MAX modifier for each stat and adding it to its associated base stat to see how well a unit could do at its best
 
             // Either choose a player unit at random if there is a tie or pick the first in the list
 
+            int lowestUnitThreatScore = 999;
+            GameObject lowestThreatPlayerUnitNode = null;
 
+            for (int i = 0; i < gridSystem.validAttackNodes.Count; i++)
+            {
+                GameObject unit = gridSystem.validAttackNodes[i].transform.Find("Unit Slot").GetChild(0).gameObject;
+
+                if (unit != gridSystem.GetComponent<GridSystem>().selectedUnit)
+                {
+                    int currentPlayerUnitThreatScore = 0;
+                    currentPlayerUnitThreatScore += unit.GetComponent<Unit>().currentHP;
+                    currentPlayerUnitThreatScore += unit.GetComponent<Unit>().basePhysicalAttack;
+                    currentPlayerUnitThreatScore += unit.GetComponent<Unit>().basePhysicalDefense;
+                    currentPlayerUnitThreatScore += unit.GetComponent<Unit>().baseMagicalAttack;
+                    currentPlayerUnitThreatScore += unit.GetComponent<Unit>().baseMagicalDefense;
+                    currentPlayerUnitThreatScore += unit.GetComponent<Unit>().cards.Count;
+
+                    // Check to see if the current unit is a lower threat than the stored "lowest threat" unit
+                    if (currentPlayerUnitThreatScore < lowestUnitThreatScore)
+                    {
+                        lowestUnitThreatScore = currentPlayerUnitThreatScore;
+                        lowestThreatPlayerUnitNode = gridSystem.validAttackNodes[i];
+                    }
+
+                }
+            }
+
+            // Check to if a player unit is nearby to attack
+            if (lowestUnitThreatScore != 999 && lowestThreatPlayerUnitNode != null)
+            {
+                viewedUnit = lowestThreatPlayerUnitNode.transform.Find("Unit Slot").GetChild(0).gameObject;
+
+                yield return new WaitForSeconds(1f);
+
+                // Start a battle with that unit, where the enemy starts first
+                yield return StartCoroutine(battleSystem.GetComponent<BattleTurnSystem>().Battle(lowestThreatPlayerUnitNode.transform.Find("Unit Slot").GetChild(0).gameObject, 
+                    gridSystem.selectedUnit, "Enemy"));
+
+                viewedUnit = null;
+
+                //hasAttacked = true;
+                gridSystem.resetValidAttackNodes();
+
+                checkIfUnitDefeated(lowestThreatPlayerUnitNode.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit);
+
+                yield return new WaitForSeconds(1f);
+            }
+
+            /*
             for (int i = 0; i < gridSystem.validAttackNodes.Count; i++)
             {
                 GameObject node = gridSystem.validAttackNodes[i];
@@ -796,6 +825,7 @@ public class TurnSystem : MonoBehaviour
                     break;
                 }
             }
+            */
         }
 
         yield return null;
