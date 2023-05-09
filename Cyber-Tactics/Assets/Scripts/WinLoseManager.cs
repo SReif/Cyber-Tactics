@@ -15,6 +15,7 @@ public class WinLoseManager : MonoBehaviour
     public GridSystem gridSystem;
     public UIManager uiManager;
     public bool winLoseConditionMet;        // Whether the win condition has been met
+    public bool win, lose;
 
     private TurnSystem turnSystem;
 
@@ -33,6 +34,8 @@ public class WinLoseManager : MonoBehaviour
         }
 
         winLoseConditionMet = false;
+        win = false;
+        lose = false;
 
         //Fill unit arrays
         //enemies = GameObject.FindGameObjectsWithTag("EnemyUnit");
@@ -104,6 +107,7 @@ public class WinLoseManager : MonoBehaviour
     //If win conditions are met, this function will execute
     public void Win()
     {
+        win = true;
         uiManager.OpenPanel(uiManager.winPane);
         uiManager.ClosePanel(uiManager.turnPane);
         uiManager.ClosePanel(uiManager.viewedUnitPane);
@@ -114,6 +118,7 @@ public class WinLoseManager : MonoBehaviour
     //If lose conditions are met, this function will execute
     public void Lose()
     {
+        lose = true; 
         uiManager.OpenPanel(uiManager.losePane);
         uiManager.ClosePanel(uiManager.turnPane);
         uiManager.ClosePanel(uiManager.selectedUnitPane);
