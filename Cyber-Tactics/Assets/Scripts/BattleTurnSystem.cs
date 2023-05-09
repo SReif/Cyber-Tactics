@@ -17,17 +17,17 @@ public class BattleTurnSystem : MonoBehaviour
     public GameObject battleViewCamera;                 // The camera that is enabled/disabled for the battle 
     public GameObject gridViewCamera;                   // The camera that is used for the grid; the battle moves back to this camera at the end
 
-    public int totalPlayerPHYSDEFModifier = 0;          // The total amount of PHYSICAL DEFENSE that is being applied to the player from cards
-    public int totalPlayerPHYSATKModifier = 0;          // The total amount of PHYSICAL ATTACK that is being applied to the player from cards
-    public int totalPlayerMAGATKModifier = 0;           // The total amount of MAGICAL ATTACK that is being applied to the player from cards
-    public int totalPlayerMAGDEFModifier = 0;           // The total amount of MAGICAL DEFENSE that is being applied to the player from cards
-    public int totalPlayerHEALModifier = 0;             // The total amount of HEALING that is being applied to the player from cards
+    [System.NonSerialized] public int totalPlayerPHYSDEFModifier = 0;          // The total amount of PHYSICAL DEFENSE that is being applied to the player from cards
+    [System.NonSerialized] public int totalPlayerPHYSATKModifier = 0;          // The total amount of PHYSICAL ATTACK that is being applied to the player from cards
+    [System.NonSerialized] public int totalPlayerMAGATKModifier = 0;           // The total amount of MAGICAL ATTACK that is being applied to the player from cards
+    [System.NonSerialized] public int totalPlayerMAGDEFModifier = 0;           // The total amount of MAGICAL DEFENSE that is being applied to the player from cards
+    [System.NonSerialized] public int totalPlayerHEALModifier = 0;             // The total amount of HEALING that is being applied to the player from cards
 
-    public int totalEnemyPHYSDEFModifier = 0;           // The total amount of PHYSICAL DEFENSE that is being applied to the enemy from cards
-    public int totalEnemyPHYSATKModifier = 0;           // The total amount of PHYSICAL ATTACK that is being applied to the enemy from cards
-    public int totalEnemyMAGATKModifier = 0;            // The total amount of MAGICAL ATTACK that is being applied to the enemy from cards
-    public int totalEnemyMAGDEFModifier = 0;            // The total amount of MAGICAL DEFENSE that is being applied to the enemy from cards
-    public int totalEnemyHEALModifier = 0;              // The total amount of HEALING that is being applied to the enemy from cards
+    [System.NonSerialized] public int totalEnemyPHYSDEFModifier = 0;           // The total amount of PHYSICAL DEFENSE that is being applied to the enemy from cards
+    [System.NonSerialized] public int totalEnemyPHYSATKModifier = 0;           // The total amount of PHYSICAL ATTACK that is being applied to the enemy from cards
+    [System.NonSerialized] public int totalEnemyMAGATKModifier = 0;            // The total amount of MAGICAL ATTACK that is being applied to the enemy from cards
+    [System.NonSerialized] public int totalEnemyMAGDEFModifier = 0;            // The total amount of MAGICAL DEFENSE that is being applied to the enemy from cards
+    [System.NonSerialized] public int totalEnemyHEALModifier = 0;              // The total amount of HEALING that is being applied to the enemy from cards
 
     [System.NonSerialized] public List<GameObject> playerSelectedCards;         // The list of cards that the player selected for their turn
     [System.NonSerialized] public List<GameObject> enemySelectedCards;          // The list of cards that the enemy selected for their turn
