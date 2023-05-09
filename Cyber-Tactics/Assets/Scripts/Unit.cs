@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
     public List<GameObject> cards;      // The cards that this unit will choose from
     public string unitMoveID;           // The type of chess piece this unit moves as (Determines which moveset they use)
     public string unitAttackID;         // The type of chess piece this unit attack as (Determines which attackset they use)
-    public string element;
+    public string element;              // The unit's element that is used to caulcate modifier bonuses when battle is initiated
 
     public bool hasMoved;               // Whether the unit has moved or not
 
@@ -25,13 +25,11 @@ public class Unit : MonoBehaviour
     public GameObject bottomRightCornerNode;        // FOR DEFENSIVE ENEMY UNITS USE ONLY; for player units or non-defensive enemy units, input null (Used to form the enemy unit's defensive zone)
     [System.NonSerialized] public List<GameObject> defensiveZoneNodes;  // The defensive zone for the defensive enemy unit calculated at runtime
 
-    // Start is called before the first frame update
     void Start()
     {
         hasMoved = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -201,7 +199,6 @@ public class Unit : MonoBehaviour
     /*
      * The following three calculation functions are not necessarily required because their movement variations perform the same calculation,
      * but with different variable names.
-     */
 
     public List<List<Vector2>> calculateAdjacentSquareAttackSet()
     {
@@ -261,6 +258,7 @@ public class Unit : MonoBehaviour
 
         return unitAttackSet;
     }
+    */
 
     public List<List<Vector2>> calculatePseudoBishopAttackSet(int range)
     {
@@ -585,9 +583,6 @@ public class Unit : MonoBehaviour
     {
         List<List<Vector2>> unitAttackSet;
 
-        // THIS FUNCTION WILL CHANGE WHEN UNITS NEED A SHORTER RANGE THAN THE GRID WIDTH/HEIGHT
-        // That will require the units to have a "movement range" member variable that is put as an argument for this 
-
         // Select an attack set based on the unit's attack ID
         if (unitAttackID == "King" || unitAttackID == "Leader")
         {
@@ -638,9 +633,6 @@ public class Unit : MonoBehaviour
     public List<List<Vector2>> selectMoveSet(GameObject[,] grid)
     {
         List<List<Vector2>> unitMoveset;
-
-        // THIS FUNCTION WILL CHANGE WHEN UNITS NEED A SHORTER RANGE THAN THE GRID WIDTH/HEIGHT
-        // That will require the units to have an "attack range" member variable that is put as an argument for this 
 
         // Select a move set based on the unit's move ID
         if (unitMoveID == "King" || unitMoveID == "Leader")
