@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2626376963113240845}
   - component: {fileID: 2626376963113240846}
+  - component: {fileID: 4525553346385901686}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -44,4 +45,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c35d712036655a438fcb127d84386d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: Battle Theme - Gorandora
+    clip: {fileID: 8300000, guid: 8a9fc8643eda4fb49b889a4165aab8c5, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Battle Attack Hit
+    clip: {fileID: 8300000, guid: 450ad90bf8c61ce44afc4f6bb6ae11a1, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Main Menu Theme
+    clip: {fileID: 8300000, guid: b3090b2f57257ba47bdbd595925f5aa1, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+--- !u!114 &4525553346385901686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626376963113240847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd38959ff0540434694408d9f8010f4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
