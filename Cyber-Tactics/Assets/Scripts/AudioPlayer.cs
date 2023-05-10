@@ -9,29 +9,31 @@ public class AudioPlayer : MonoBehaviour
     private WinLoseManager winLoseManager;
     private bool winLoseAudioPlayed;
 
-    void Awake()
+    void Start()
     {
         winLoseAudioPlayed = false;
         audioManager = transform.GetComponent<AudioManager>();
         winLoseManager = GameObject.Find("SceneManager").GetComponent<WinLoseManager>();
 
-        if (SceneManager.GetActiveScene().ToString() == "MainMenu")
+        if (SceneManager.GetActiveScene().name == "MainMenu")
         {
             audioManager.StopAllAudio();
             audioManager.Play("Main Menu Theme");
         }
 
-        if (SceneManager.GetActiveScene().ToString() == "Level0" || SceneManager.GetActiveScene().ToString() == "Level1")
+        if (SceneManager.GetActiveScene().name == "Level0" || SceneManager.GetActiveScene().name == "Level1")
         {
             audioManager.StopAllAudio();
             audioManager.Play("Battle Theme - Gorandora");
         }
 
-        if (SceneManager.GetActiveScene().ToString() == "Credits")
+        if (SceneManager.GetActiveScene().name == "Credits")
         {
             audioManager.StopAllAudio();
             audioManager.Play("Credits Theme");
         }
+
+        Debug.Log("am playing" + SceneManager.GetActiveScene().name);
     }
 
     // Update is called once per frame

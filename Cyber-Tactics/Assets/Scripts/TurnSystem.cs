@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class TurnSystem : MonoBehaviour
 {
-    private AudioManager audioManager;
+    //private AudioManager audioManager;
     private WinLoseManager winLoseManager;
 
     public GameObject gridObject;                   // The GameObject for the grid system for reference
@@ -43,8 +43,8 @@ public class TurnSystem : MonoBehaviour
         Debug.Log("Beginning grid turn system. Player goes first.");
 
         // Locate the AudioManager and play music
-        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-        audioManager.Play("Battle Theme - Gorandora");
+        //audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        //audioManager.Play("Battle Theme - Gorandora");
 
         // Locate the Win/Lose Manager
         winLoseManager = GameObject.Find("SceneManager").GetComponent<WinLoseManager>();

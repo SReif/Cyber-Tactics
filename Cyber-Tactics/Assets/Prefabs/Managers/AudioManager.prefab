@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2626376963113240847
+--- !u!1 &8902464114125737476
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2626376963113240845}
-  - component: {fileID: 2626376963113240846}
-  - component: {fileID: 4525553346385901686}
+  - component: {fileID: 8902464114125737478}
+  - component: {fileID: 8902464114125737477}
+  - component: {fileID: 6915598420146011316}
+  - component: {fileID: 8902464114125737475}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -18,13 +19,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2626376963113240845
+--- !u!4 &8902464114125737478
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2626376963113240847}
+  m_GameObject: {fileID: 8902464114125737476}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -33,13 +34,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2626376963113240846
+--- !u!114 &8902464114125737477
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2626376963113240847}
+  m_GameObject: {fileID: 8902464114125737476}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c35d712036655a438fcb127d84386d9, type: 3}
@@ -48,31 +49,82 @@ MonoBehaviour:
   sounds:
   - name: Battle Theme - Gorandora
     clip: {fileID: 8300000, guid: 8a9fc8643eda4fb49b889a4165aab8c5, type: 3}
-    volume: 0.5
+    volume: 0.25
     pitch: 1
     loop: 1
-    source: {fileID: 0}
-  - name: Battle Attack Hit
-    clip: {fileID: 8300000, guid: 450ad90bf8c61ce44afc4f6bb6ae11a1, type: 3}
-    volume: 0.5
-    pitch: 1
-    loop: 0
     source: {fileID: 0}
   - name: Main Menu Theme
     clip: {fileID: 8300000, guid: b3090b2f57257ba47bdbd595925f5aa1, type: 3}
-    volume: 0.5
+    volume: 0.25
     pitch: 1
     loop: 1
     source: {fileID: 0}
---- !u!114 &4525553346385901686
+  - name: Battle Theme
+    clip: {fileID: 8300000, guid: 956222d4bf083ec44ab63e3f904a5073, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Cutscene Theme
+    clip: {fileID: 8300000, guid: 7c0daf2993aa10c499c9624bd5646ef1, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Credits Theme
+    clip: {fileID: 8300000, guid: 3e4c56cd2a8d2ab4b8bd8534dea302f5, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Lose Theme
+    clip: {fileID: 8300000, guid: 0e6b510a62261f540830b98206384975, type: 3}
+    volume: 0.15
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Win Theme
+    clip: {fileID: 8300000, guid: 1f229b7d627a7074ba2cb00324fe7acb, type: 3}
+    volume: 0.15
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Battle Attack Hit
+    clip: {fileID: 8300000, guid: 450ad90bf8c61ce44afc4f6bb6ae11a1, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Click SFX
+    clip: {fileID: 8300000, guid: 1d7ebb6fb2f193b4a8bb882efc9831de, type: 3}
+    volume: 0.15
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Hover SFX
+    clip: {fileID: 8300000, guid: 82becd820fb20d34da44ad829a517050, type: 3}
+    volume: 0.15
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+--- !u!81 &6915598420146011316
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8902464114125737476}
+  m_Enabled: 1
+--- !u!114 &8902464114125737475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2626376963113240847}
+  m_GameObject: {fileID: 8902464114125737476}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd38959ff0540434694408d9f8010f4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  winLoseManager: {fileID: 0}
