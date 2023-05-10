@@ -82,7 +82,7 @@ public class TurnSystem : MonoBehaviour
                     // Revert the player's unit colors back to their default
                     for (int i = 0; i < playersUnits.Count; i++)
                     {
-                        playersUnits[i].gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.blue);
+                        playersUnits[i].gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.white);
                     }
 
                     // Prepare the enemy units for their turn
@@ -189,7 +189,7 @@ public class TurnSystem : MonoBehaviour
                     // Revert the enemy's unit colors back to normal
                     for (int i = 0; i < enemysUnits.Count; i++)
                     {
-                        enemysUnits[i].gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.red);
+                        enemysUnits[i].gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.white);
                     }
 
                     // Prepare the player units for their turn
@@ -355,7 +355,7 @@ public class TurnSystem : MonoBehaviour
                             hasAttacked = true;
                             gridSystem.resetValidAttackNodes();
 
-                            checkIfUnitDefeated(gridSystem.selectedUnit, hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject);
+                            checkIfUnitDefeated(gridSystem.selectedUnit, hit.transform.gameObject);
                         }
                         else
                         {

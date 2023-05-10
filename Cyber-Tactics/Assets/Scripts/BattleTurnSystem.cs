@@ -1011,7 +1011,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             enemyUnitClone.transform.position -= new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         // Enemy unit moves away from player unit
@@ -1021,7 +1021,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             enemyUnitClone.transform.position += new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         //Player unit moves away from enemy unit
@@ -1031,7 +1031,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             playerUnitClone.transform.position -= new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         //Player unit moves toward enemy unit
@@ -1041,7 +1041,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             playerUnitClone.transform.position += new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         yield return new WaitForSeconds(0.25f);
@@ -1059,7 +1059,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             playerUnitClone.transform.position += new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         //Player unit moves away from enemy unit
@@ -1069,7 +1069,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             playerUnitClone.transform.position -= new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         // Enemy unit moves away from player unit
@@ -1079,7 +1079,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             enemyUnitClone.transform.position += new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         // Enemy unit moves toward player unit
@@ -1089,7 +1089,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             enemyUnitClone.transform.position -= new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         yield return null;
