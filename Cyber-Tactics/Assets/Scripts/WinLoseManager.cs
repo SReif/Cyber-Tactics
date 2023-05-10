@@ -57,7 +57,7 @@ public class WinLoseManager : MonoBehaviour
             Win();
             Debug.Log("No more enemies!");
         }
-        else if (turnSystem.enemysUnits.Count == 0)
+        else if (turnSystem.playersUnits.Count == 0)
         {
             winLoseConditionMet = true;
 

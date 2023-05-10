@@ -478,7 +478,7 @@ public class Unit : MonoBehaviour
         return unitMoveset;
     }
 
-    public List<List<Vector2>> calculateFootpadMoveset()
+    public List<List<Vector2>> calculateOldFootpadMoveset()
     {
         // Calculate the footpad's moveset
         List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
@@ -506,6 +506,54 @@ public class Unit : MonoBehaviour
         // Generate positive vertical moves
         List<Vector2> posiVertMoves = new List<Vector2>();
         posiVertMoves.Add(new Vector2(0, 1));
+        unitMoveset.Add(posiVertMoves);
+
+        return unitMoveset;
+    }
+
+    public List<List<Vector2>> calculateFootpadMoveset(int range)
+    {
+        // Calculate the footpad's moveset (acts like a Rook in Chess but it has a range of two)
+        List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
+
+        List<Vector2> staticMove = new List<Vector2>();
+        staticMove.Add(new Vector2(0, 0));
+        unitMoveset.Add(staticMove);
+
+        List<Vector2> posiHoriMoves = new List<Vector2>();
+
+        // Generate positive horizontal moves
+        for (int i = 0; i < range; i++)
+        {
+            posiHoriMoves.Add(new Vector2(i + 1, 0));
+        }
+        unitMoveset.Add(posiHoriMoves);
+
+        List<Vector2> negaVertMoves = new List<Vector2>();
+
+        // Generate negative vertical moves
+        for (int i = 0; i < range; i++)
+        {
+            negaVertMoves.Add(new Vector2(0, -(i + 1)));
+        }
+        unitMoveset.Add(negaVertMoves);
+
+        List<Vector2> negaHoriMoves = new List<Vector2>();
+
+        // Generate negative horizontal moves
+        for (int i = 0; i < range; i++)
+        {
+            negaHoriMoves.Add(new Vector2(-(i + 1), 0));
+        }
+        unitMoveset.Add(negaHoriMoves);
+
+        List<Vector2> posiVertMoves = new List<Vector2>();
+
+        // Generate positive vertical moves
+        for (int i = 0; i < range; i++)
+        {
+            posiVertMoves.Add(new Vector2(0, i + 1));
+        }
         unitMoveset.Add(posiVertMoves);
 
         return unitMoveset;
@@ -754,7 +802,8 @@ public class Unit : MonoBehaviour
         }
         else if (unitMoveID == "Footpad")
         {
-            unitMoveset = calculateFootpadMoveset();
+            int range = 2;
+            unitMoveset = calculateFootpadMoveset(range);
         }
         else if (unitMoveID == "Magano")
         {
