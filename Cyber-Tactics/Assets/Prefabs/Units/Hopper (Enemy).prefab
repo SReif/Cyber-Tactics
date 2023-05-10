@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: -4466888660992146239}
   - component: {fileID: -3875259718690707651}
   m_Layer: 0
-  m_Name: Enemy Unit
+  m_Name: Hopper (Enemy)
   m_TagString: EnemyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -272,18 +272,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: 
-  maxHP: 0
-  currentHP: 0
-  basePhysicalAttack: 0
-  basePhysicalDefense: 0
+  className: Hopper
+  maxHP: 3
+  currentHP: 3
+  basePhysicalAttack: 2
+  basePhysicalDefense: 1
   baseMagicalAttack: 0
   baseMagicalDefense: 0
-  cards: []
-  unitMoveID: 
-  unitAttackID: 
-  element: 
+  cards:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  unitMoveID: Knight
+  unitAttackID: Default
+  element: Water
   hasMoved: 0
-  enemyAI: N/A
+  enemyAI: Aggressive
   topLeftCornerNode: {fileID: 0}
   bottomRightCornerNode: {fileID: 0}
 --- !u!23 &-8234639601679108279

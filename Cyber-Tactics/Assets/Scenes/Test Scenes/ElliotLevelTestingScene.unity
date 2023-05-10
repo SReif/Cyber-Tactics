@@ -644,19 +644,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20255e6bce9872f4ab23bd4ede6c9dfb, type: 3}
---- !u!1 &1144362021 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2626376963113240847, guid: 20255e6bce9872f4ab23bd4ede6c9dfb, type: 3}
-  m_PrefabInstance: {fileID: 1144362020}
-  m_PrefabAsset: {fileID: 0}
---- !u!81 &1144362022
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1144362021}
-  m_Enabled: 1
 --- !u!1 &1491818612
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,7 +957,7 @@ PrefabInstance:
       objectReference: {fileID: 75214570}
     - target: {fileID: 1992418917536964782, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_Name
-      value: Level Design Template
+      value: Beta Level Design Template
       objectReference: {fileID: 0}
     - target: {fileID: 1992418917536964783, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_RootOrder

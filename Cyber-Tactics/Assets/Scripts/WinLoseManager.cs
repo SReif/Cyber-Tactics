@@ -8,13 +8,17 @@ public class WinLoseManager : MonoBehaviour
     //[System.NonSerialized] public GameObject[] enemies; //array of enemy units
     //[System.NonSerialized] public GameObject[] allies; //array of player units
     [SerializeField] private GameObject playerLeader;       // Player leader unit
+    [SerializeField] private bool doesPlayerLeaderExist;    // Whether or not the lose condition for the player losing their leader applies in this level; if false, leave playerLeader blank.
+
     [SerializeField] private GameObject enemyLeader;        // Enemy leader unit
+    [SerializeField] private bool doesEnemyLeaderExist;     // Whether or not the win condition for the player defeating the enemy leader applies in this level; if false, leave enemyLeaderBlank
+
     [SerializeField] private GameObject objectiveNode;      // The node used for the win/lose tile objective condition (Only supports singular tile objective)
-    [SerializeField] private bool isPlayerObjective;        // Whether or not the player is compelteting the tile objective; if true, the player is. If false, the enemy is.
+    [SerializeField] private bool isPlayerObjective;        // Whether or not the player is completing the tile objective; if true, the player is. If false, the enemy is.
 
     public GridSystem gridSystem;
     public UIManager uiManager;
-    public bool winLoseConditionMet;        // Whether the win condition has been met
+    public bool winLoseConditionMet;        // Whether or not the win condition has been met
     public bool win, lose;
 
     private TurnSystem turnSystem;
@@ -62,21 +66,21 @@ public class WinLoseManager : MonoBehaviour
         }
 
         // Check to see if there are no more leader units in the scenario for either side.
-        if (enemyLeader == null && playerLeader == null)
+        if (enemyLeader == null && playerLeader == null && doesPlayerLeaderExist && doesEnemyLeaderExist)
         {
             winLoseConditionMet = true;
 
             Lose();
             Debug.Log("Enemy and player leaders defeated!");
         }
-        else if (enemyLeader == null)
+        else if (enemyLeader == null && doesEnemyLeaderExist)
         {
             winLoseConditionMet = true;
 
             Win();
             Debug.Log("Enemy leader defeated!");
         }
-        else if (playerLeader == null)
+        else if (playerLeader == null && doesPlayerLeaderExist)
         {
             winLoseConditionMet = true;
 
