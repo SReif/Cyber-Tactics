@@ -13,31 +13,6 @@ public class SceneCommands : MonoBehaviour
     [Tooltip("Enter name of the scene of the end credits scene.")]
     public string creditsSceneName;
 
-    /*public static SceneCommands Instance
-    {
-        get
-        {
-            return _instance;
-        }
-    }
-
-    private static SceneCommands _instance;
-
-    public void Awake()
-    {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        else
-        {
-            _instance = this;
-        }
-
-        DontDestroyOnLoad(gameObject);
-    }*/
-
     //Loads the first level of the game when called.
     //First level scene should be placed after the main menu scene or as the second build in the build settings for this
     //function to work properly or be labelled properly in the inspector.
@@ -95,10 +70,8 @@ public class SceneCommands : MonoBehaviour
 
         else
         {
-            SceneManager.LoadScene(SceneManager.GetSceneByName(mainMenuSceneName).buildIndex + 1);
+            SceneManager.LoadScene(mainMenuSceneName);
         }
-
-        //SceneManager.LoadScene(0);
     }
 
     //Loads the last scene listed in the build settings or a specifically designated credits scene.
@@ -107,16 +80,13 @@ public class SceneCommands : MonoBehaviour
         Time.timeScale = 1;
         if (creditsSceneName == null)
         {
-            SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings);
+            SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1);
         }
 
         else
         {
-            //SceneManager.LoadScene(SceneManager.GetSceneByName(creditsSceneName).buildIndex + 1);
-            SceneManager.LoadScene(2);
-            Debug.Log(SceneManager.GetSceneByName(creditsSceneName).buildIndex + 1);
+            SceneManager.LoadScene(creditsSceneName);
         }
-        //SceneManager.LoadScene(creditsSceneName);
     }
 
     //Closes the game client.

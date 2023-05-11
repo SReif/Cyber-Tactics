@@ -19,7 +19,7 @@ public class AudioManager : MonoBehaviour
     
     void Awake()
     {
-        if (_instance != null && _instance != this){
+        /*if (_instance != null && _instance != this){
             Destroy(this.gameObject);
             return;
         }
@@ -27,7 +27,7 @@ public class AudioManager : MonoBehaviour
             _instance = this;
         }
 
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);*/
 
         foreach(Sound s in sounds){
             s.source = gameObject.AddComponent<AudioSource>();
