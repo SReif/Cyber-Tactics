@@ -27,7 +27,7 @@ public class AudioPlayer : MonoBehaviour
             audioManager.Play("Cutscene Theme");
         }
 
-        if (SceneManager.GetActiveScene().name == "Level0" || SceneManager.GetActiveScene().name == "Level0.5" || SceneManager.GetActiveScene().name == "Level1")
+        if (SceneManager.GetActiveScene().name == "Level0" || SceneManager.GetActiveScene().name == "Level1")
         {
             audioManager.StopAllAudio();
             audioManager.Play("Battle Theme - Gorandora");
@@ -55,7 +55,7 @@ public class AudioPlayer : MonoBehaviour
         if(winLoseManager.lose && !winLoseAudioPlayed)
         {
             audioManager.StopAllAudio();
-            audioManager.PlayOneShot("Lose Theme");
+            audioManager.PlayOneShot("Win Theme");
             winLoseAudioPlayed = true;
         }
     }
