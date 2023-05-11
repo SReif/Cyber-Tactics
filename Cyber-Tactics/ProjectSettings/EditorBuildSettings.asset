@@ -14,6 +14,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game Scenes/Level0.unity
     guid: 03d7ddd80dcae624aa345df8451d1b3b
+  - enabled: 1
+    path: Assets/Scenes/Narrative Scenes/Ambush.unity
+    guid: 8e04bc181aa0961408ac716e2202d3ae
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Level0.5.unity
+    guid: a18cd11e7db585c49a6be33b0f302538
   - enabled: 0
     path: Assets/Scenes/Game Scenes/Level1.unity
     guid: 75f272bfbe584d0449082f587f23631d
