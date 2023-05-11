@@ -21,12 +21,6 @@ public class AudioPlayer : MonoBehaviour
             audioManager.Play("Main Menu Theme");
         }
 
-        if(SceneManager.GetActiveScene().name == "Prologue")
-        {
-            audioManager.StopAllAudio();
-            audioManager.Play("Cutscene Theme");
-        }
-
         if (SceneManager.GetActiveScene().name == "Level0" || SceneManager.GetActiveScene().name == "Level1")
         {
             audioManager.StopAllAudio();
