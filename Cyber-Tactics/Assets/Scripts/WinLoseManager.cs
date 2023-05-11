@@ -50,7 +50,14 @@ public class WinLoseManager : MonoBehaviour
     public void Update()
     {
         // Check to see if there are no more units in the scenario for either side
-        if (turnSystem.enemysUnits.Count == 0)
+        if (turnSystem.enemysUnits.Count == 0 && turnSystem.playersUnits.Count == 0)
+        {
+            winLoseConditionMet = true;
+
+            Lose();
+            Debug.Log("No more allies or enemies!");
+        }
+        else if (turnSystem.enemysUnits.Count == 0)
         {
             winLoseConditionMet = true;
 
