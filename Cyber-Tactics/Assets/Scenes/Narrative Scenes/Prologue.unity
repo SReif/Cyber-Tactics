@@ -354,7 +354,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 67551949}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3871,15 +3871,15 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Ten years ago, Admiral Orsseno, The leader, Iramo, Osare, and Voritias,
-    all 3 captains of the Riot unit of the city of Bevipo, an autonomous city in
-    the nation of Altourpago, became suspicious of their higher-ups' disdain for
-    the central government. \r\n\r\nEventually, they found evidence of the Bevipo
+  m_text: "Ten years ago, Orsseno, an admiral for the nation of Altourpago, and three
+    captains of the riot unit of the city of Bevipo, Iramo, Osare, and Voritias,
+    were suspicious about the city government's disdain for the nation's central
+    government.\n\r\nAfter a bit of searching, they found evidence of the Bevipo
     government\u2019s increased efforts in militarising the force, with the final
-    objective being the complete annexation of the entire country.\r\n\r\nTo counter
-    this plan, the 4 decided to pull a heist and steal the shipping containers with
-    exoskeletons, a type of armour used by the government, and give it to the people
-    of Bevipo.\r\n\r\nThis is their story.\r\n"
+    objective being the complete annexation from the country of Altourpago.\r\n\r\nTo
+    counter this plan, these four individuals decided to pull a heist and steal shipping
+    containers filled with exoskeletons, a type of power armor used by the city government
+    to counter riots, and give it to the people of Bevipo.\r\n\r\nThis is their story.\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

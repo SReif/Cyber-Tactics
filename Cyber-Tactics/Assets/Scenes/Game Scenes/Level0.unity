@@ -3793,6 +3793,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 229665430094973349, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: sounds.Array.data[2].name
+      value: Battle Theme - Freeflight
+      objectReference: {fileID: 0}
     - target: {fileID: 1992418915760045827, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -3896,6 +3900,10 @@ PrefabInstance:
     - target: {fileID: 8751734947285082605, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: basePhysicalAttack
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059776426520571282, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: m_text
+      value: Defeat all enemies!
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
@@ -6340,6 +6348,10 @@ PrefabInstance:
       propertyPath: cards.Array.data[9]
       value: 
       objectReference: {fileID: 267559266}
+    - target: {fileID: 6142150446804893273, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8639858795999808842, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: m_Name
       value: Osare (Player)
@@ -9059,6 +9071,10 @@ PrefabInstance:
       propertyPath: cards.Array.data[9]
       value: 
       objectReference: {fileID: 267559266}
+    - target: {fileID: 6142150446804893273, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8639858795999808842, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: m_Name
       value: Orsseno (Player)
@@ -13043,6 +13059,10 @@ PrefabInstance:
       propertyPath: cards.Array.data[9]
       value: 
       objectReference: {fileID: 267559266}
+    - target: {fileID: 6142150446804893273, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8639858795999808842, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: m_Name
       value: Iramo (Player)
@@ -15535,6 +15555,10 @@ PrefabInstance:
       propertyPath: cards.Array.data[9]
       value: 
       objectReference: {fileID: 267559266}
+    - target: {fileID: 6142150446804893273, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8639858795999808842, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: m_Name
       value: Voritias (Player)

@@ -89,6 +89,12 @@ public class TurnSystem : MonoBehaviour
                     for (int i = 0; i < enemysUnits.Count; i++)
                     {
                         enemysUnits[i].gameObject.GetComponent<Unit>().hasMoved = false;
+
+                    }
+
+                    for (int i = 0; i < playersUnits.Count; i++)
+                    {
+                        playersUnits[i].gameObject.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
                     }
 
                     enemysUnitsMoved = 0;
@@ -112,7 +118,7 @@ public class TurnSystem : MonoBehaviour
                             // Disable the selected unit indicator for the old object
                             if (gridSystem.selectedUnit != null)
                             {
-                                gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
+                                //gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
                             }
 
                             // Select the new unit and activate its selected unit indicator
@@ -147,7 +153,7 @@ public class TurnSystem : MonoBehaviour
                                 if (gridSystem.selectedUnit != null)
                                 {
                                     // Disable the attack indicator for the unit
-                                    gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
+                                    //gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
 
                                     // Show that the unit cannot be moved the rest of this turn
                                     gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
@@ -196,6 +202,7 @@ public class TurnSystem : MonoBehaviour
                     for (int i = 0; i < playersUnits.Count; i++)
                     {
                         playersUnits[i].gameObject.GetComponent<Unit>().hasMoved = false;
+                        playersUnits[i].gameObject.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
                     }
 
                     playersUnitsMoved = 0;

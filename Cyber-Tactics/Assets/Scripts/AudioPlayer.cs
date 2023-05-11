@@ -21,7 +21,7 @@ public class AudioPlayer : MonoBehaviour
             audioManager.Play("Main Menu Theme");
         }
 
-        if(SceneManager.GetActiveScene().name == "Prologue")
+        if(SceneManager.GetActiveScene().name == "Ambush")
         {
             audioManager.StopAllAudio();
             audioManager.Play("Cutscene Theme");
@@ -30,7 +30,7 @@ public class AudioPlayer : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Level0" || SceneManager.GetActiveScene().name == "Level0.5" || SceneManager.GetActiveScene().name == "Level1")
         {
             audioManager.StopAllAudio();
-            audioManager.Play("Battle Theme - Gorandora");
+            audioManager.Play("Battle Theme - Freeflight");
         }
 
         if (SceneManager.GetActiveScene().name == "Credits")
