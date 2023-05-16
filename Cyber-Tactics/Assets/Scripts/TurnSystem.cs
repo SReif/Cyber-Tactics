@@ -112,71 +112,69 @@ public class TurnSystem : MonoBehaviour
 
                     if (Physics.Raycast(ray, out hit))
                     {
-                        // Selecting a new unit to move that has not moved yet
-                        if (Input.GetMouseButtonDown(0) && hit.transform.tag == "PlayerUnit" && !hit.transform.gameObject.GetComponent<Unit>().hasMoved)
+                        if (Input.GetMouseButtonDown(0) && hit.transform.tag == "Node" && hit.transform.Find("Unit Slot").childCount > 0)
                         {
-                            // Disable the selected unit indicator for the old object
-                            if (gridSystem.selectedUnit != null)
+                            if (!hit.transform.Find("Unit Slot").GetChild(0).GetComponent<Unit>().hasMoved)
                             {
-                                //gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
-                            }
-
-                            // Select the new unit and activate its selected unit indicator
-                            gridSystem.selectedUnit = hit.transform.gameObject;
-                            gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
-
-                            // Stop showing the valid moves for the previous unit
-                            gridSystem.resetValidMoveNodes();
-
-                            // Show the valid moves for the current unit
-                            gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().calculateValidMoves(gridSystem.grid);
-                            gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.validMoveNodes);
-                        }
-                        else if (Input.GetMouseButtonDown(0) && hit.transform.tag == "Node")
-                        {
-                            // Check to see if the unit can move to that node
-                            if (hit.transform.gameObject.GetComponent<GridNode>().validMove)
-                            {
-                                // Move the unit and disable the move indicators for each node
-                                yield return StartCoroutine(gridSystem.MoveSelectedUnit(hit.transform.gameObject));
-
-                                // Wait a moment so you can't double-click accidentally
-                                yield return new WaitForSeconds(.3f);
-
-                                // Determine the valid attacks the unit can perform
-                                gridSystem.validAttackNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidAttacks(gridSystem.grid, "EnemyUnit");
-
-                                // Choose a unit to attack, if any
-                                yield return StartCoroutine(chooseUnitToAttack("Player"));
-
-                                // Disable the selected unit indicator for the unit, if it still exists
+                                // Disable the selected unit indicator for the old object
                                 if (gridSystem.selectedUnit != null)
                                 {
-                                    // Disable the attack indicator for the unit
                                     //gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
-
-                                    // Show that the unit cannot be moved the rest of this turn
-                                    gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
-                                    gridSystem.selectedUnit.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
-
-                                   // Do not increment this value if the unit is defeated, or else the player's turn will end early when there are less units on the board
-                                   playersUnitsMoved++;
-
-                                    gridSystem.selectedUnit = null;
                                 }
 
-                                //Debug.Log("Unit has taken its turn.");
+                                // Select the new unit and activate its selected unit indicator
+                                gridSystem.selectedUnit = hit.transform.Find("Unit Slot").GetChild(0).gameObject;
+                                gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(true);
+
+                                // Stop showing the valid moves for the previous unit
+                                gridSystem.resetValidMoveNodes();
+
+                                // Show the valid moves for the current unit
+                                gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().calculateValidMoves(gridSystem.grid);
+                                gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.validMoveNodes);
                             }
                         }
-                        else if (Input.GetMouseButtonDown(1) && (hit.transform.tag == "PlayerUnit" || hit.transform.tag == "EnemyUnit"))
+                        else if (Input.GetMouseButtonDown(0) && hit.transform.tag == "Node" && hit.transform.gameObject.GetComponent<GridNode>().validMove)
+                        {
+                            // Move the unit and disable the move indicators for each node
+                            yield return StartCoroutine(gridSystem.MoveSelectedUnit(hit.transform.gameObject));
+
+                            // Wait a moment so you can't double-click accidentally
+                            yield return new WaitForSeconds(.3f);
+
+                            // Determine the valid attacks the unit can perform
+                            gridSystem.validAttackNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidAttacks(gridSystem.grid, "EnemyUnit");
+
+                            // Choose a unit to attack, if any
+                            yield return StartCoroutine(chooseUnitToAttack("Player"));
+
+                            // Disable the selected unit indicator for the unit, if it still exists
+                            if (gridSystem.selectedUnit != null)
+                            {
+                                // Disable the attack indicator for the unit
+                                //gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
+
+                                // Show that the unit cannot be moved the rest of this turn
+                                gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
+                                gridSystem.selectedUnit.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
+
+                                // Do not increment this value if the unit is defeated, or else the player's turn will end early when there are less units on the board
+                                playersUnitsMoved++;
+
+                                gridSystem.selectedUnit = null;
+                            }
+
+                            //Debug.Log("Unit has taken its turn.");
+                        }
+                        else if (Input.GetMouseButtonDown(1) && hit.transform.tag == "Node" && hit.transform.Find("Unit Slot").childCount > 0)
                         {
                             // Allow the player to view a unit's stats
 
-                            if (viewedUnit != hit.transform.gameObject)
+                            if (viewedUnit != hit.transform.Find("Unit Slot").GetChild(0).gameObject)
                             {
-                                viewedUnit = hit.transform.gameObject;
+                                viewedUnit = hit.transform.Find("Unit Slot").GetChild(0).gameObject;
                             }
-                            else if (viewedUnit == hit.transform.gameObject)
+                            else if (viewedUnit == hit.transform.Find("Unit Slot").GetChild(0).gameObject)
                             {
                                 viewedUnit = null;
                             }

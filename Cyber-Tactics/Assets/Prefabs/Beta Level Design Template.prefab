@@ -5013,7 +5013,7 @@ BoxCollider:
   m_GameObject: {fileID: 8240329321423321152}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.37525904, y: 0.81939876, z: 0.00000014901191}
   m_Center: {x: -0.008666938, y: -0.042837635, z: 0.0011558498}
@@ -5106,6 +5106,14 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: unitMoveID
+      value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: unitAttackID
+      value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: cards.Array.data[0]
       value: 
       objectReference: {fileID: 6188842115503072109}
@@ -5162,7 +5170,7 @@ BoxCollider:
   m_GameObject: {fileID: 2871751299381970058}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.43530104, y: 0.7486677, z: 0.00000014901163}
   m_Center: {x: -0.017105322, y: -0.039632905, z: 0.0011559518}
@@ -6043,6 +6051,14 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 2e4786efc5bc20848ab533369804144d, type: 3}
+      propertyPath: unitMoveID
+      value: Wizard
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 2e4786efc5bc20848ab533369804144d, type: 3}
+      propertyPath: unitAttackID
+      value: Wizard
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 2e4786efc5bc20848ab533369804144d, type: 3}
       propertyPath: cards.Array.data[0]
       value: 
       objectReference: {fileID: 2536053605621526518}
@@ -6099,7 +6115,7 @@ BoxCollider:
   m_GameObject: {fileID: 1183246753151138123}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.424222, y: 0.78082895, z: 0.00000014901163}
   m_Center: {x: -0.011565826, y: -0.023552673, z: 0.0011558821}
@@ -6126,6 +6142,14 @@ PrefabInstance:
     - target: {fileID: 2718324601301934227, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
       propertyPath: currentHP
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
+      propertyPath: unitMoveID
+      value: Rebel Leader
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
+      propertyPath: unitAttackID
+      value: Rebel Leader
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
       propertyPath: cards.Array.data[0]
@@ -6248,7 +6272,7 @@ BoxCollider:
   m_GameObject: {fileID: 4928907096649360930}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.37525904, y: 0.81939876, z: 0.00000014901191}
   m_Center: {x: -0.008666938, y: -0.042837635, z: 0.0011558498}
@@ -7821,6 +7845,14 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8166711864512018432, guid: ef4cbf8b6e000904ebde5ce90f06310b, type: 3}
+      propertyPath: unitMoveID
+      value: Dragoon
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166711864512018432, guid: ef4cbf8b6e000904ebde5ce90f06310b, type: 3}
+      propertyPath: unitAttackID
+      value: Dragoon
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166711864512018432, guid: ef4cbf8b6e000904ebde5ce90f06310b, type: 3}
       propertyPath: cards.Array.data[0]
       value: 
       objectReference: {fileID: 6188842115503072109}
@@ -7877,7 +7909,7 @@ BoxCollider:
   m_GameObject: {fileID: 7462926509463395107}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.37525904, y: 0.81939876, z: 0.00000014901191}
   m_Center: {x: -0.008666938, y: -0.042837635, z: 0.0011558498}
@@ -7970,6 +8002,14 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 2feaae8cd3300f54bbf8ed439a9d7a34, type: 3}
+      propertyPath: unitMoveID
+      value: Government Leader
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 2feaae8cd3300f54bbf8ed439a9d7a34, type: 3}
+      propertyPath: unitAttackID
+      value: Government Leader
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 2feaae8cd3300f54bbf8ed439a9d7a34, type: 3}
       propertyPath: cards.Array.data[0]
       value: 
       objectReference: {fileID: 7589935875033332132}
@@ -8026,7 +8066,7 @@ BoxCollider:
   m_GameObject: {fileID: 8718184300908848241}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.424222, y: 0.78082895, z: 0.00000014901163}
   m_Center: {x: -0.011565826, y: -0.023552673, z: 0.0011558821}
@@ -8123,6 +8163,14 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
+      propertyPath: unitMoveID
+      value: Riot Officer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
+      propertyPath: unitAttackID
+      value: Riot Officer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
       propertyPath: cards.Array.data[0]
       value: 
       objectReference: {fileID: 7868074063840121360}
@@ -8179,7 +8227,7 @@ BoxCollider:
   m_GameObject: {fileID: 8920948852769877224}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.424222, y: 0.78082895, z: 0.00000014901163}
   m_Center: {x: -0.011565826, y: -0.023552673, z: 0.0011558821}
@@ -8209,6 +8257,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: unitMoveID
+      value: Footpad
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: unitAttackID
       value: Footpad
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
@@ -8341,7 +8393,7 @@ BoxCollider:
   m_GameObject: {fileID: 3110848861650308148}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.37525904, y: 0.81939876, z: 0.00000014901191}
   m_Center: {x: -0.008666938, y: -0.042837635, z: 0.0011558498}

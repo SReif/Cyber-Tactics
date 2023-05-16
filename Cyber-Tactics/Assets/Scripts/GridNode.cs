@@ -12,6 +12,8 @@ public class GridNode : MonoBehaviour
     private GameObject validMoveIndicator;
     private GameObject validAttackIndicator;
 
+    private TurnSystem turnSystem;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,16 +23,30 @@ public class GridNode : MonoBehaviour
 
         validMoveIndicator = transform.gameObject.transform.Find("Indicators").GetChild(0).gameObject;
         validAttackIndicator = transform.gameObject.transform.Find("Indicators").GetChild(1).gameObject;
+        turnSystem = GameObject.Find("Grid Turn System").GetComponent<TurnSystem>();
     }
 
     private void OnMouseEnter()
     {
-        if (validMove)
+        if (validMove && turnSystem.state == TurnSystem.State.PlayerTurn)
         {
             validMoveIndicator.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Valid Move Node Color (Hovered)", typeof(Material)) as Material;
         }
 
-        if (validAttack)
+        if (validAttack && turnSystem.state == TurnSystem.State.PlayerTurn)
+        {
+            validAttackIndicator.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Valid Attack Node Color (Hovered)", typeof(Material)) as Material;
+        }
+    }
+
+    private void OnMouseOver()
+    {
+        if (validMove && turnSystem.state == TurnSystem.State.PlayerTurn)
+        {
+            validMoveIndicator.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Valid Move Node Color (Hovered)", typeof(Material)) as Material;
+        }
+
+        if (validAttack && turnSystem.state == TurnSystem.State.PlayerTurn)
         {
             validAttackIndicator.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Valid Attack Node Color (Hovered)", typeof(Material)) as Material;
         }

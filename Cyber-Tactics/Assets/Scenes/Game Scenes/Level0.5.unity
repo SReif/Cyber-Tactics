@@ -388,6 +388,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3546426256076092195, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
   m_PrefabInstance: {fileID: 409568353}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &18402899
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18402893}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.43530104, y: 0.7486677, z: 0.00000014901163}
+  m_Center: {x: -0.017105322, y: -0.039632905, z: 0.0011559518}
 --- !u!4 &20273242 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3507402609107785880, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
@@ -1094,6 +1107,10 @@ PrefabInstance:
       value: Footpad
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: unitAttackID
+      value: Footpad
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: cards.Array.size
       value: 10
       objectReference: {fileID: 0}
@@ -1234,7 +1251,7 @@ BoxCollider:
   m_GameObject: {fileID: 120267083}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.37525904, y: 0.81939876, z: 0.00000014901191}
   m_Center: {x: -0.008666938, y: -0.042837635, z: 0.0011558498}
@@ -1581,6 +1598,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3546426256076092195, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
   m_PrefabInstance: {fileID: 238274647}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &185243360
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185243354}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.424222, y: 0.78082895, z: 0.00000014901163}
+  m_Center: {x: -0.011565826, y: -0.023552673, z: 0.0011558821}
 --- !u!1001 &209000342
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1957,6 +1987,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ebf48956f8124fc45827d503a0b342b1, type: 2}
+    - target: {fileID: -3875259718690707651, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3546426256076092195, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: m_Name
       value: Naecato (Enemy)
@@ -2039,11 +2073,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: unitMoveID
-      value: Magano
+      value: Wizard
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: unitAttackID
-      value: King
+      value: Wizard
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: baseMagicalAttack
@@ -2093,7 +2127,8 @@ PrefabInstance:
       propertyPath: cards.Array.data[9]
       value: 
       objectReference: {fileID: 1930513828}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3875259718690707651, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
 --- !u!4 &239702075 stripped
 Transform:
@@ -3002,6 +3037,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a360479a4c99c27488328236cb187529, type: 2}
+    - target: {fileID: -3875259718690707651, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3546426256076092195, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: m_Name
       value: Hopper (Enemy)
@@ -3075,6 +3114,14 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: unitMoveID
+      value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: unitAttackID
+      value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: cards.Array.data[0]
       value: 
       objectReference: {fileID: 1930513842}
@@ -3114,7 +3161,8 @@ PrefabInstance:
       propertyPath: cards.Array.data[9]
       value: 
       objectReference: {fileID: 1930513828}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3875259718690707651, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
 --- !u!1001 &417611259
 PrefabInstance:
@@ -3321,6 +3369,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a360479a4c99c27488328236cb187529, type: 2}
+    - target: {fileID: -3875259718690707651, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3546426256076092195, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: m_Name
       value: Hopper (Enemy)
@@ -3398,6 +3450,14 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: unitMoveID
+      value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: unitAttackID
+      value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: cards.Array.data[0]
       value: 
       objectReference: {fileID: 1930513842}
@@ -3437,7 +3497,8 @@ PrefabInstance:
       propertyPath: cards.Array.data[9]
       value: 
       objectReference: {fileID: 1930513828}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3875259718690707651, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
 --- !u!4 &452337657 stripped
 Transform:
@@ -4091,6 +4152,22 @@ PrefabInstance:
       propertyPath: doesPlayerLeaderExist
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 496181290441770369, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1601419984687008763, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: unitMoveID
+      value: Rebel Leader
+      objectReference: {fileID: 0}
+    - target: {fileID: 1601419984687008763, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: unitAttackID
+      value: Rebel Leader
+      objectReference: {fileID: 0}
+    - target: {fileID: 1783811106610278999, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1992418915760045827, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -4191,6 +4268,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2052387239515783071, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2834298457043538087, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -4203,10 +4284,34 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2995473922777022769, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: unitMoveID
+      value: Riot Officer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2995473922777022769, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: unitAttackID
+      value: Riot Officer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072205295441398184, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: unitMoveID
+      value: Government Leader
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072205295441398184, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: unitAttackID
+      value: Government Leader
+      objectReference: {fileID: 0}
     - target: {fileID: 3234848617364782369, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ebf48956f8124fc45827d503a0b342b1, type: 2}
+    - target: {fileID: 3877097904627627770, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: unitMoveID
+      value: Dragoon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3877097904627627770, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: unitAttackID
+      value: Dragoon
+      objectReference: {fileID: 0}
     - target: {fileID: 4612993110611935674, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -4275,6 +4380,14 @@ PrefabInstance:
       propertyPath: orthographic size
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4770473885221115026, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: unitMoveID
+      value: Wizard
+      objectReference: {fileID: 0}
+    - target: {fileID: 4770473885221115026, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: unitAttackID
+      value: Wizard
+      objectReference: {fileID: 0}
     - target: {fileID: 4932276554300055579, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -4291,13 +4404,45 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5578904642300149944, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878442160971378424, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6630064743339475466, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8156866806515080772, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8435280826780869480, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8468208249898346835, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: unitMoveID
+      value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 8468208249898346835, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: unitAttackID
+      value: Hopper
+      objectReference: {fileID: 0}
     - target: {fileID: 8667721658923239320, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8751734947285082605, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: unitAttackID
+      value: Footpad
+      objectReference: {fileID: 0}
+    - target: {fileID: 8809813579598084220, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9057606078046938051, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_RootOrder
@@ -5983,6 +6128,10 @@ PrefabInstance:
       value: Footpad
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: unitAttackID
+      value: Footpad
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: cards.Array.size
       value: 10
       objectReference: {fileID: 0}
@@ -6123,7 +6272,7 @@ BoxCollider:
   m_GameObject: {fileID: 739670928}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.37525904, y: 0.81939876, z: 0.00000014901191}
   m_Center: {x: -0.008666938, y: -0.042837635, z: 0.0011558498}
@@ -7029,6 +7178,10 @@ PrefabInstance:
       value: Footpad
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: unitAttackID
+      value: Footpad
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: cards.Array.size
       value: 10
       objectReference: {fileID: 0}
@@ -7169,7 +7322,7 @@ BoxCollider:
   m_GameObject: {fileID: 908190164}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.37525904, y: 0.81939876, z: 0.00000014901191}
   m_Center: {x: -0.008666938, y: -0.042837635, z: 0.0011558498}
@@ -7532,6 +7685,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a360479a4c99c27488328236cb187529, type: 2}
+    - target: {fileID: -3875259718690707651, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3546426256076092195, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: m_Name
       value: Hopper (Enemy)
@@ -7609,6 +7766,14 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: unitMoveID
+      value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: unitAttackID
+      value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: cards.Array.data[0]
       value: 
       objectReference: {fileID: 1930513842}
@@ -7648,7 +7813,8 @@ PrefabInstance:
       propertyPath: cards.Array.data[9]
       value: 
       objectReference: {fileID: 1930513828}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3875259718690707651, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
 --- !u!4 &952230040 stripped
 Transform:
@@ -7666,7 +7832,6 @@ GameObject:
   - component: {fileID: 957502168}
   - component: {fileID: 957502171}
   - component: {fileID: 957502170}
-  - component: {fileID: 957502169}
   m_Layer: 0
   m_Name: Tile Objective Indicator
   m_TagString: Untagged
@@ -7689,19 +7854,6 @@ Transform:
   m_Father: {fileID: 1715595542}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &957502169
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 957502167}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &957502170
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14064,6 +14216,10 @@ PrefabInstance:
       value: Footpad
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: unitAttackID
+      value: Footpad
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: cards.Array.size
       value: 10
       objectReference: {fileID: 0}
@@ -14204,7 +14360,7 @@ BoxCollider:
   m_GameObject: {fileID: 1160954744}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.37525904, y: 0.81939876, z: 0.00000014901191}
   m_Center: {x: -0.008666938, y: -0.042837635, z: 0.0011558498}
@@ -15481,6 +15637,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3546426256076092195, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
   m_PrefabInstance: {fileID: 948105244}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1336762737
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336762731}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.43530104, y: 0.7486677, z: 0.00000014901163}
+  m_Center: {x: -0.017105322, y: -0.039632905, z: 0.0011559518}
 --- !u!4 &1339562007 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3507402610079662211, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
@@ -15628,6 +15797,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3546426256076092195, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
   m_PrefabInstance: {fileID: 448050132}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1357689479
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357689473}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.43530104, y: 0.7486677, z: 0.00000014901163}
+  m_Center: {x: -0.017105322, y: -0.039632905, z: 0.0011559518}
 --- !u!1001 &1376062817
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15710,6 +15892,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a360479a4c99c27488328236cb187529, type: 2}
+    - target: {fileID: -3875259718690707651, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3546426256076092195, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: m_Name
       value: Hopper (Enemy)
@@ -15783,6 +15969,14 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: unitMoveID
+      value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: unitAttackID
+      value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: cards.Array.data[0]
       value: 
       objectReference: {fileID: 1930513842}
@@ -15822,7 +16016,8 @@ PrefabInstance:
       propertyPath: cards.Array.data[9]
       value: 
       objectReference: {fileID: 1930513828}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3875259718690707651, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
 --- !u!1001 &1402063309
 PrefabInstance:
@@ -19472,6 +19667,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3546426256076092195, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
   m_PrefabInstance: {fileID: 1400617106}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1824595965
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824595959}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.43530104, y: 0.7486677, z: 0.00000014901163}
+  m_Center: {x: -0.017105322, y: -0.039632905, z: 0.0011559518}
 --- !u!4 &1825877222 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3507402609307948149, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}

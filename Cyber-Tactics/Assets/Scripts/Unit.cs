@@ -478,155 +478,6 @@ public class Unit : MonoBehaviour
         return unitMoveset;
     }
 
-    public List<List<Vector2>> calculateOldFootpadMoveset()
-    {
-        // Calculate the footpad's moveset
-        List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
-
-        List<Vector2> staticMove = new List<Vector2>();
-        staticMove.Add(new Vector2(0, 0));
-        unitMoveset.Add(staticMove);
-
-        // Generate positive horizontal moves
-        List<Vector2> posiHoriMoves = new List<Vector2>();
-        posiHoriMoves.Add(new Vector2(1, 0));
-        posiHoriMoves.Add(new Vector2(2, 0));
-        unitMoveset.Add(posiHoriMoves);
-
-        // Generate negative vertical moves
-        List<Vector2> negaVertMoves = new List<Vector2>();
-        negaVertMoves.Add(new Vector2(0, -1));
-        unitMoveset.Add(negaVertMoves);
-
-        // Generate negative horizontal moves
-        List<Vector2> negaHoriMoves = new List<Vector2>();
-        negaHoriMoves.Add(new Vector2(-1, 0));
-        unitMoveset.Add(negaHoriMoves);
-
-        // Generate positive vertical moves
-        List<Vector2> posiVertMoves = new List<Vector2>();
-        posiVertMoves.Add(new Vector2(0, 1));
-        unitMoveset.Add(posiVertMoves);
-
-        return unitMoveset;
-    }
-
-    public List<List<Vector2>> calculateFootpadMoveset(int range)
-    {
-        // Calculate the footpad's moveset (acts like a Rook in Chess but it has a range of two)
-        List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
-
-        List<Vector2> staticMove = new List<Vector2>();
-        staticMove.Add(new Vector2(0, 0));
-        unitMoveset.Add(staticMove);
-
-        List<Vector2> posiHoriMoves = new List<Vector2>();
-
-        // Generate positive horizontal moves
-        for (int i = 0; i < range; i++)
-        {
-            posiHoriMoves.Add(new Vector2(i + 1, 0));
-        }
-        unitMoveset.Add(posiHoriMoves);
-
-        List<Vector2> negaVertMoves = new List<Vector2>();
-
-        // Generate negative vertical moves
-        for (int i = 0; i < range; i++)
-        {
-            negaVertMoves.Add(new Vector2(0, -(i + 1)));
-        }
-        unitMoveset.Add(negaVertMoves);
-
-        List<Vector2> negaHoriMoves = new List<Vector2>();
-
-        // Generate negative horizontal moves
-        for (int i = 0; i < range; i++)
-        {
-            negaHoriMoves.Add(new Vector2(-(i + 1), 0));
-        }
-        unitMoveset.Add(negaHoriMoves);
-
-        List<Vector2> posiVertMoves = new List<Vector2>();
-
-        // Generate positive vertical moves
-        for (int i = 0; i < range; i++)
-        {
-            posiVertMoves.Add(new Vector2(0, i + 1));
-        }
-        unitMoveset.Add(posiVertMoves);
-
-        return unitMoveset;
-    }
-
-    public List<List<Vector2>> calculateMaganoMoveset(int range)
-    {
-        // Calculate the magano's moveset
-        List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
-
-        List<Vector2> staticMove = new List<Vector2>();
-        staticMove.Add(new Vector2(0, 0));
-        unitMoveset.Add(staticMove);
-
-        List<Vector2> topRightDiagMoves = new List<Vector2>();
-
-        // Generate positive horizontal moves
-        for (int i = 0; i < range; i++)
-        {
-            topRightDiagMoves.Add(new Vector2(i + 1, i + 1));
-        }
-        unitMoveset.Add(topRightDiagMoves);
-
-        List<Vector2> botRightDiagMoves = new List<Vector2>();
-
-        // Generate negative vertical moves
-        for (int i = 0; i < range; i++)
-        {
-            botRightDiagMoves.Add(new Vector2(i + 1, -(i + 1)));
-        }
-        unitMoveset.Add(botRightDiagMoves);
-
-        List<Vector2> botLeftDiagMoves = new List<Vector2>();
-
-        // Generate negative horizontal moves
-        for (int i = 0; i < range; i++)
-        {
-            botLeftDiagMoves.Add(new Vector2(-(i + 1), -(i + 1)));
-        }
-        unitMoveset.Add(botLeftDiagMoves);
-
-        List<Vector2> topLeftDiagMoves = new List<Vector2>();
-
-        // Generate positive vertical moves
-        for (int i = 0; i < range; i++)
-        {
-            topLeftDiagMoves.Add(new Vector2(-(i + 1), i + 1));
-        }
-        unitMoveset.Add(topLeftDiagMoves);
-
-        // Generate positive horizontal moves
-        List<Vector2> posiHoriMoves = new List<Vector2>();
-        posiHoriMoves.Add(new Vector2(1, 0));
-        unitMoveset.Add(posiHoriMoves);
-
-        // Generate negative vertical moves
-        List<Vector2> negaVertMoves = new List<Vector2>();
-        negaVertMoves.Add(new Vector2(0, -1));
-        unitMoveset.Add(negaVertMoves);
-
-        // Generate negative horizontal moves
-        List<Vector2> negaHoriMoves = new List<Vector2>();
-        negaHoriMoves.Add(new Vector2(-1, 0));
-        unitMoveset.Add(negaHoriMoves);
-
-        // Generate positive vertical moves
-        List<Vector2> posiVertMoves = new List<Vector2>();
-        posiVertMoves.Add(new Vector2(0, 1));
-        unitMoveset.Add(posiVertMoves);
-
-        return unitMoveset;
-    }
-
     public List<List<Vector2>> calculateTrueQueenMoveset(int range)
     {
         // Calculate the queen's moveset
@@ -711,11 +562,423 @@ public class Unit : MonoBehaviour
         return unitMoveset;
     }
 
+    public List<List<Vector2>> calculateOldFootpadMoveset()
+    {
+        // Calculate the footpad's moveset
+        List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
+
+        List<Vector2> staticMove = new List<Vector2>();
+        staticMove.Add(new Vector2(0, 0));
+        unitMoveset.Add(staticMove);
+
+        // Generate positive horizontal moves
+        List<Vector2> posiHoriMoves = new List<Vector2>();
+        posiHoriMoves.Add(new Vector2(1, 0));
+        posiHoriMoves.Add(new Vector2(2, 0));
+        unitMoveset.Add(posiHoriMoves);
+
+        // Generate negative vertical moves
+        List<Vector2> negaVertMoves = new List<Vector2>();
+        negaVertMoves.Add(new Vector2(0, -1));
+        unitMoveset.Add(negaVertMoves);
+
+        // Generate negative horizontal moves
+        List<Vector2> negaHoriMoves = new List<Vector2>();
+        negaHoriMoves.Add(new Vector2(-1, 0));
+        unitMoveset.Add(negaHoriMoves);
+
+        // Generate positive vertical moves
+        List<Vector2> posiVertMoves = new List<Vector2>();
+        posiVertMoves.Add(new Vector2(0, 1));
+        unitMoveset.Add(posiVertMoves);
+
+        return unitMoveset;
+    }
+
+    public List<List<Vector2>> calculateFootpadMoveset(int range)
+    {
+        // Calculate the footpad's moveset (acts like a Rook in Chess but it has a range of two)
+        List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
+
+        List<Vector2> staticMove = new List<Vector2>();
+        staticMove.Add(new Vector2(0, 0));
+        unitMoveset.Add(staticMove);
+
+        List<Vector2> posiHoriMoves = new List<Vector2>();
+
+        // Generate positive horizontal moves
+        for (int i = 0; i < range; i++)
+        {
+            posiHoriMoves.Add(new Vector2(i + 1, 0));
+        }
+        unitMoveset.Add(posiHoriMoves);
+
+        List<Vector2> negaVertMoves = new List<Vector2>();
+
+        // Generate negative vertical moves
+        for (int i = 0; i < range; i++)
+        {
+            negaVertMoves.Add(new Vector2(0, -(i + 1)));
+        }
+        unitMoveset.Add(negaVertMoves);
+
+        List<Vector2> negaHoriMoves = new List<Vector2>();
+
+        // Generate negative horizontal moves
+        for (int i = 0; i < range; i++)
+        {
+            negaHoriMoves.Add(new Vector2(-(i + 1), 0));
+        }
+        unitMoveset.Add(negaHoriMoves);
+
+        List<Vector2> posiVertMoves = new List<Vector2>();
+
+        // Generate positive vertical moves
+        for (int i = 0; i < range; i++)
+        {
+            posiVertMoves.Add(new Vector2(0, i + 1));
+        }
+        unitMoveset.Add(posiVertMoves);
+
+        // Generate top right diagonal moves
+        List<Vector2> topRightDiagMoves = new List<Vector2>();
+        topRightDiagMoves.Add(new Vector2(1, 1));
+        unitMoveset.Add(topRightDiagMoves);
+
+        // Generate bottom right diagonal moves
+        List<Vector2> botRightDiagMoves = new List<Vector2>();
+        botRightDiagMoves.Add(new Vector2(1, -1));
+        unitMoveset.Add(botRightDiagMoves);
+
+        // Generate bottom left diagonal moves
+        List<Vector2> botLeftDiagMoves = new List<Vector2>();
+        botLeftDiagMoves.Add(new Vector2(-1, -1));
+        unitMoveset.Add(botLeftDiagMoves);
+
+        // Generate top left diagonal moves
+        List<Vector2> topLeftDiagMoves = new List<Vector2>();
+        topLeftDiagMoves.Add(new Vector2(-1, 1));
+        unitMoveset.Add(topLeftDiagMoves);
+
+        return unitMoveset;
+    }
+
+    public List<List<Vector2>> calculateMaganoMoveset(int range)
+    {
+        // Calculate the magano's moveset
+        List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
+
+        List<Vector2> staticMove = new List<Vector2>();
+        staticMove.Add(new Vector2(0, 0));
+        unitMoveset.Add(staticMove);
+
+        List<Vector2> topRightDiagMoves = new List<Vector2>();
+
+        // Generate top right diagonal moves
+        for (int i = 0; i < range; i++)
+        {
+            topRightDiagMoves.Add(new Vector2(i + 1, i + 1));
+        }
+        unitMoveset.Add(topRightDiagMoves);
+
+        List<Vector2> botRightDiagMoves = new List<Vector2>();
+
+        // Generate bottom right diagonal moves
+        for (int i = 0; i < range; i++)
+        {
+            botRightDiagMoves.Add(new Vector2(i + 1, -(i + 1)));
+        }
+        unitMoveset.Add(botRightDiagMoves);
+
+        List<Vector2> botLeftDiagMoves = new List<Vector2>();
+
+        // Generate bottom left diagonal moves
+        for (int i = 0; i < range; i++)
+        {
+            botLeftDiagMoves.Add(new Vector2(-(i + 1), -(i + 1)));
+        }
+        unitMoveset.Add(botLeftDiagMoves);
+
+        List<Vector2> topLeftDiagMoves = new List<Vector2>();
+
+        // Generate top left diagonal moves
+        for (int i = 0; i < range; i++)
+        {
+            topLeftDiagMoves.Add(new Vector2(-(i + 1), i + 1));
+        }
+        unitMoveset.Add(topLeftDiagMoves);
+
+        // Generate positive horizontal moves
+        List<Vector2> posiHoriMoves = new List<Vector2>();
+        posiHoriMoves.Add(new Vector2(1, 0));
+        unitMoveset.Add(posiHoriMoves);
+
+        // Generate negative vertical moves
+        List<Vector2> negaVertMoves = new List<Vector2>();
+        negaVertMoves.Add(new Vector2(0, -1));
+        unitMoveset.Add(negaVertMoves);
+
+        // Generate negative horizontal moves
+        List<Vector2> negaHoriMoves = new List<Vector2>();
+        negaHoriMoves.Add(new Vector2(-1, 0));
+        unitMoveset.Add(negaHoriMoves);
+
+        // Generate positive vertical moves
+        List<Vector2> posiVertMoves = new List<Vector2>();
+        posiVertMoves.Add(new Vector2(0, 1));
+        unitMoveset.Add(posiVertMoves);
+
+        return unitMoveset;
+    }
+
+    public List<List<Vector2>> calculateRebelLeaderMoveset()
+    {
+        // Calculate the rebel leader's moveset
+        List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
+        List<Vector2> moves = new List<Vector2>();
+
+        moves.Add(new Vector2(0, 0));
+        moves.Add(new Vector2(1, 0));
+        moves.Add(new Vector2(1, -1));
+        moves.Add(new Vector2(0, -1));
+        moves.Add(new Vector2(-1, -1));
+        moves.Add(new Vector2(-1, 0));
+        moves.Add(new Vector2(-1, 1));
+        moves.Add(new Vector2(0, 1));
+        moves.Add(new Vector2(1, 1));
+
+        unitMoveset.Add(moves);
+
+        return unitMoveset;
+    }
+
+    public List<List<Vector2>> calculateDragoonMoveset()
+    {
+        // Calculate the dragoon's moveset
+        List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
+        List<Vector2> moves = new List<Vector2>();
+
+        // Calculate moves like a Knight from Chess
+        moves.Add(new Vector2(0, 0));
+        moves.Add(new Vector2(1, 2));
+        moves.Add(new Vector2(2, 1));
+        moves.Add(new Vector2(2, -1));
+        moves.Add(new Vector2(1, -2));
+        moves.Add(new Vector2(-1, -2));
+        moves.Add(new Vector2(-2, -1));
+        moves.Add(new Vector2(-2, 1));
+        moves.Add(new Vector2(-1, 2));
+
+        // Calculate moves like a King from Chess
+        moves.Add(new Vector2(1, 0));
+        moves.Add(new Vector2(1, -1));
+        moves.Add(new Vector2(0, -1));
+        moves.Add(new Vector2(-1, -1));
+        moves.Add(new Vector2(-1, 0));
+        moves.Add(new Vector2(-1, 1));
+        moves.Add(new Vector2(0, 1));
+        moves.Add(new Vector2(1, 1));
+
+        unitMoveset.Add(moves);
+
+        return unitMoveset;
+    }
+
+    public List<List<Vector2>> calculateGovernmentLeaderMoveset()
+    {
+        // Calculate the government leader's moveset
+        List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
+        List<Vector2> moves = new List<Vector2>();
+
+        moves.Add(new Vector2(0, 0));
+        moves.Add(new Vector2(1, 0));
+        moves.Add(new Vector2(1, -1));
+        moves.Add(new Vector2(0, -1));
+        moves.Add(new Vector2(-1, -1));
+        moves.Add(new Vector2(-1, 0));
+        moves.Add(new Vector2(-1, 1));
+        moves.Add(new Vector2(0, 1));
+        moves.Add(new Vector2(1, 1));
+
+        unitMoveset.Add(moves);
+
+        return unitMoveset;
+    }
+
+    public List<List<Vector2>> calculateRiotOfficerMoveset(int range)
+    {
+        // Calculate the footpad's moveset (acts like a Rook in Chess but it has a range of two)
+        List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
+
+        List<Vector2> staticMove = new List<Vector2>();
+        staticMove.Add(new Vector2(0, 0));
+        unitMoveset.Add(staticMove);
+
+        List<Vector2> posiHoriMoves = new List<Vector2>();
+
+        // Generate positive horizontal moves
+        for (int i = 0; i < range; i++)
+        {
+            posiHoriMoves.Add(new Vector2(i + 1, 0));
+        }
+        unitMoveset.Add(posiHoriMoves);
+
+        List<Vector2> negaVertMoves = new List<Vector2>();
+
+        // Generate negative vertical moves
+        for (int i = 0; i < range; i++)
+        {
+            negaVertMoves.Add(new Vector2(0, -(i + 1)));
+        }
+        unitMoveset.Add(negaVertMoves);
+
+        List<Vector2> negaHoriMoves = new List<Vector2>();
+
+        // Generate negative horizontal moves
+        for (int i = 0; i < range; i++)
+        {
+            negaHoriMoves.Add(new Vector2(-(i + 1), 0));
+        }
+        unitMoveset.Add(negaHoriMoves);
+
+        List<Vector2> posiVertMoves = new List<Vector2>();
+
+        // Generate positive vertical moves
+        for (int i = 0; i < range; i++)
+        {
+            posiVertMoves.Add(new Vector2(0, i + 1));
+        }
+        unitMoveset.Add(posiVertMoves);
+
+        // Generate top right diagonal moves
+        List<Vector2> topRightDiagMoves = new List<Vector2>();
+        topRightDiagMoves.Add(new Vector2(1, 1));
+        unitMoveset.Add(topRightDiagMoves);
+
+        // Generate bottom right diagonal moves
+        List<Vector2> botRightDiagMoves = new List<Vector2>();
+        botRightDiagMoves.Add(new Vector2(1, -1));
+        unitMoveset.Add(botRightDiagMoves);
+
+        // Generate bottom left diagonal moves
+        List<Vector2> botLeftDiagMoves = new List<Vector2>();
+        botLeftDiagMoves.Add(new Vector2(-1, -1));
+        unitMoveset.Add(botLeftDiagMoves);
+
+        // Generate top left diagonal moves
+        List<Vector2> topLeftDiagMoves = new List<Vector2>();
+        topLeftDiagMoves.Add(new Vector2(-1, 1));
+        unitMoveset.Add(topLeftDiagMoves);
+
+        return unitMoveset;
+    }
+
+    public List<List<Vector2>> calculateHopperMoveset()
+    {
+        // Calculate the dragoon's moveset
+        List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
+        List<Vector2> moves = new List<Vector2>();
+
+        // Calculate moves like a Knight from Chess
+        moves.Add(new Vector2(0, 0));
+        moves.Add(new Vector2(1, 2));
+        moves.Add(new Vector2(2, 1));
+        moves.Add(new Vector2(2, -1));
+        moves.Add(new Vector2(1, -2));
+        moves.Add(new Vector2(-1, -2));
+        moves.Add(new Vector2(-2, -1));
+        moves.Add(new Vector2(-2, 1));
+        moves.Add(new Vector2(-1, 2));
+
+        // Calculate moves like a King from Chess
+        moves.Add(new Vector2(1, 0));
+        moves.Add(new Vector2(1, -1));
+        moves.Add(new Vector2(0, -1));
+        moves.Add(new Vector2(-1, -1));
+        moves.Add(new Vector2(-1, 0));
+        moves.Add(new Vector2(-1, 1));
+        moves.Add(new Vector2(0, 1));
+        moves.Add(new Vector2(1, 1));
+
+        unitMoveset.Add(moves);
+
+        return unitMoveset;
+    }
+
+    public List<List<Vector2>> calculateWizardMoveset(int range)
+    {
+        // Calculate the magano's moveset
+        List<List<Vector2>> unitMoveset = new List<List<Vector2>>();
+
+        List<Vector2> staticMove = new List<Vector2>();
+        staticMove.Add(new Vector2(0, 0));
+        unitMoveset.Add(staticMove);
+
+        List<Vector2> topRightDiagMoves = new List<Vector2>();
+
+        // Generate top right diagonal moves
+        for (int i = 0; i < range; i++)
+        {
+            topRightDiagMoves.Add(new Vector2(i + 1, i + 1));
+        }
+        unitMoveset.Add(topRightDiagMoves);
+
+        List<Vector2> botRightDiagMoves = new List<Vector2>();
+
+        // Generate bottom right diagonal moves
+        for (int i = 0; i < range; i++)
+        {
+            botRightDiagMoves.Add(new Vector2(i + 1, -(i + 1)));
+        }
+        unitMoveset.Add(botRightDiagMoves);
+
+        List<Vector2> botLeftDiagMoves = new List<Vector2>();
+
+        // Generate bottom left diagonal moves
+        for (int i = 0; i < range; i++)
+        {
+            botLeftDiagMoves.Add(new Vector2(-(i + 1), -(i + 1)));
+        }
+        unitMoveset.Add(botLeftDiagMoves);
+
+        List<Vector2> topLeftDiagMoves = new List<Vector2>();
+
+        // Generate top left diagonal moves
+        for (int i = 0; i < range; i++)
+        {
+            topLeftDiagMoves.Add(new Vector2(-(i + 1), i + 1));
+        }
+        unitMoveset.Add(topLeftDiagMoves);
+
+        // Generate positive horizontal moves
+        List<Vector2> posiHoriMoves = new List<Vector2>();
+        posiHoriMoves.Add(new Vector2(1, 0));
+        unitMoveset.Add(posiHoriMoves);
+
+        // Generate negative vertical moves
+        List<Vector2> negaVertMoves = new List<Vector2>();
+        negaVertMoves.Add(new Vector2(0, -1));
+        unitMoveset.Add(negaVertMoves);
+
+        // Generate negative horizontal moves
+        List<Vector2> negaHoriMoves = new List<Vector2>();
+        negaHoriMoves.Add(new Vector2(-1, 0));
+        unitMoveset.Add(negaHoriMoves);
+
+        // Generate positive vertical moves
+        List<Vector2> posiVertMoves = new List<Vector2>();
+        posiVertMoves.Add(new Vector2(0, 1));
+        unitMoveset.Add(posiVertMoves);
+
+        return unitMoveset;
+    }
+
     public List<List<Vector2>> selectAttackSet(GameObject[,] grid)
     {
+        // Select an attack set based on the unit's attack ID
         List<List<Vector2>> unitAttackSet;
 
-        // Select an attack set based on the unit's attack ID
+        // These conditionals pertain to attack sets similar to chess piece movement, for reference
         if (unitAttackID == "King" || unitAttackID == "Leader")
         {
             unitAttackSet = calculateKingMoveset();
@@ -744,23 +1007,50 @@ public class Unit : MonoBehaviour
             int range = (grid.GetLength(0) < grid.GetLength(1)) ? grid.GetLength(0) : grid.GetLength(1);
             unitAttackSet = calculateTrueRookMoveset(range);
         }
-        else if (unitAttackID == "Footpad")
-        {
-            unitAttackSet = calculateAdjacentSquareMoveset();
-        }
-        else if (unitAttackID == "Magano")
-        {
-            int range = 2;
-            unitAttackSet = calculateTrueBishopMoveset(range);
-        }
         else if (unitAttackID == "Queen")
         {
             int range = (grid.GetLength(0) < grid.GetLength(1)) ? grid.GetLength(0) : grid.GetLength(1);
             unitAttackSet = calculateTrueQueenMoveset(range);
         }
+
+        // These conditionals pertain to movesets for actual units in the game
+        else if (unitMoveID == "Rebel Leader")
+        {
+            unitAttackSet = calculateRebelLeaderMoveset();
+        }
+        else if (unitMoveID == "Footpad")
+        {
+            unitAttackSet = calculateAdjacentSquareMoveset();
+        }
+        else if (unitMoveID == "Dragoon")
+        {
+            unitAttackSet = calculateAdjacentSquareMoveset();
+        }
+        else if (unitMoveID == "Magano")
+        {
+            int range = 2;
+            unitAttackSet = calculateTrueBishopMoveset(range);
+        }
+        else if (unitMoveID == "Government Leader")
+        {
+            unitAttackSet = calculateGovernmentLeaderMoveset();
+        }
+        else if (unitMoveID == "Riot Officer")
+        {
+            unitAttackSet = calculateAdjacentSquareMoveset();
+        }
+        else if (unitMoveID == "Hopper")
+        {
+            unitAttackSet = calculateAdjacentSquareMoveset();
+        }
+        else if (unitMoveID == "Wizard")
+        {
+            int range = 2;
+            unitAttackSet = calculateTrueBishopMoveset(range);
+        }
         else
         {
-            // This is the default attack set if no attack id is specified
+            // This is the default attack set if no move id is specified
             unitAttackSet = calculateAdjacentSquareMoveset();
         }
 
@@ -769,10 +1059,11 @@ public class Unit : MonoBehaviour
 
     public List<List<Vector2>> selectMoveSet(GameObject[,] grid)
     {
+        // Select a move set based on the unit's move ID
         List<List<Vector2>> unitMoveset;
 
-        // Select a move set based on the unit's move ID
-        if (unitMoveID == "King" || unitMoveID == "Leader")
+        // These conditionals pertain to generic chess movesets, for reference
+        if (unitMoveID == "King")
         {
             unitMoveset = calculateKingMoveset();
         }
@@ -800,20 +1091,48 @@ public class Unit : MonoBehaviour
             int range = (grid.GetLength(0) < grid.GetLength(1)) ? grid.GetLength(0) : grid.GetLength(1);
             unitMoveset = calculateTrueRookMoveset(range);
         }
+        else if (unitMoveID == "Queen")
+        {
+            int range = (grid.GetLength(0) < grid.GetLength(1)) ? grid.GetLength(0) : grid.GetLength(1);
+            unitMoveset = calculateTrueQueenMoveset(range);
+        }
+
+        // These conditionals pertain to movesets for actual units in the game
+        else if (unitMoveID == "Rebel Leader")
+        {
+            unitMoveset = calculateRebelLeaderMoveset();
+        }
         else if (unitMoveID == "Footpad")
         {
             int range = 2;
             unitMoveset = calculateFootpadMoveset(range);
+        }
+        else if (unitMoveID == "Dragoon")
+        {
+            unitMoveset = calculateDragoonMoveset();
         }
         else if (unitMoveID == "Magano")
         {
             int range = (grid.GetLength(0) < grid.GetLength(1)) ? grid.GetLength(0) : grid.GetLength(1);
             unitMoveset = calculateMaganoMoveset(range);
         }
-        else if (unitMoveID == "Queen")
+        else if (unitMoveID == "Government Leader")
+        {
+            unitMoveset = calculateGovernmentLeaderMoveset();
+        }
+        else if (unitMoveID == "Riot Officer")
+        {
+            int range = 2;
+            unitMoveset = calculateRiotOfficerMoveset(range);
+        }
+        else if (unitMoveID == "Hopper")
+        {
+            unitMoveset = calculateHopperMoveset();
+        }
+        else if (unitMoveID == "Wizard")
         {
             int range = (grid.GetLength(0) < grid.GetLength(1)) ? grid.GetLength(0) : grid.GetLength(1);
-            unitMoveset = calculateTrueQueenMoveset(range);
+            unitMoveset = calculateWizardMoveset(range);
         }
         else
         {
