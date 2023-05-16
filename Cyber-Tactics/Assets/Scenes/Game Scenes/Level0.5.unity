@@ -4152,28 +4152,8 @@ PrefabInstance:
       propertyPath: doesPlayerLeaderExist
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 496181290441770369, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1601419984687008763, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: unitMoveID
-      value: Rebel Leader
-      objectReference: {fileID: 0}
-    - target: {fileID: 1601419984687008763, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: unitAttackID
-      value: Rebel Leader
-      objectReference: {fileID: 0}
-    - target: {fileID: 1783811106610278999, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1992418915760045827, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1992418915760045829, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1992418915909725075, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
@@ -4268,57 +4248,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2052387239515783071, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2834298457043538087, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2834298457910447716, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2834298458160989932, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2995473922777022769, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: unitMoveID
-      value: Riot Officer
-      objectReference: {fileID: 0}
-    - target: {fileID: 2995473922777022769, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: unitAttackID
-      value: Riot Officer
-      objectReference: {fileID: 0}
-    - target: {fileID: 3072205295441398184, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: unitMoveID
-      value: Government Leader
-      objectReference: {fileID: 0}
-    - target: {fileID: 3072205295441398184, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: unitAttackID
-      value: Government Leader
-      objectReference: {fileID: 0}
-    - target: {fileID: 3234848617364782369, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: ebf48956f8124fc45827d503a0b342b1, type: 2}
-    - target: {fileID: 3877097904627627770, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: unitMoveID
-      value: Dragoon
-      objectReference: {fileID: 0}
-    - target: {fileID: 3877097904627627770, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: unitAttackID
-      value: Dragoon
-      objectReference: {fileID: 0}
     - target: {fileID: 4612993110611935674, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4612993110611935676, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: orthographic size
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4612993110611935677, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4356,97 +4292,13 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4612993111053097653, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.70105743
-      objectReference: {fileID: 0}
-    - target: {fileID: 4612993111053097653, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.09229584
-      objectReference: {fileID: 0}
-    - target: {fileID: 4612993111053097653, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.70105743
-      objectReference: {fileID: 0}
-    - target: {fileID: 4612993111053097653, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.09229584
-      objectReference: {fileID: 0}
-    - target: {fileID: 4612993111053097653, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4612993111053097655, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: orthographic size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4770473885221115026, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: unitMoveID
-      value: Wizard
-      objectReference: {fileID: 0}
-    - target: {fileID: 4770473885221115026, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: unitAttackID
-      value: Wizard
-      objectReference: {fileID: 0}
-    - target: {fileID: 4932276554300055579, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: ebf48956f8124fc45827d503a0b342b1, type: 2}
-    - target: {fileID: 5130391703138685958, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5268259394298362263, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 5342895674475428464, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5578904642300149944, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5878442160971378424, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6630064743339475466, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8156866806515080772, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8435280826780869480, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8468208249898346835, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: unitMoveID
-      value: Hopper
-      objectReference: {fileID: 0}
-    - target: {fileID: 8468208249898346835, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: unitAttackID
-      value: Hopper
-      objectReference: {fileID: 0}
-    - target: {fileID: 8667721658923239320, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8751734947285082605, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: unitAttackID
-      value: Footpad
-      objectReference: {fileID: 0}
-    - target: {fileID: 8809813579598084220, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9057606078046938051, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9059776426520571282, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_text
