@@ -63,10 +63,14 @@ public class BattleTurnSystem : MonoBehaviour
     {
         // Setup the battle view clone of the player unit
         playerUnitClone = Instantiate(playerUnit, playerUnitLocation.transform);
+        playerUnitClone.GetComponent<MeshRenderer>().enabled = false;
+        playerUnitClone.transform.Find("Battle View Model").GetComponent<MeshRenderer>().enabled = true;
         playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
 
         // Setup the battle view clone of the enemy unit
         enemyUnitClone = Instantiate(enemyUnit, enemyUnitLocation.transform);
+        enemyUnitClone.GetComponent<MeshRenderer>().enabled = false;
+        enemyUnitClone.transform.Find("Battle View Model").GetComponent<MeshRenderer>().enabled = true;
         enemyUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
 
         //Make a copy of the player unit's deck
