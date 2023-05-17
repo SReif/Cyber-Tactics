@@ -4867,6 +4867,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 0d8fdf460a7ee4745bc5ad31de1b95fb, type: 2}
+    - target: {fileID: 8693082579885754001, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9059776426520571282, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_text
       value: Escape!
