@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     //UI Elements
     public GameObject pausePane;
     [System.NonSerialized] public GameObject turnPane, selectedUnitPane, winPane, losePane, viewedUnitPane;
+    [System.NonSerialized] public GameObject endMoveButton, undoMoveButton, endAttackButton;
     [System.NonSerialized] public GameObject playerStat, playerHealth, enemyStat, enemyHealth;
 
     //Elements of the Selected Unit Stat Panel
@@ -58,6 +59,53 @@ public class UIManager : MonoBehaviour
             {
                 ToggleStatsPane();
                 NextTurn();
+
+                if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasMoved)
+                {
+                    // ENABLE UNDO MOVE BUTTON
+                    undoMoveButton.SetActive(true);
+
+                    // ENABLE END ATTACK BUTTON
+                    endAttackButton.SetActive(true);
+
+                    // DISABLE END MOVE BUTTON
+                    endMoveButton.SetActive(false);
+
+
+                    if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked)
+                    {
+                        // DISABLE UNDO MOVE BUTTON
+                        undoMoveButton.SetActive(false);
+
+                        // DISABLE END ATTACK BUTTON
+                        endAttackButton.SetActive(false);
+
+                        // DISABLE END MOVE BUTTON
+                        endMoveButton.SetActive(false);
+                    }
+                }
+                else if (gridSystem.selectedUnit != null && !gridSystem.selectedUnit.GetComponent<Unit>().hasMoved)
+                {
+                    // DISABLE UNDO MOVE BUTTON
+                    undoMoveButton.SetActive(false);
+
+                    // DISABLE END ATTACK BUTTON
+                    endAttackButton.SetActive(false);
+
+                    // ENABLE END MOVE BUTTON
+                    endMoveButton.SetActive(true);
+                }
+                else
+                {
+                    // DISABLE UNDO MOVE BUTTON
+                    undoMoveButton.SetActive(false);
+
+                    // DISABLE END ATTACK BUTTON
+                    endAttackButton.SetActive(false);
+
+                    // ENABLE END MOVE BUTTON
+                    endMoveButton.SetActive(false);
+                }
             }
         }
 
@@ -218,6 +266,44 @@ public class UIManager : MonoBehaviour
         battleTurnSystem.playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
     }
 
+    public void UndoMoveButton()
+    {
+        Debug.Log("Pressed button");
+
+        MonoBehaviour uiManagerMono = GameObject.Find("UIManager").GetComponent<MonoBehaviour>();
+        uiManagerMono.StartCoroutine(UndoMoveCoroutine());
+    }
+
+    public IEnumerator UndoMoveCoroutine()
+    {
+        yield return new WaitForSeconds(.2f);
+
+        gridSystem = GameObject.Find("Grid System").GetComponent<GridSystem>();
+        gridSystem.resetValidAttackNodes();
+
+        MonoBehaviour uiManagerMono = GameObject.Find("UIManager").GetComponent<MonoBehaviour>();
+        yield return uiManagerMono.StartCoroutine(gridSystem.MoveSelectedUnit(gridSystem.selectedUnitPrevNode));
+
+        gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().calculateValidMoves(gridSystem.grid);
+        gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.validMoveNodes);
+
+        gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = false;
+    }
+
+    public void EndMoveButton()
+    {
+        gridSystem = GameObject.Find("Grid System").GetComponent<GridSystem>();
+
+        gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
+    }
+
+    public void EndAttackButton()
+    {
+        gridSystem = GameObject.Find("Grid System").GetComponent<GridSystem>();
+
+        gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked = true;
+    }
+
     //Sets the stats of both the player and enemy unit that is currently in combat
     private void SetBattleStats()
     {
@@ -320,6 +406,10 @@ public class UIManager : MonoBehaviour
             winPane = levelUI.transform.GetChild(2).gameObject; //Victory Pane
             losePane = levelUI.transform.GetChild(3).gameObject; //Defeat Pane
             viewedUnitPane = levelUI.transform.GetChild(4).gameObject; //Viewed Unit Pane
+            
+            undoMoveButton = levelUI.transform.GetChild(5).gameObject; //Undo Move Button
+            endMoveButton = levelUI.transform.GetChild(6).gameObject; //End Move Button
+            endAttackButton = levelUI.transform.GetChild(7).gameObject; // End Attack Button
         }
 
         else if(battleViewCam.activeSelf == true)

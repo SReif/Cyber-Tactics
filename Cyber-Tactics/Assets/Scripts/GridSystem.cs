@@ -8,6 +8,7 @@ public class GridSystem : MonoBehaviour
     public int height = 0;                      // Height of the grid via the x-axis
     public Vector3 firstNodeOrigin;             // The world position of the grid based on the first node's world position
     public GameObject selectedUnit;             // The unit that is currently selected
+    public GameObject selectedUnitPrevNode;         // The selected unit's previous node position
     public Vector3 unitOffset;                  // The height offset for the units on the grid
     public GameObject[,] grid;                  // A 2D array that holds the nodes that make up the grid system
     public List<GameObject> validMoveNodes;     // The nodes that the current selected unit can move to

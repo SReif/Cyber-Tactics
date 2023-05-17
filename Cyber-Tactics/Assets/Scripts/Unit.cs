@@ -19,6 +19,7 @@ public class Unit : MonoBehaviour
     public string element;              // The unit's element that is used to caulcate modifier bonuses when battle is initiated
 
     public bool hasMoved;               // Whether the unit has moved or not
+    public bool hasAttacked;            // Whether the unit has attacked or not
 
     public string enemyAI = "N/A";      // FOR ENEMY UNITS USE ONLY; for player units, input N/A. Valid inputs are: Passive, Defensive, Aggressive
     public GameObject topLeftCornerNode;            // FOR DEFENSIVE ENEMY UNITS USE ONLY; for player units or non-defensive enemy units, input null (Used to form the enemy unit's defensive zone)
