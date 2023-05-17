@@ -12,7 +12,7 @@ public class AudioPlayer : MonoBehaviour
     void Start()
     {
         winLoseAudioPlayed = false;
-        audioManager = transform.GetComponent<AudioManager>();
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         winLoseManager = GameObject.Find("SceneManager").GetComponent<WinLoseManager>();
 
         if (SceneManager.GetActiveScene().name == "MainMenu")
@@ -21,7 +21,7 @@ public class AudioPlayer : MonoBehaviour
             audioManager.Play("Main Menu Theme");
         }
 
-        if(SceneManager.GetActiveScene().name == "Ambush")
+        if(SceneManager.GetActiveScene().name == "Ambush" || SceneManager.GetActiveScene().name == "Prologue" || SceneManager.GetActiveScene().name == "City Square")
         {
             audioManager.StopAllAudio();
             audioManager.Play("Cutscene Theme");

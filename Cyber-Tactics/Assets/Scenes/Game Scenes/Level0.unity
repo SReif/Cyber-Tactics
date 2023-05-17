@@ -3897,6 +3897,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 8693082579885754001, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8751734947285082605, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: basePhysicalAttack
       value: 2
