@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7296908602604517310}
   - component: {fileID: 7296908602604517311}
   - component: {fileID: 7296908602604517297}
+  - component: {fileID: 1864881924}
+  - component: {fileID: 1864881927}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -40,12 +42,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7296908602604517308}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85f1185bd6c3fe94d90ca4c802dc03b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerLeader: {fileID: 0}
+  doesPlayerLeaderExist: 0
+  enemyLeader: {fileID: 0}
+  doesEnemyLeaderExist: 0
+  objectiveNode: {fileID: 0}
+  isPlayerObjective: 0
+  gridSystem: {fileID: 0}
   uiManager: {fileID: 0}
+  winLoseConditionMet: 0
+  win: 0
+  lose: 0
 --- !u!114 &7296908602604517297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,3 +73,27 @@ MonoBehaviour:
   firstSceneName: 
   mainMenuSceneName: MainMenu
   creditsSceneName: Credits
+--- !u!114 &1864881924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7296908602604517308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd6e35b6c7609e54a996ccb191e1bec0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1864881927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7296908602604517308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd38959ff0540434694408d9f8010f4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
