@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
     public List<GameObject> cards;      // The cards that this unit will choose from
     public string unitMoveID;           // The type of chess piece this unit moves as (Determines which moveset they use)
     public string unitAttackID;         // The type of chess piece this unit attack as (Determines which attackset they use)
-    public string element;              // The unit's element that is used to caulcate modifier bonuses when battle is initiated
+    public string element;              // The unit's element that is used to calculate modifier bonuses when battle is initiated
 
     public bool hasMoved;               // Whether the unit has moved or not
     public bool hasAttacked;            // Whether the unit has attacked or not

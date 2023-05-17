@@ -577,8 +577,16 @@ MonoBehaviour:
   gridObject: {fileID: 1992418915760045827}
   battleSystem: {fileID: 4612993110296600977}
   gridViewCamera: {fileID: 4612993110611935674}
-  playersUnits: []
-  enemysUnits: []
+  playersUnits:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  enemysUnits:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   state: 0
   viewedUnit: {fileID: 0}
 --- !u!1 &1992418917536964782
@@ -823,7 +831,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Defeat the Enemies
+  m_text: Defeat all enemies!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1592,7 +1600,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4612993110611935674}
   m_LocalRotation: {x: 0.35355338, y: 0.35355338, z: -0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: 1.24, y: 7.43, z: 1.24}
+  m_LocalPosition: {x: 2, y: 8.5, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1891,14 +1899,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4855833392752976891}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8920948852769877228}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!23 &6256082096141122079
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7179,7 +7187,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7658922283027964821, guid: 2695e5f0d267e9f4baa7293ee26fee49, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7658922283027964826, guid: 2695e5f0d267e9f4baa7293ee26fee49, type: 3}
       propertyPath: m_Pivot.x
@@ -7812,7 +7820,7 @@ PrefabInstance:
       objectReference: {fileID: 7366034263271955672, guid: f529fdda769cb494dbc9e405c9db4d36, type: 3}
     - target: {fileID: 2587727067301145922, guid: 6dd52810ab7c5254f92089b9b2a77cb9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UndoMove
+      value: UndoMoveButton
       objectReference: {fileID: 0}
     - target: {fileID: 2587727067301145922, guid: 6dd52810ab7c5254f92089b9b2a77cb9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -7834,10 +7842,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 7366034263271955672, guid: f529fdda769cb494dbc9e405c9db4d36, type: 3}
-    - target: {fileID: 3499620676634762222, guid: 6dd52810ab7c5254f92089b9b2a77cb9, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: EndAttack
-      objectReference: {fileID: 0}
     - target: {fileID: 3499620676634762222, guid: 6dd52810ab7c5254f92089b9b2a77cb9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UIManager, Assembly-CSharp
@@ -7855,10 +7859,6 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8808704076504071907, guid: 6dd52810ab7c5254f92089b9b2a77cb9, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8808704076504071907, guid: 6dd52810ab7c5254f92089b9b2a77cb9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
@@ -7866,10 +7866,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 7366034263271955672, guid: f529fdda769cb494dbc9e405c9db4d36, type: 3}
-    - target: {fileID: 8808704076504071907, guid: 6dd52810ab7c5254f92089b9b2a77cb9, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: EndMove
-      objectReference: {fileID: 0}
     - target: {fileID: 8808704076504071907, guid: 6dd52810ab7c5254f92089b9b2a77cb9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UIManager, Assembly-CSharp
@@ -7935,10 +7931,6 @@ PrefabInstance:
       propertyPath: battleUI
       value: 
       objectReference: {fileID: 6630064743339475466}
-    - target: {fileID: 7366034263271955672, guid: f529fdda769cb494dbc9e405c9db4d36, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7366034263271955672, guid: f529fdda769cb494dbc9e405c9db4d36, type: 3}
       propertyPath: pausePane
       value: 
@@ -8060,7 +8052,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 4377652632346266168}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db237a13677799f4dbe3e77591c1e609, type: 3}
   m_Name: 
@@ -8931,6 +8923,10 @@ PrefabInstance:
       value: Riot Officer
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
+      propertyPath: basePhysicalAttack
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
       propertyPath: cards.Array.data[0]
       value: 
       objectReference: {fileID: 7868074063840121360}
@@ -9026,6 +9022,10 @@ PrefabInstance:
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: cards.Array.size
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: basePhysicalAttack
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: cards.Array.data[0]
@@ -9568,6 +9568,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1992418917536964783}
     m_Modifications:
+    - target: {fileID: 1290076465, guid: 20255e6bce9872f4ab23bd4ede6c9dfb, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8902464114125737476, guid: 20255e6bce9872f4ab23bd4ede6c9dfb, type: 3}
       propertyPath: m_Name
       value: AudioManager
@@ -10322,6 +10326,10 @@ PrefabInstance:
     - target: {fileID: 1802240839667885490, guid: b36a9ada75e6675419d57f41be490a52, type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636914138113832140, guid: b36a9ada75e6675419d57f41be490a52, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7201133339410216975, guid: b36a9ada75e6675419d57f41be490a52, type: 3}
       propertyPath: m_RootOrder

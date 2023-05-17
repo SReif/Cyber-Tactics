@@ -67,14 +67,10 @@ public class TurnSystem : MonoBehaviour
 
     IEnumerator GridTurnSystem()
     {
-        Debug.Log("Testing 123234354");
-
         while (!winLoseManager.winLoseConditionMet)
         {
             if (state == State.PlayerTurn)
             {
-                Debug.Log("Testing 909090909");
-
                 // The player can then select one of their units that have the "PlayerUnit" Tag
 
                 // Check to see if the player has moved all of their units
@@ -114,13 +110,11 @@ public class TurnSystem : MonoBehaviour
                     var ray = gridViewCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
                     RaycastHit hit;
 
-                    Debug.Log("Testing testing testing");
-
                     if (Physics.Raycast(ray, out hit))
                     {
                         if (Input.GetMouseButtonDown(0) && hit.transform.tag == "Node" && hit.transform.Find("Unit Slot").childCount > 0)
                         {
-                            if (hit.transform.Find("Unit Slot").GetChild(0).tag != "Obstacle" && !hit.transform.Find("Unit Slot").GetChild(0).GetComponent<Unit>().hasAttacked)
+                            if (hit.transform.Find("Unit Slot").GetChild(0).tag == "PlayerUnit" && !hit.transform.Find("Unit Slot").GetChild(0).GetComponent<Unit>().hasAttacked)
                             {
                                 // Disable the selected unit indicator for the old object
                                 if (gridSystem.selectedUnit != null)
@@ -160,7 +154,8 @@ public class TurnSystem : MonoBehaviour
                             yield return StartCoroutine(chooseUnitToAttack("Player"));
 
                             // Disable the selected unit indicator for the unit, if it still exists
-                            if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasMoved)
+                            if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasMoved
+                                && gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked)
                             {
                                 // Disable the attack indicator for the unit
                                 //gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
@@ -172,12 +167,15 @@ public class TurnSystem : MonoBehaviour
                                 // Do not increment this value if the unit is defeated, or else the player's turn will end early when there are less units on the board
                                 playersUnitsMoved++;
 
+                                //Debug.Log("SELECTED UNIT EQUALS NULL");
+
                                 gridSystem.selectedUnit = null;
                             }
 
                             //Debug.Log("Unit has taken its turn.");
                         }
-                        else if (Input.GetMouseButtonDown(1) && hit.transform.tag == "Node" && hit.transform.Find("Unit Slot").childCount > 0)
+                        else if (Input.GetMouseButtonDown(1) && hit.transform.tag == "Node" && hit.transform.Find("Unit Slot").childCount > 0
+                            && hit.transform.Find("Unit Slot").GetChild(0).transform.tag == "PlayerUnit")
                         {
                             // Allow the player to view a unit's stats
 
@@ -190,7 +188,8 @@ public class TurnSystem : MonoBehaviour
                                 viewedUnit = null;
                             }
                         }
-                        else if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasMoved)
+                        else if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasMoved
+                            && hit.transform.Find("Unit Slot").childCount > 0 && hit.transform.Find("Unit Slot").GetChild(0).transform.tag == "PlayerUnit")
                         {
                             yield return StartCoroutine(gridSystem.MoveSelectedUnit(gridSystem.selectedUnit.transform.parent.transform.parent.gameObject));
                             gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
@@ -205,7 +204,8 @@ public class TurnSystem : MonoBehaviour
                             yield return StartCoroutine(chooseUnitToAttack("Player"));
 
                             // Disable the selected unit indicator for the unit, if it still exists
-                            if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasMoved)
+                            if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasMoved
+                                && gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked)
                             {
                                 // Disable the attack indicator for the unit
                                 //gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
@@ -216,6 +216,8 @@ public class TurnSystem : MonoBehaviour
 
                                 // Do not increment this value if the unit is defeated, or else the player's turn will end early when there are less units on the board
                                 playersUnitsMoved++;
+
+                                //Debug.Log("SELECTED UNIT EQUALS NULL");
 
                                 gridSystem.selectedUnit = null;
                             }
@@ -347,8 +349,6 @@ public class TurnSystem : MonoBehaviour
             // End this loop once the unit has attacked
             while (!gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked && gridSystem.selectedUnit.GetComponent<Unit>().hasMoved)
             {
-                Debug.Log("Testing unit to attack");
-
                 var ray = gridViewCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
