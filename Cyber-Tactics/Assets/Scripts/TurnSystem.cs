@@ -188,8 +188,13 @@ public class TurnSystem : MonoBehaviour
                                 viewedUnit = null;
                             }
                         }
-                        else if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasMoved
-                            && hit.transform.Find("Unit Slot").childCount > 0 && hit.transform.Find("Unit Slot").GetChild(0).transform.tag == "PlayerUnit")
+
+                        /*
+                         * COMMENT OUT THE SECTION BELOW WHEN IMPLEMENTING THE UNDO FEATURE
+                         */
+
+                        else if (gridSystem.selectedUnit != null && hit.transform.Find("Unit Slot").childCount > 0
+                            && gridSystem.selectedUnit.GetComponent<Unit>().hasMoved && hit.transform.Find("Unit Slot").GetChild(0).transform.tag == "PlayerUnit")
                         {
                             yield return StartCoroutine(gridSystem.MoveSelectedUnit(gridSystem.selectedUnit.transform.parent.transform.parent.gameObject));
                             gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;

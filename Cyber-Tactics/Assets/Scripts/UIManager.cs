@@ -67,8 +67,7 @@ public class UIManager : MonoBehaviour
                 ToggleStatsPane();
                 NextTurn();
 
-                //Debug.Log("undoingMove: " + undoingMove);
-
+                /*
                 // Disable buttons when they have been pressed
                 if (undoingMove)
                 {
@@ -138,6 +137,7 @@ public class UIManager : MonoBehaviour
                     // ENABLE END MOVE BUTTON
                     endMoveButton.SetActive(false);
                 }
+                */
             }
         }
 
@@ -300,7 +300,7 @@ public class UIManager : MonoBehaviour
 
     public void UndoMoveButton()
     {
-        Debug.Log("Pressed button");
+        Debug.Log("Pressed undo move button.");
 
         MonoBehaviour uiManagerMono = GameObject.Find("UIManager").GetComponent<MonoBehaviour>();
         uiManagerMono.StartCoroutine(UndoMoveCoroutine());

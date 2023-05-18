@@ -448,6 +448,11 @@ public class BattleTurnSystem : MonoBehaviour
                         {
                             Debug.Log("Adding card to selected pool!");
 
+                            if (cardElement == playerUnitClone.GetComponent<Unit>().element)
+                            {
+                                toggleCardText(hit.transform.gameObject);
+                            }
+
                             updateStatsFromCard(cardType, cardModifier, cardElement, "Player", "Selecting");
                             playerSelectedCards.Add(hit.transform.gameObject);
 
@@ -458,6 +463,11 @@ public class BattleTurnSystem : MonoBehaviour
                     else
                     {
                         Debug.Log("Deselecting card!");
+
+                        if (cardElement == playerUnitClone.GetComponent<Unit>().element)
+                        {
+                            toggleCardText(hit.transform.gameObject);
+                        }
 
                         updateStatsFromCard(cardType, cardModifier, cardElement, "Player", "Deselecting");
                         playerSelectedCards.Remove(hit.transform.gameObject);
@@ -1097,6 +1107,24 @@ public class BattleTurnSystem : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    public void toggleCardText(GameObject card)
+    {
+        string cardType = card.GetComponent<Card>().cardType;
+        int cardModifier = card.GetComponent<Card>().modifier;
+
+        Debug.Log(card.transform.GetChild(0).Find("Card Text").gameObject.activeSelf);
+
+        if (!card.transform.GetChild(0).Find("Card Text").gameObject.activeSelf)
+        {
+            card.transform.GetChild(0).Find("Card Text").Find("Card Type Text").GetComponent<TMPro.TMP_Text>().text = "+1 " + cardType;
+            card.transform.GetChild(0).Find("Card Text").gameObject.SetActive(true);
+        }
+        else
+        {
+            card.transform.GetChild(0).Find("Card Text").gameObject.SetActive(false);
+        }
     }
 
     public void checkForInitiatorBoost(string battleInitiator)
