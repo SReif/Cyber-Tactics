@@ -41,11 +41,18 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GridSystem gridSystem;
     [SerializeField] private BattleTurnSystem battleTurnSystem;
 
+    //private bool undoingMove;
+    //private bool endingMove;
+    //private bool endingAttack;
+
     // Start is called before the first frame update
     void Start()
     {
         //Instantiating variables if necessary
         paused = false;
+        //undoingMove = false;
+        //endingMove = false;
+        //endingAttack = false;
     }
 
     // Update is called once per frame
@@ -60,7 +67,35 @@ public class UIManager : MonoBehaviour
                 ToggleStatsPane();
                 NextTurn();
 
-                if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasMoved)
+                /*
+                 *  Archived Undo Move/End Move/End Attack features
+                 */
+
+                /*
+                // Disable buttons when they have been pressed
+                if (undoingMove)
+                {
+                    Debug.Log("CHECK 1");
+                    undoMoveButton.SetActive(false);
+                    endAttackButton.SetActive(false);
+                }
+
+                // Disable buttons when they have been pressed
+                if (endingAttack)
+                {
+                    Debug.Log("CHECK 2");
+                    undoMoveButton.SetActive(false);
+                    endAttackButton.SetActive(false);
+                }
+
+                // Disable buttons when they have been pressed
+                if (endingMove)
+                {
+                    Debug.Log("CHECK 3");
+                    endMoveButton.SetActive(false);
+                }
+
+                if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasMoved && turnSystem.state == TurnSystem.State.PlayerTurn)
                 {
                     // ENABLE UNDO MOVE BUTTON
                     undoMoveButton.SetActive(true);
@@ -72,7 +107,7 @@ public class UIManager : MonoBehaviour
                     endMoveButton.SetActive(false);
 
 
-                    if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked)
+                    if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked && turnSystem.state == TurnSystem.State.PlayerTurn)
                     {
                         // DISABLE UNDO MOVE BUTTON
                         undoMoveButton.SetActive(false);
@@ -84,7 +119,7 @@ public class UIManager : MonoBehaviour
                         endMoveButton.SetActive(false);
                     }
                 }
-                else if (gridSystem.selectedUnit != null && !gridSystem.selectedUnit.GetComponent<Unit>().hasMoved)
+                else if (gridSystem.selectedUnit != null && !gridSystem.selectedUnit.GetComponent<Unit>().hasMoved && turnSystem.state == TurnSystem.State.PlayerTurn)
                 {
                     // DISABLE UNDO MOVE BUTTON
                     undoMoveButton.SetActive(false);
@@ -106,6 +141,7 @@ public class UIManager : MonoBehaviour
                     // ENABLE END MOVE BUTTON
                     endMoveButton.SetActive(false);
                 }
+                */
             }
         }
 
@@ -266,9 +302,14 @@ public class UIManager : MonoBehaviour
         battleTurnSystem.playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
     }
 
+    /*
+     *  Archived Undo Move/End Move/End Attack features
+     */ 
+
+    /*
     public void UndoMoveButton()
     {
-        Debug.Log("Pressed button");
+        Debug.Log("Pressed undo move button.");
 
         MonoBehaviour uiManagerMono = GameObject.Find("UIManager").GetComponent<MonoBehaviour>();
         uiManagerMono.StartCoroutine(UndoMoveCoroutine());
@@ -276,33 +317,129 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator UndoMoveCoroutine()
     {
-        yield return new WaitForSeconds(.2f);
+        Debug.Log("undoingMove: " + undoingMove);
 
-        gridSystem = GameObject.Find("Grid System").GetComponent<GridSystem>();
-        gridSystem.resetValidAttackNodes();
+        if (!undoingMove)
+        {
+            Debug.Log("UNDO MOVE BUTTON CHECK");
 
-        MonoBehaviour uiManagerMono = GameObject.Find("UIManager").GetComponent<MonoBehaviour>();
-        yield return uiManagerMono.StartCoroutine(gridSystem.MoveSelectedUnit(gridSystem.selectedUnitPrevNode));
+            undoingMove = true;
 
-        gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().calculateValidMoves(gridSystem.grid);
-        gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.validMoveNodes);
+            yield return new WaitForSeconds(.2f);
 
-        gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = false;
+            gridSystem = GameObject.Find("Grid System").GetComponent<GridSystem>();
+            gridSystem.resetValidAttackNodes();
+
+            MonoBehaviour uiManagerMono = GameObject.Find("UIManager").GetComponent<MonoBehaviour>();
+            yield return uiManagerMono.StartCoroutine(gridSystem.MoveSelectedUnit(gridSystem.selectedUnitPrevNode));
+
+            gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().calculateValidMoves(gridSystem.grid);
+            gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.validMoveNodes);
+
+            gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = false;
+
+            undoingMove = false;
+        }
+
+        yield return null;
     }
 
     public void EndMoveButton()
     {
-        gridSystem = GameObject.Find("Grid System").GetComponent<GridSystem>();
+        Debug.Log("Pressed end move button.");
 
+        MonoBehaviour uiManagerMono = GameObject.Find("UIManager").GetComponent<MonoBehaviour>();
+        uiManagerMono.StartCoroutine(EndMoveCoroutine());
+    }
+
+    public IEnumerator EndMoveCoroutine()
+    {
+        gridSystem = GameObject.Find("Grid System").GetComponent<GridSystem>();
+        gridSystem.resetValidMoveNodes();
         gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
+
+        gridSystem.validAttackNodes = gridSystem.selectedUnit.GetComponent<Unit>().showValidAttacks(gridSystem.grid, "EnemyUnit");
+
+        Debug.Log("Begin chooseUnitToAttack(\"Player\") coroutine in UIManager");
+
+        // Choose a unit to attack, if any
+        MonoBehaviour uiManagerMono = GameObject.Find("UIManager").GetComponent<MonoBehaviour>();
+        yield return uiManagerMono.StartCoroutine(turnSystem.chooseUnitToAttack("Player"));
+
+        Debug.Log("Out of chooseUnitToAttack(\"Player\") coroutine in UIManager");
+
+        // Disable the selected unit indicator for the unit, if it still exists
+        if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasMoved
+            && gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked)
+        {
+            // Disable the attack indicator for the unit
+            //gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
+
+            // Show that the unit cannot be moved the rest of this turn
+            gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked = true;
+            gridSystem.selectedUnit.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
+
+            // Do not increment this value if the unit is defeated, or else the player's turn will end early when there are less units on the board
+            Debug.Log("ATTACKED, MOVES INCREMENTED");
+            //playersUnitsMoved++;
+
+            //Debug.Log("SELECTED UNIT EQUALS NULL");
+
+            gridSystem.selectedUnit = null;
+            gridSystem.selectedUnitPrevNode = null;
+        }
+
+        yield return null;
     }
 
     public void EndAttackButton()
     {
-        gridSystem = GameObject.Find("Grid System").GetComponent<GridSystem>();
+        Debug.Log("Pressed end attack button.");
 
-        gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked = true;
+        MonoBehaviour uiManagerMono = GameObject.Find("UIManager").GetComponent<MonoBehaviour>();
+        uiManagerMono.StartCoroutine(EndAttackCoroutine());
     }
+
+    public IEnumerator EndAttackCoroutine()
+    {
+        gridSystem = GameObject.Find("Grid System").GetComponent<GridSystem>();
+        //gridSystem.resetValidAttackNodes();
+        //gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked = true;
+
+        if (gridSystem.validAttackNodes.Count == 0)
+        {
+            gridSystem.resetValidAttackNodes();
+
+            // Disable the attack indicator for the unit
+            //gridSystem.selectedUnit.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
+
+            // Increment players units because the unit will not die if they don't attack
+            turnSystem = GameObject.Find("Grid Turn System").GetComponent<TurnSystem>();
+
+            //Debug.Log("NO ENEMIES ARROUND, MOVES INCREMENTED");
+
+            //turnSystem.playersUnitsMoved++;
+
+            // Show that the unit cannot be moved the rest of this turn
+            gridSystem.selectedUnit.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
+            gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked = true;
+
+            //yield return new WaitForSeconds(0.2f);
+
+            //gridSystem.selectedUnit = null;
+            //gridSystem.selectedUnitPrevNode = null;
+        }
+        else
+        {
+            Debug.Log("ENEMIES ARROUND, NO MOVES INCREMENTED");
+
+            gridSystem.resetValidAttackNodes();
+            gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked = true;
+        }
+
+        yield return null;
+    }
+    */
 
     //Sets the stats of both the player and enemy unit that is currently in combat
     private void SetBattleStats()
@@ -353,7 +490,7 @@ public class UIManager : MonoBehaviour
         enemyMDmg = enemy.GetComponent<Unit>().baseMagicalAttack;
         enemyPRes = enemy.GetComponent<Unit>().basePhysicalDefense;
         enemyMRes = enemy.GetComponent<Unit>().baseMagicalDefense;
-        enemyElement = player.GetComponent<Unit>().element;
+        enemyElement = enemy.GetComponent<Unit>().element;
 
         enemyPResMod = battleTurnSystem.totalEnemyPHYSDEFModifier;
         enemyMResMod = battleTurnSystem.totalEnemyMAGDEFModifier;
@@ -407,9 +544,9 @@ public class UIManager : MonoBehaviour
             losePane = levelUI.transform.GetChild(3).gameObject; //Defeat Pane
             viewedUnitPane = levelUI.transform.GetChild(4).gameObject; //Viewed Unit Pane
             
-            undoMoveButton = levelUI.transform.GetChild(5).gameObject; //Undo Move Button
-            endMoveButton = levelUI.transform.GetChild(6).gameObject; //End Move Button
-            endAttackButton = levelUI.transform.GetChild(7).gameObject; // End Attack Button
+            //undoMoveButton = levelUI.transform.GetChild(5).gameObject; //Undo Move Button
+            //endMoveButton = levelUI.transform.GetChild(6).gameObject; //End Move Button
+            //endAttackButton = levelUI.transform.GetChild(7).gameObject; // End Attack Button
         }
 
         else if(battleViewCam.activeSelf == true)
