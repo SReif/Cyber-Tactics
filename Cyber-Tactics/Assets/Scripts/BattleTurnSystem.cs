@@ -63,10 +63,14 @@ public class BattleTurnSystem : MonoBehaviour
     {
         // Setup the battle view clone of the player unit
         playerUnitClone = Instantiate(playerUnit, playerUnitLocation.transform);
+        playerUnitClone.GetComponent<MeshRenderer>().enabled = false;
+        playerUnitClone.transform.Find("Battle View Model").GetComponent<MeshRenderer>().enabled = true;
         playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
 
         // Setup the battle view clone of the enemy unit
         enemyUnitClone = Instantiate(enemyUnit, enemyUnitLocation.transform);
+        enemyUnitClone.GetComponent<MeshRenderer>().enabled = false;
+        enemyUnitClone.transform.Find("Battle View Model").GetComponent<MeshRenderer>().enabled = true;
         enemyUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
 
         //Make a copy of the player unit's deck
@@ -1011,7 +1015,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             enemyUnitClone.transform.position -= new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         // Enemy unit moves away from player unit
@@ -1021,7 +1025,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             enemyUnitClone.transform.position += new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         //Player unit moves away from enemy unit
@@ -1031,7 +1035,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             playerUnitClone.transform.position -= new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         //Player unit moves toward enemy unit
@@ -1041,7 +1045,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             playerUnitClone.transform.position += new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         yield return new WaitForSeconds(0.25f);
@@ -1059,7 +1063,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             playerUnitClone.transform.position += new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         //Player unit moves away from enemy unit
@@ -1069,7 +1073,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             playerUnitClone.transform.position -= new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         // Enemy unit moves away from player unit
@@ -1079,7 +1083,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             enemyUnitClone.transform.position += new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         // Enemy unit moves toward player unit
@@ -1089,7 +1093,7 @@ public class BattleTurnSystem : MonoBehaviour
             curDistance += increment;
             enemyUnitClone.transform.position -= new Vector3(0f, 0f, increment);
 
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
 
         yield return null;

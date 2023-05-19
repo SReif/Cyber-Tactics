@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: -6389616149859606896}
   - component: {fileID: 2852991005567976872}
   m_Layer: 0
-  m_Name: Player Unit
+  m_Name: Footpad (Player)
   m_TagString: PlayerUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -272,16 +272,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: 
-  maxHP: 0
-  currentHP: 0
-  basePhysicalAttack: 0
-  basePhysicalDefense: 0
+  className: Footpad
+  maxHP: 3
+  currentHP: 3
+  basePhysicalAttack: 1
+  basePhysicalDefense: 1
   baseMagicalAttack: 0
   baseMagicalDefense: 0
-  cards: []
-  unitMoveID: 
-  unitAttackID: 
-  element: 
+  cards:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  unitMoveID: Default
+  unitAttackID: Default
+  element: Sand
   hasMoved: 0
   enemyAI: N/A
   topLeftCornerNode: {fileID: 0}

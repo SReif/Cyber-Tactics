@@ -15,24 +15,25 @@ public class UIManager : MonoBehaviour
     //UI Elements
     public GameObject pausePane;
     [System.NonSerialized] public GameObject turnPane, selectedUnitPane, winPane, losePane, viewedUnitPane;
+    [System.NonSerialized] public GameObject endMoveButton, undoMoveButton, endAttackButton;
     [System.NonSerialized] public GameObject playerStat, playerHealth, enemyStat, enemyHealth;
 
     //Elements of the Selected Unit Stat Panel
-    private string unitName, unitType;
+    private string unitName, unitType, unitElement;
     private int unitHp, unitMaxHp, unitPRes, unitMRes, unitPDmg, unitMDmg, highestStat;
     private List<int> valueList = new List<int>();
 
     //Elements of the Viewed Unit Stat Panel;
-    private string vUnitName, vUnitType;
+    private string vUnitName, vUnitType, vUnitElement;
     private int vUnitHp, vUnitMaxHp, vUnitPRes, vUnitMRes, vUnitPDmg, vUnitMDmg;
 
     //Elements of the Player in Battle
-    private string playerClassName;
+    private string playerClassName, playerElement;
     private int playerHp, playerMaxHp, playerPRes, playerMRes, playerPDmg, playerMDmg;
     private int playerPResMod, playerMResMod, playerPDmgMod, playerMDmgMod;
 
     //Elements of the Enemy in Battle
-    private string enemyClassName;
+    private string enemyClassName, enemyElement;
     private int enemyHp, enemyMaxHp,enemyPRes, enemyMRes, enemyPDmg, enemyMDmg;
     private int enemyPResMod, enemyMResMod, enemyPDmgMod, enemyMDmgMod;
 
@@ -58,6 +59,53 @@ public class UIManager : MonoBehaviour
             {
                 ToggleStatsPane();
                 NextTurn();
+
+                if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasMoved)
+                {
+                    // ENABLE UNDO MOVE BUTTON
+                    undoMoveButton.SetActive(true);
+
+                    // ENABLE END ATTACK BUTTON
+                    endAttackButton.SetActive(true);
+
+                    // DISABLE END MOVE BUTTON
+                    endMoveButton.SetActive(false);
+
+
+                    if (gridSystem.selectedUnit != null && gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked)
+                    {
+                        // DISABLE UNDO MOVE BUTTON
+                        undoMoveButton.SetActive(false);
+
+                        // DISABLE END ATTACK BUTTON
+                        endAttackButton.SetActive(false);
+
+                        // DISABLE END MOVE BUTTON
+                        endMoveButton.SetActive(false);
+                    }
+                }
+                else if (gridSystem.selectedUnit != null && !gridSystem.selectedUnit.GetComponent<Unit>().hasMoved)
+                {
+                    // DISABLE UNDO MOVE BUTTON
+                    undoMoveButton.SetActive(false);
+
+                    // DISABLE END ATTACK BUTTON
+                    endAttackButton.SetActive(false);
+
+                    // ENABLE END MOVE BUTTON
+                    endMoveButton.SetActive(true);
+                }
+                else
+                {
+                    // DISABLE UNDO MOVE BUTTON
+                    undoMoveButton.SetActive(false);
+
+                    // DISABLE END ATTACK BUTTON
+                    endAttackButton.SetActive(false);
+
+                    // ENABLE END MOVE BUTTON
+                    endMoveButton.SetActive(false);
+                }
             }
         }
 
@@ -87,6 +135,7 @@ public class UIManager : MonoBehaviour
             Time.timeScale = 1;
             if(GameObject.Find("Grid View Camera").activeSelf)
             {
+                GameObject.Find("Grid View Camera").GetComponent<CameraPan>().enabled = true;
                 turnPane.SetActive(true);
                 levelUI.SetActive(true);
             }
@@ -96,6 +145,7 @@ public class UIManager : MonoBehaviour
                 battleUI.SetActive(true);
             }
 
+            gridSystem.GetComponent<GridSystem>().enabled = true;
             turnSystem.enabled = true;
             battleTurnSystem.enabled = true;
             pausePane.SetActive(false);
@@ -106,6 +156,7 @@ public class UIManager : MonoBehaviour
         {
             if (GameObject.Find("Grid View Camera").activeSelf)
             {
+                GameObject.Find("Grid View Camera").GetComponent<CameraPan>().enabled = false;
                 turnPane.SetActive(false);
                 levelUI.SetActive(false);
             }
@@ -115,6 +166,7 @@ public class UIManager : MonoBehaviour
                 battleUI.SetActive(false);
             }
 
+            gridSystem.GetComponent<GridSystem>().enabled = false;
             turnSystem.enabled = false;
             battleTurnSystem.enabled = false;
 
@@ -137,6 +189,7 @@ public class UIManager : MonoBehaviour
 
             selectedUnitNameStats.transform.Find("UnitName").GetComponent<TextMeshProUGUI>().text = gridSystem.selectedUnit.GetComponent<Unit>().unitName;
             selectedUnitNameStats.transform.Find("ClassName").GetComponent<TextMeshProUGUI>().text = gridSystem.selectedUnit.GetComponent<Unit>().className;
+            selectedUnitNameStats.transform.Find("ElementName").GetComponent<TextMeshProUGUI>().text = gridSystem.selectedUnit.GetComponent<Unit>().element;
 
             selectedUnitNumStats.transform.Find("Health_Num").GetComponent<TextMeshProUGUI>().text = gridSystem.selectedUnit.GetComponent<Unit>().currentHP  + "/" + gridSystem.selectedUnit.GetComponent<Unit>().maxHP;
             selectedUnitNumStats.transform.Find("PhysDEF_Num").GetComponent<TextMeshProUGUI>().text = "" + gridSystem.selectedUnit.GetComponent<Unit>().basePhysicalDefense;
@@ -174,6 +227,7 @@ public class UIManager : MonoBehaviour
 
             viewedUnitNameStats.transform.Find("UnitName").GetComponent<TextMeshProUGUI>().text = turnSystem.viewedUnit.GetComponent<Unit>().unitName;
             viewedUnitNameStats.transform.Find("ClassName").GetComponent<TextMeshProUGUI>().text = turnSystem.viewedUnit.GetComponent<Unit>().className;
+            viewedUnitNameStats.transform.Find("ElementName").GetComponent<TextMeshProUGUI>().text = turnSystem.viewedUnit.GetComponent<Unit>().element;
 
             viewedUnitNumStats.transform.Find("Health_Num").GetComponent<TextMeshProUGUI>().text = turnSystem.viewedUnit.GetComponent<Unit>().currentHP  + "/" + turnSystem.viewedUnit.GetComponent<Unit>().maxHP;
             viewedUnitNumStats.transform.Find("PhysDEF_Num").GetComponent<TextMeshProUGUI>().text = "" + turnSystem.viewedUnit.GetComponent<Unit>().basePhysicalDefense;
@@ -212,6 +266,44 @@ public class UIManager : MonoBehaviour
         battleTurnSystem.playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
     }
 
+    public void UndoMoveButton()
+    {
+        Debug.Log("Pressed button");
+
+        MonoBehaviour uiManagerMono = GameObject.Find("UIManager").GetComponent<MonoBehaviour>();
+        uiManagerMono.StartCoroutine(UndoMoveCoroutine());
+    }
+
+    public IEnumerator UndoMoveCoroutine()
+    {
+        yield return new WaitForSeconds(.2f);
+
+        gridSystem = GameObject.Find("Grid System").GetComponent<GridSystem>();
+        gridSystem.resetValidAttackNodes();
+
+        MonoBehaviour uiManagerMono = GameObject.Find("UIManager").GetComponent<MonoBehaviour>();
+        yield return uiManagerMono.StartCoroutine(gridSystem.MoveSelectedUnit(gridSystem.selectedUnitPrevNode));
+
+        gridSystem.validMoveNodes = gridSystem.selectedUnit.GetComponent<Unit>().calculateValidMoves(gridSystem.grid);
+        gridSystem.selectedUnit.GetComponent<Unit>().showValidMoves(gridSystem.validMoveNodes);
+
+        gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = false;
+    }
+
+    public void EndMoveButton()
+    {
+        gridSystem = GameObject.Find("Grid System").GetComponent<GridSystem>();
+
+        gridSystem.selectedUnit.GetComponent<Unit>().hasMoved = true;
+    }
+
+    public void EndAttackButton()
+    {
+        gridSystem = GameObject.Find("Grid System").GetComponent<GridSystem>();
+
+        gridSystem.selectedUnit.GetComponent<Unit>().hasAttacked = true;
+    }
+
     //Sets the stats of both the player and enemy unit that is currently in combat
     private void SetBattleStats()
     {
@@ -227,6 +319,7 @@ public class UIManager : MonoBehaviour
         playerMDmg = player.GetComponent<Unit>().baseMagicalAttack;
         playerPRes = player.GetComponent<Unit>().basePhysicalDefense;
         playerMRes = player.GetComponent<Unit>().baseMagicalDefense;
+        playerElement = player.GetComponent<Unit>().element;
 
         playerPResMod = battleTurnSystem.totalPlayerPHYSDEFModifier;
         playerMResMod = battleTurnSystem.totalPlayerMAGDEFModifier;
@@ -239,6 +332,7 @@ public class UIManager : MonoBehaviour
         playerStat.transform.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "" + playerPRes;
         playerStat.transform.GetChild(2).GetChild(4).GetComponent<TextMeshProUGUI>().text = "" + playerMDmg;
         playerStat.transform.GetChild(2).GetChild(6).GetComponent<TextMeshProUGUI>().text = "" + playerMRes;
+        playerStat.transform.GetChild(1).GetChild(6).GetComponent<TextMeshProUGUI>().text = "" + playerElement;
 
         playerStat.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().text = "+" + playerPDmgMod;
         playerStat.transform.GetChild(2).GetChild(3).GetComponent<TextMeshProUGUI>().text = "+" + playerPResMod;
@@ -259,6 +353,7 @@ public class UIManager : MonoBehaviour
         enemyMDmg = enemy.GetComponent<Unit>().baseMagicalAttack;
         enemyPRes = enemy.GetComponent<Unit>().basePhysicalDefense;
         enemyMRes = enemy.GetComponent<Unit>().baseMagicalDefense;
+        enemyElement = player.GetComponent<Unit>().element;
 
         enemyPResMod = battleTurnSystem.totalEnemyPHYSDEFModifier;
         enemyMResMod = battleTurnSystem.totalEnemyMAGDEFModifier;
@@ -271,6 +366,7 @@ public class UIManager : MonoBehaviour
         enemyStat.transform.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "" + enemyPRes;
         enemyStat.transform.GetChild(2).GetChild(4).GetComponent<TextMeshProUGUI>().text = "" + enemyMDmg;
         enemyStat.transform.GetChild(2).GetChild(6).GetComponent<TextMeshProUGUI>().text = "" + enemyMRes;
+        enemyStat.transform.GetChild(1).GetChild(6).GetComponent<TextMeshProUGUI>().text = "" + enemyElement;
 
         enemyStat.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().text = "+" + enemyPDmgMod;
         enemyStat.transform.GetChild(2).GetChild(3).GetComponent<TextMeshProUGUI>().text = "+" + enemyPResMod;
@@ -310,6 +406,10 @@ public class UIManager : MonoBehaviour
             winPane = levelUI.transform.GetChild(2).gameObject; //Victory Pane
             losePane = levelUI.transform.GetChild(3).gameObject; //Defeat Pane
             viewedUnitPane = levelUI.transform.GetChild(4).gameObject; //Viewed Unit Pane
+            
+            undoMoveButton = levelUI.transform.GetChild(5).gameObject; //Undo Move Button
+            endMoveButton = levelUI.transform.GetChild(6).gameObject; //End Move Button
+            endAttackButton = levelUI.transform.GetChild(7).gameObject; // End Attack Button
         }
 
         else if(battleViewCam.activeSelf == true)
