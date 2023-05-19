@@ -20,7 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game Scenes/Level0.5.unity
     guid: a18cd11e7db585c49a6be33b0f302538
-  - enabled: 0
+  - enabled: 1
+    path: Assets/Scenes/Narrative Scenes/City Square.unity
+    guid: 2af1d60972c558b4f815c4308eee17cc
+  - enabled: 1
     path: Assets/Scenes/Game Scenes/Level1.unity
     guid: 75f272bfbe584d0449082f587f23631d
   - enabled: 1
