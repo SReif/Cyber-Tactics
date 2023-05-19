@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: Battle Theme - Gorandora
-    clip: {fileID: 8300000, guid: 8a9fc8643eda4fb49b889a4165aab8c5, type: 3}
+  - name: Battle Music
+    clip: {fileID: 8300000, guid: 956222d4bf083ec44ab63e3f904a5073, type: 3}
     volume: 0.25
     pitch: 1
     loop: 1
@@ -73,25 +73,25 @@ MonoBehaviour:
     loop: 1
     source: {fileID: 0}
   - name: Credits Theme
-    clip: {fileID: 8300000, guid: 3e4c56cd2a8d2ab4b8bd8534dea302f5, type: 3}
+    clip: {fileID: 8300000, guid: 8a9fc8643eda4fb49b889a4165aab8c5, type: 3}
     volume: 0.25
     pitch: 1
     loop: 1
     source: {fileID: 0}
   - name: Lose Theme
-    clip: {fileID: 8300000, guid: 0e6b510a62261f540830b98206384975, type: 3}
+    clip: {fileID: 8300000, guid: 6f9727cc800a98244b87ddc6d83a71cf, type: 3}
     volume: 0.15
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Win Theme
-    clip: {fileID: 8300000, guid: 1f229b7d627a7074ba2cb00324fe7acb, type: 3}
+    clip: {fileID: 8300000, guid: 93b36c4a706bb234bac7c598ec127f62, type: 3}
     volume: 0.15
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Battle Attack Hit
-    clip: {fileID: 8300000, guid: 450ad90bf8c61ce44afc4f6bb6ae11a1, type: 3}
+    clip: {fileID: 8300000, guid: 09e8c6ed873ea8e40b8204492a770a9d, type: 3}
     volume: 0.25
     pitch: 1
     loop: 0

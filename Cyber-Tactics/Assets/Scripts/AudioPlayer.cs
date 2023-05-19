@@ -30,7 +30,7 @@ public class AudioPlayer : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Level0" || SceneManager.GetActiveScene().name == "Level0.5" || SceneManager.GetActiveScene().name == "Level1")
         {
             audioManager.StopAllAudio();
-            audioManager.Play("Battle Theme - Freeflight");
+            audioManager.Play("Battle Theme");
         }
 
         if (SceneManager.GetActiveScene().name == "Credits")
