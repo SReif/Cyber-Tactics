@@ -450,7 +450,7 @@ public class BattleTurnSystem : MonoBehaviour
 
                             if (cardElement == playerUnitClone.GetComponent<Unit>().element)
                             {
-                                toggleCardText(hit.transform.gameObject);
+                                toggleCardText(hit.transform.gameObject, "Player");
                             }
 
                             updateStatsFromCard(cardType, cardModifier, cardElement, "Player", "Selecting");
@@ -466,7 +466,7 @@ public class BattleTurnSystem : MonoBehaviour
 
                         if (cardElement == playerUnitClone.GetComponent<Unit>().element)
                         {
-                            toggleCardText(hit.transform.gameObject);
+                            toggleCardText(hit.transform.gameObject, "Player");
                         }
 
                         updateStatsFromCard(cardType, cardModifier, cardElement, "Player", "Deselecting");
@@ -507,6 +507,13 @@ public class BattleTurnSystem : MonoBehaviour
                 {
                     Debug.Log("Enemy selects an attack card.");
 
+                    /*
+                    if (cardElement == playerUnitClone.GetComponent<Unit>().element)
+                    {
+                        toggleCardText(enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject, "Enemy");
+                    }
+                    */
+
                     enemySelectedCards.Add(enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject);
                     updateStatsFromCard(cardType, cardModifier, cardElement, "Enemy", "Selecting");
                     selectedATKCard = true;
@@ -516,6 +523,13 @@ public class BattleTurnSystem : MonoBehaviour
                 if ((cardType == "PHYS DEF" || cardType == "MAG DEF") && !selectedDEFCard)
                 {
                     Debug.Log("Enemy selects a defense card.");
+
+                    /*
+                    if (cardElement == playerUnitClone.GetComponent<Unit>().element)
+                    {
+                        toggleCardText(enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject, "Enemy");
+                    }
+                    */
 
                     enemySelectedCards.Add(enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject);
                     updateStatsFromCard(cardType, cardModifier, cardElement, "Enemy", "Selecting");
@@ -587,6 +601,24 @@ public class BattleTurnSystem : MonoBehaviour
         for (int i = 0; i < enemySelectedCards.Count; i++)
         {
             enemySelectedCards[i].transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(true);
+
+            string cardType = enemySelectedCards[i].GetComponent<Card>().cardType;
+            string cardElement = enemySelectedCards[i].GetComponent<Card>().element;
+
+            Debug.Log("Enemy Card's Element: " + cardElement);
+            Debug.Log("Enemy Unit's Element: " + enemyUnitClone.GetComponent<Unit>().element);
+
+            if (cardElement == enemyUnitClone.GetComponent<Unit>().element)
+            {
+                toggleCardText(enemySelectedCards[i], "Enemy");
+            }
+
+            /*
+            if (cardType == "MAG DEF" || cardType == "MAG ATK" || cardType == "PHYS DEF" || cardType == "PHYS ATK")
+            {
+                enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).transform.GetChild(0).Find("Card Text").gameObject.SetActive(true);
+            }
+            */
         }
 
         yield return new WaitForSeconds(.3f);
@@ -634,6 +666,11 @@ public class BattleTurnSystem : MonoBehaviour
                             card.SetActive(true);
 
                             updateStatsFromCard(card.GetComponent<Card>().cardType, card.GetComponent<Card>().modifier, card.GetComponent<Card>().element, "Player", "Selecting");
+
+                            if (card.GetComponent<Card>().element == playerUnitClone.GetComponent<Unit>().element)
+                            {
+                                toggleCardText(card, "Player");
+                            }
 
                             Debug.Log("Playing " + card.GetComponent<Card>().cardType + " " + card.GetComponent<Card>().modifier + " " + card.GetComponent<Card>().element);
                         }
@@ -704,6 +741,11 @@ public class BattleTurnSystem : MonoBehaviour
 
                     enemySelectedCards[index].transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(false);
 
+                    if (enemySelectedCards[index].GetComponent<Card>().element == enemyUnitClone.GetComponent<Unit>().element)
+                    {
+                        toggleCardText(enemySelectedCards[index], "Enemy");
+                    }
+
                     enemySelectedCards.Remove(enemySelectedCards[index]);
                     enemySelectedCards.TrimExcess();
                 }
@@ -748,6 +790,11 @@ public class BattleTurnSystem : MonoBehaviour
                             card.SetActive(true);
                             updateStatsFromCard(card.GetComponent<Card>().cardType, card.GetComponent<Card>().modifier, card.GetComponent<Card>().element, "Enemy", "Selecting");
 
+                            if (card.GetComponent<Card>().element == enemyUnitClone.GetComponent<Unit>().element)
+                            {
+                                toggleCardText(card, "Enemy");
+                            }
+
                             Debug.Log("Playing " + card.GetComponent<Card>().cardType + " " + card.GetComponent<Card>().modifier + " " + card.GetComponent<Card>().element);
                         }
 
@@ -780,6 +827,11 @@ public class BattleTurnSystem : MonoBehaviour
                         playerSelectedCards[index].GetComponent<Card>().element, "Player", "Deselecting");
 
                     playerSelectedCards[index].transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(false);
+
+                    if (playerSelectedCards[index].GetComponent<Card>().element == playerUnitClone.GetComponent<Unit>().element)
+                    {
+                        toggleCardText(playerSelectedCards[index], "Player");
+                    }
 
                     playerSelectedCards.Remove(playerSelectedCards[index]);
                     playerSelectedCards.TrimExcess();
@@ -1109,12 +1161,40 @@ public class BattleTurnSystem : MonoBehaviour
         yield return null;
     }
 
-    public void toggleCardText(GameObject card)
+    public void toggleCardText(GameObject card, string currentSide)
     {
         string cardType = card.GetComponent<Card>().cardType;
         int cardModifier = card.GetComponent<Card>().modifier;
 
         Debug.Log(card.transform.GetChild(0).Find("Card Text").gameObject.activeSelf);
+
+        /*
+        if (currentSide == "Player")
+        {
+            if (!card.transform.GetChild(0).Find("Card Text").gameObject.activeSelf)
+            {
+                card.transform.GetChild(0).Find("Card Text").Find("Card Type Text").GetComponent<TMPro.TMP_Text>().text = "+1 " + cardType;
+                card.transform.GetChild(0).Find("Card Text").gameObject.SetActive(true);
+            }
+            else
+            {
+                card.transform.GetChild(0).Find("Card Text").gameObject.SetActive(false);
+            }
+
+        }
+        else if (currentSide == "Enemy")
+        {
+            if (!card.transform.GetChild(0).Find("Card Text").gameObject.activeSelf)
+            {
+                card.transform.GetChild(0).Find("Card Text").Find("Card Type Text").GetComponent<TMPro.TMP_Text>().text = "+1 " + cardType;
+                card.transform.GetChild(0).Find("Card Text").gameObject.SetActive(true);
+            }
+            else
+            {
+                card.transform.GetChild(0).Find("Card Text").gameObject.SetActive(false);
+            }
+        }
+        */
 
         if (!card.transform.GetChild(0).Find("Card Text").gameObject.activeSelf)
         {

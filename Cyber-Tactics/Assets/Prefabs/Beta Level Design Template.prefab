@@ -526,7 +526,6 @@ MonoBehaviour:
   height: 15
   firstNodeOrigin: {x: 0.5, y: 0, z: 0.5}
   selectedUnit: {fileID: 0}
-  selectedUnitPrevNode: {fileID: 0}
   unitOffset: {x: 0, y: 0.7, z: 0}
   validMoveNodes: []
   validAttackNodes: []
@@ -1662,7 +1661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e29cc7933effe564c9b986a0dd9d761b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panSpeed: 0.05
+  panSpeed: 0.02
   zBounds: 5
   xBounds: 3
 --- !u!1 &4612993111053097652
@@ -5706,6 +5705,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a360479a4c99c27488328236cb187529, type: 2}
+    - target: {fileID: 1734156296, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474395819323743326, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474395819323743326, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.625
+      objectReference: {fileID: 0}
     - target: {fileID: 3546426256076092195, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: m_Name
       value: Hopper (Enemy)
@@ -6651,6 +6662,22 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ebf48956f8124fc45827d503a0b342b1, type: 2}
+    - target: {fileID: 1734156296, guid: 2e4786efc5bc20848ab533369804144d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474395819323743326, guid: 2e4786efc5bc20848ab533369804144d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474395819323743326, guid: 2e4786efc5bc20848ab533369804144d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474395819323743326, guid: 2e4786efc5bc20848ab533369804144d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 3546426256076092195, guid: 2e4786efc5bc20848ab533369804144d, type: 3}
       propertyPath: m_Name
       value: Wizard (Enemy)
@@ -6804,6 +6831,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6678989881803420465}
     m_Modifications:
+    - target: {fileID: 1079011298, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
       propertyPath: maxHP
       value: 7
@@ -6864,6 +6895,18 @@ PrefabInstance:
       propertyPath: cards.Array.data[9]
       value: 
       objectReference: {fileID: 6395990778233828883}
+    - target: {fileID: 7243846263610942007, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243846263610942007, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243846263610942007, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 8639858795999808842, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
       propertyPath: m_Name
       value: Rebel Leader (Player)
@@ -11497,6 +11540,22 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ebf48956f8124fc45827d503a0b342b1, type: 2}
+    - target: {fileID: 1734156296, guid: 2feaae8cd3300f54bbf8ed439a9d7a34, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474395819323743326, guid: 2feaae8cd3300f54bbf8ed439a9d7a34, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474395819323743326, guid: 2feaae8cd3300f54bbf8ed439a9d7a34, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474395819323743326, guid: 2feaae8cd3300f54bbf8ed439a9d7a34, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 3546426256076092195, guid: 2feaae8cd3300f54bbf8ed439a9d7a34, type: 3}
       propertyPath: m_Name
       value: Government Leader (Enemy)
@@ -11654,6 +11713,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 09433803180d38b4e83b93c8611388b2, type: 2}
+    - target: {fileID: 1734156296, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474395819323743326, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474395819323743326, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.625
+      objectReference: {fileID: 0}
     - target: {fileID: 3546426256076092195, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
       propertyPath: m_Name
       value: Riot Officer (Enemy)
