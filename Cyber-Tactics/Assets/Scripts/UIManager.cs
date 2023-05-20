@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject battleUI;
 
     //UI Elements
-    public GameObject pausePane;
+    public GameObject pausePane, battleResultsPane;
     [System.NonSerialized] public GameObject turnPane, selectedUnitPane, winPane, losePane, viewedUnitPane;
     [System.NonSerialized] public GameObject endMoveButton, undoMoveButton, endAttackButton;
     [System.NonSerialized] public GameObject playerStat, playerHealth, enemyStat, enemyHealth;
@@ -302,6 +302,13 @@ public class UIManager : MonoBehaviour
         battleTurnSystem.playerUnitClone.transform.Find("Selected Unit Indicator").gameObject.SetActive(false);
     }
 
+    public void ResultScreenContinue()
+    {
+        battleTurnSystem = GameObject.Find("Battle Turn System").GetComponent<BattleTurnSystem>();
+
+        battleTurnSystem.resultsScreenContinuePressed = true;
+    }
+
     /*
      *  Archived Undo Move/End Move/End Attack features
      */ 
@@ -557,6 +564,7 @@ public class UIManager : MonoBehaviour
             playerHealth = battleUI.transform.GetChild(1).gameObject; //Player Battle Health
             enemyStat = battleUI.transform.GetChild(2).gameObject; //Enemy Battle Stats
             enemyHealth = battleUI.transform.GetChild(3).gameObject; //Enemy Battle Health
+            battleResultsPane = battleUI.transform.GetChild(6).gameObject; //Battle Results Pane
             SetBattleStats();
         }
     }
@@ -636,5 +644,137 @@ public class UIManager : MonoBehaviour
         {
             mDText.color = new Color32(255, 255, 255, 255);
         }
+    }
+
+    public void displayBattleResults()
+    {
+        // Populate player unit's side of the battle results screen
+        GameObject playerResults = battleResultsPane.transform.Find("ResultsScreen_Player").gameObject;
+        playerResults.transform.Find("UnitName").GetComponent<TextMeshProUGUI>().text = playerClassName;
+
+        playerResults.transform.Find("Health Label").Find("Pre Battle Health Num").GetComponent<TextMeshProUGUI>().text = battleTurnSystem.preBattlePlayerHealth + "/" + playerMaxHp;
+        playerResults.transform.Find("Health Label").Find("Post Battle Health Num").GetComponent<TextMeshProUGUI>().text = playerHp + "/" + playerMaxHp;
+
+        SetHealthColor(battleTurnSystem.preBattlePlayerHealth, playerMaxHp, playerResults.transform.Find("Health Label").Find("Pre Battle Health Num").GetComponent<TextMeshProUGUI>());
+        SetHealthColor(playerHp, playerMaxHp, playerResults.transform.Find("Health Label").Find("Post Battle Health Num").GetComponent<TextMeshProUGUI>());
+
+        playerResults.transform.Find("Player Total Stats").Find("Total PHYS ATK Label").GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + battleTurnSystem.totalPlayerPHYSATKModifier;
+        playerResults.transform.Find("Player Total Stats").Find("Total PHYS DEF Label").GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + battleTurnSystem.totalPlayerPHYSDEFModifier;
+        playerResults.transform.Find("Player Total Stats").Find("Total MAG ATK Label").GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + battleTurnSystem.totalPlayerMAGATKModifier;
+        playerResults.transform.Find("Player Total Stats").Find("Total MAG DEF Label").GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + battleTurnSystem.totalPlayerMAGDEFModifier;
+        
+        /*
+        playerResults.transform.Find("Remaining Cards Label").GetComponent<TextMeshProUGUI>().text = (battleTurnSystem.playerUnitClone.GetComponent<Unit>().cards.Count - battleTurnSystem.playerSelectedCards.Count)
+            + "/" + battleTurnSystem.playerUnitClone.GetComponent<Unit>().cards.Count + " cards left";
+        */
+        playerResults.transform.Find("Remaining Cards Label").GetComponent<TextMeshProUGUI>().text = (battleTurnSystem.playerUnitClone.GetComponent<Unit>().cards.Count - battleTurnSystem.playerSelectedCards.Count) + " cards left";
+
+        /*
+        GameObject playerResults = battleResultsPane.transform.Find("ResultsScreen_Player").gameObject;
+        playerResults.transform.Find("UnitName").GetComponent<TextMeshProUGUI>().text = playerClassName;
+        playerResults.transform.Find("HealthNum").GetComponent<TextMeshProUGUI>().text = playerHp + "/" + playerMaxHp;
+        SetHealthColor(playerHp, playerMaxHp, playerResults.transform.Find("HealthNum").GetComponent<TextMeshProUGUI>());
+
+        for (int i = 0; i < battleTurnSystem.playerSelectedCards.Count; i++)
+        {
+            string cardType = battleTurnSystem.playerSelectedCards[i].GetComponent<Card>().cardType;
+            int cardModifier = battleTurnSystem.playerSelectedCards[i].GetComponent<Card>().modifier;
+            string cardElement = battleTurnSystem.playerSelectedCards[i].GetComponent<Card>().element;
+
+
+            playerResults.transform.Find("Played Cards").GetChild(i).GetComponent<TextMeshProUGUI>().text = cardType;
+
+            if (cardElement == battleTurnSystem.playerUnitClone.GetComponent<Unit>().element)
+            {
+                playerResults.transform.Find("Played Cards").GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = "+" + (cardModifier + 1);
+                playerResults.transform.Find("Played Cards").GetChild(i).GetChild(0).gameObject.SetActive(true);
+            }
+            else
+            {
+                if (cardType != "BUFF" || cardType != "DEBUFF" || cardType != "HEAL")
+                {
+                    playerResults.transform.Find("Played Cards").GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = "+" + cardModifier;
+                    playerResults.transform.Find("Played Cards").GetChild(i).GetChild(0).gameObject.SetActive(true);
+                }
+                else
+                {
+                    playerResults.transform.Find("Played Cards").GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
+                    playerResults.transform.Find("Played Cards").GetChild(i).GetChild(0).gameObject.SetActive(false);
+                }
+            }
+
+            playerResults.transform.Find("Played Cards").GetChild(i).gameObject.SetActive(true);
+        }
+        */
+
+        // Populate enemy unit's side of the battle results screen
+        GameObject enemyResults = battleResultsPane.transform.Find("ResultsScreen_Enemy").gameObject;
+        enemyResults.transform.Find("UnitName").GetComponent<TextMeshProUGUI>().text = enemyClassName;
+
+        enemyResults.transform.Find("Health Label").Find("Pre Battle Health Num").GetComponent<TextMeshProUGUI>().text = battleTurnSystem.preBattleEnemyHealth + "/" + enemyMaxHp;
+        enemyResults.transform.Find("Health Label").Find("Post Battle Health Num").GetComponent<TextMeshProUGUI>().text = enemyHp + "/" + enemyMaxHp;
+
+        SetHealthColor(battleTurnSystem.preBattleEnemyHealth, enemyMaxHp, enemyResults.transform.Find("Health Label").Find("Pre Battle Health Num").GetComponent<TextMeshProUGUI>());
+        SetHealthColor(enemyHp, enemyMaxHp, enemyResults.transform.Find("Health Label").Find("Post Battle Health Num").GetComponent<TextMeshProUGUI>());
+
+        enemyResults.transform.Find("Enemy Total Stats").Find("Total PHYS ATK Label").GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + battleTurnSystem.totalEnemyPHYSATKModifier;
+        enemyResults.transform.Find("Enemy Total Stats").Find("Total PHYS DEF Label").GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + battleTurnSystem.totalEnemyPHYSDEFModifier;
+        enemyResults.transform.Find("Enemy Total Stats").Find("Total MAG ATK Label").GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + battleTurnSystem.totalEnemyMAGATKModifier;
+        enemyResults.transform.Find("Enemy Total Stats").Find("Total MAG DEF Label").GetChild(0).GetComponent<TextMeshProUGUI>().text = "" + battleTurnSystem.totalEnemyMAGDEFModifier;
+
+        /*
+        enemyResults.transform.Find("Remaining Cards Label").GetComponent<TextMeshProUGUI>().text = (battleTurnSystem.enemyUnitClone.GetComponent<Unit>().cards.Count - battleTurnSystem.enemySelectedCards.Count)
+            + "/" + battleTurnSystem.enemyUnitClone.GetComponent<Unit>().cards.Count + " cards left";
+        */
+        enemyResults.transform.Find("Remaining Cards Label").GetComponent<TextMeshProUGUI>().text = (battleTurnSystem.enemyUnitClone.GetComponent<Unit>().cards.Count - battleTurnSystem.enemySelectedCards.Count) + " cards left";
+
+        /*
+        GameObject enemyResults = battleResultsPane.transform.Find("ResultsScreen_Enemy").gameObject;
+        enemyResults.transform.Find("UnitName").GetComponent<TextMeshProUGUI>().text = enemyClassName;
+        enemyResults.transform.Find("HealthNum").GetComponent<TextMeshProUGUI>().text = enemyHp + "/" + enemyMaxHp;
+        SetHealthColor(enemyHp, enemyMaxHp, enemyResults.transform.Find("HealthNum").GetComponent<TextMeshProUGUI>());
+
+        for (int i = 0; i < battleTurnSystem.enemySelectedCards.Count; i++)
+        {
+            string cardType = battleTurnSystem.enemySelectedCards[i].GetComponent<Card>().cardType;
+            int cardModifier = battleTurnSystem.enemySelectedCards[i].GetComponent<Card>().modifier;
+            string cardElement = battleTurnSystem.enemySelectedCards[i].GetComponent<Card>().element;
+
+            enemyResults.transform.Find("Played Cards").GetChild(i).GetComponent<TextMeshProUGUI>().text = cardType;
+
+            if (cardElement == battleTurnSystem.enemyUnitClone.GetComponent<Unit>().element)
+            {
+                enemyResults.transform.Find("Played Cards").GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = "+" + (cardModifier + 1);
+                enemyResults.transform.Find("Played Cards").GetChild(i).GetChild(0).gameObject.SetActive(true);
+            }
+            else
+            {
+                if (cardType != "BUFF" || cardType != "DEBUFF" || cardType != "HEAL")
+                {
+                    enemyResults.transform.Find("Played Cards").GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = "+" + cardModifier;
+                    enemyResults.transform.Find("Played Cards").GetChild(i).GetChild(0).gameObject.SetActive(true);
+                }
+                else
+                {
+                    enemyResults.transform.Find("Played Cards").GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
+                    enemyResults.transform.Find("Played Cards").GetChild(i).GetChild(0).gameObject.SetActive(false);
+                }
+            }
+
+            enemyResults.transform.Find("Played Cards").GetChild(i).gameObject.SetActive(true);
+        }
+        */
+
+        // Determine which side was the battle initiator and display it
+        if (battleTurnSystem.battleInitiator == "Player")
+        {
+            playerResults.transform.Find("Battle Initiator").gameObject.SetActive(true);
+        }
+        else if (battleTurnSystem.battleInitiator == "Enemy")
+        {
+            enemyResults.transform.Find("Battle Initiator").gameObject.SetActive(true);
+        }
+
+        battleResultsPane.gameObject.SetActive(true);
     }
 }

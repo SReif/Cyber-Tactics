@@ -7,6 +7,7 @@ public class BattleTurnSystem : MonoBehaviour
     //public State state;
 
     private AudioManager audioManager;
+    private UIManager uiManager;
 
     public bool takingTurn;
 
@@ -22,27 +23,32 @@ public class BattleTurnSystem : MonoBehaviour
     [System.NonSerialized] public int totalPlayerMAGATKModifier = 0;           // The total amount of MAGICAL ATTACK that is being applied to the player from cards
     [System.NonSerialized] public int totalPlayerMAGDEFModifier = 0;           // The total amount of MAGICAL DEFENSE that is being applied to the player from cards
     [System.NonSerialized] public int totalPlayerHEALModifier = 0;             // The total amount of HEALING that is being applied to the player from cards
+    [System.NonSerialized] public int preBattlePlayerHealth;
+
 
     [System.NonSerialized] public int totalEnemyPHYSDEFModifier = 0;           // The total amount of PHYSICAL DEFENSE that is being applied to the enemy from cards
     [System.NonSerialized] public int totalEnemyPHYSATKModifier = 0;           // The total amount of PHYSICAL ATTACK that is being applied to the enemy from cards
     [System.NonSerialized] public int totalEnemyMAGATKModifier = 0;            // The total amount of MAGICAL ATTACK that is being applied to the enemy from cards
     [System.NonSerialized] public int totalEnemyMAGDEFModifier = 0;            // The total amount of MAGICAL DEFENSE that is being applied to the enemy from cards
     [System.NonSerialized] public int totalEnemyHEALModifier = 0;              // The total amount of HEALING that is being applied to the enemy from cards
+    [System.NonSerialized] public int preBattleEnemyHealth;
 
     [System.NonSerialized] public List<GameObject> playerSelectedCards;         // The list of cards that the player selected for their turn
     [System.NonSerialized] public List<GameObject> enemySelectedCards;          // The list of cards that the enemy selected for their turn
 
+    [System.NonSerialized] public string battleInitiator;
     [System.NonSerialized] public GameObject playerUnitClone;       // A clone of the player unit in the battle for visual reference
     [System.NonSerialized] public GameObject enemyUnitClone;        // A clone of the enemy unit in the battle for visual reference
     private List<GameObject> playerDeck;                            // A copy of the player's deck; cards are removed from here when they are placed in the player's hand
     private List<GameObject> enemyDeck;                             // A copy of the enemy's deck; cards are removed from here when they are placed in the enemy's hand
 
-    //private List<GameObject> enemyHand;
-
     private int playerNumBuffCards = 0;
     private int playerNumDebuffCards = 0;
     private int enemyNumBuffCards = 0;
     private int enemyNumDebuffCards = 0;
+
+    [System.NonSerialized] public bool resultsScreenContinuePressed;
+
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +57,9 @@ public class BattleTurnSystem : MonoBehaviour
         enemySelectedCards = new List<GameObject>();
 
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+
+        resultsScreenContinuePressed = false;
     }
 
     // Update is called once per frame
@@ -61,6 +70,10 @@ public class BattleTurnSystem : MonoBehaviour
 
     public IEnumerator Battle(GameObject playerUnit, GameObject enemyUnit, string battleInitiator)
     {
+        this.battleInitiator = battleInitiator;
+        preBattlePlayerHealth = playerUnit.GetComponent<Unit>().currentHP;
+        preBattleEnemyHealth = enemyUnit.GetComponent<Unit>().currentHP;
+
         // Setup the battle view clone of the player unit
         playerUnitClone = Instantiate(playerUnit, playerUnitLocation.transform);
         playerUnitClone.GetComponent<MeshRenderer>().enabled = false;
@@ -136,9 +149,9 @@ public class BattleTurnSystem : MonoBehaviour
         gridViewCamera.SetActive(false);
         battleViewCamera.SetActive(true);
 
-        checkForInitiatorBoost(battleInitiator);
+        checkForInitiatorBoost(this.battleInitiator);
 
-        if (battleInitiator == "Player")
+        if (this.battleInitiator == "Player")
         {
             /*
              *  Beginning of Player's turn
@@ -161,7 +174,7 @@ public class BattleTurnSystem : MonoBehaviour
             Debug.Log("Preparing calculations!");
             yield return StartCoroutine(resolveCardModifiers(playerUnit, enemyUnit));
         }
-        else if (battleInitiator == "Enemy")
+        else if (this.battleInitiator == "Enemy")
         {
             /*
              *  Beginning of Enemy's turn
@@ -915,6 +928,7 @@ public class BattleTurnSystem : MonoBehaviour
         playerUnit.GetComponent<Unit>().currentHP = (playerUnit.GetComponent<Unit>().currentHP > playerUnit.GetComponent<Unit>().maxHP) ? playerUnit.GetComponent<Unit>().maxHP : playerUnit.GetComponent<Unit>().currentHP;
 
         // Resolve the damage taken for the player unit
+        playerUnitClone.GetComponent<Unit>().currentHP -= totalPlayerDamageTaken;
         playerUnit.GetComponent<Unit>().currentHP -= totalPlayerDamageTaken;
 
         // Resolve the healing done and make sure the enemy unit cannot overheal themselves.
@@ -922,17 +936,57 @@ public class BattleTurnSystem : MonoBehaviour
         enemyUnit.GetComponent<Unit>().currentHP = (enemyUnit.GetComponent<Unit>().currentHP > enemyUnit.GetComponent<Unit>().maxHP) ? enemyUnit.GetComponent<Unit>().maxHP : enemyUnit.GetComponent<Unit>().currentHP;
 
         // Resolve the damage taken for the enemy unit
+        enemyUnitClone.GetComponent<Unit>().currentHP -= totalEnemyDamageTaken;
         enemyUnit.GetComponent<Unit>().currentHP -= totalEnemyDamageTaken;
 
         yield return new WaitForSeconds(0.33f);
+
+        uiManager.displayBattleResults();
+        //yield return StartCoroutine(waitForResultsScreenContinue());
+        yield return new WaitUntil(() => resultsScreenContinuePressed);
+
+        Debug.Log("Out of wait");
+
+        //yield return new WaitForSeconds(3.33f);
 
         Debug.Log("End battle!");
 
         //state = State.None;
     }
 
+    public IEnumerator waitForResultsScreenContinue()
+    {
+        while (!resultsScreenContinuePressed)
+        {
+
+        }
+
+        yield return null;
+    }
+
     public void cleanUpBattleView(GameObject playerUnit, GameObject enemyUnit)
     {
+        // Disable the battle results screen and reset values
+        GameObject playerResults = uiManager.battleResultsPane.transform.Find("ResultsScreen_Player").gameObject;
+        playerResults.transform.Find("Battle Initiator").gameObject.SetActive(false);
+
+        for (int i = 0; i < playerResults.transform.Find("Played Cards").childCount; i++)
+        {
+            playerResults.transform.Find("Played Cards").GetChild(i).gameObject.SetActive(false);
+            playerResults.transform.Find("Played Cards").GetChild(i).GetChild(0).gameObject.SetActive(false);
+        }
+
+        GameObject enemyResults = uiManager.battleResultsPane.transform.Find("ResultsScreen_Enemy").gameObject;
+        enemyResults.transform.Find("Battle Initiator").gameObject.SetActive(false);
+
+        for (int i = 0; i < enemyResults.transform.Find("Played Cards").childCount; i++)
+        {
+            enemyResults.transform.Find("Played Cards").GetChild(i).gameObject.SetActive(false);
+            enemyResults.transform.Find("Played Cards").GetChild(i).GetChild(0).gameObject.SetActive(false);
+        }
+
+        uiManager.battleResultsPane.gameObject.SetActive(false);
+
         // Remove the players cards from the card slots
         for (int i = 0; i < playerCardSlots.transform.childCount; i++)
         {
@@ -1051,6 +1105,7 @@ public class BattleTurnSystem : MonoBehaviour
             }
         }
 
+        resultsScreenContinuePressed = false;
 
         playerSelectedCards.Clear();
         enemySelectedCards.Clear();
