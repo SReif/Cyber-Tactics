@@ -4626,6 +4626,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 460023051216698383, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 940129855876684349, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1992418915909725075, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: enemysUnits.Array.data[0]
       value: 

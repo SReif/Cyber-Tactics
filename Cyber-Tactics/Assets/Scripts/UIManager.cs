@@ -169,14 +169,14 @@ public class UIManager : MonoBehaviour
         if(paused)
         {
             Time.timeScale = 1;
-            if(GameObject.Find("Grid View Camera").activeSelf)
+            if(gridViewCam.activeInHierarchy)
             {
                 GameObject.Find("Grid View Camera").GetComponent<CameraPan>().enabled = true;
                 turnPane.SetActive(true);
                 levelUI.SetActive(true);
             }
 
-            if (!GameObject.Find("Grid View Camera").activeSelf)
+            if (!gridViewCam.activeInHierarchy)
             {
                 battleUI.SetActive(true);
             }
@@ -190,14 +190,14 @@ public class UIManager : MonoBehaviour
 
         else
         {
-            if (GameObject.Find("Grid View Camera").activeSelf)
+            if (gridViewCam.activeInHierarchy)
             {
                 GameObject.Find("Grid View Camera").GetComponent<CameraPan>().enabled = false;
                 turnPane.SetActive(false);
                 levelUI.SetActive(false);
             }
 
-            if(!GameObject.Find("Grid View Camera").activeSelf)
+            if(!gridViewCam.activeInHierarchy)
             {
                 battleUI.SetActive(false);
             }
