@@ -37,6 +37,7 @@ public class BattleTurnSystem : MonoBehaviour
     [System.NonSerialized] public List<GameObject> enemySelectedCards;          // The list of cards that the enemy selected for their turn
 
     [System.NonSerialized] public string battleInitiator;
+    [System.NonSerialized] public string sideWithElementalAdvantage;
     [System.NonSerialized] public GameObject playerUnitClone;       // A clone of the player unit in the battle for visual reference
     [System.NonSerialized] public GameObject enemyUnitClone;        // A clone of the enemy unit in the battle for visual reference
     private List<GameObject> playerDeck;                            // A copy of the player's deck; cards are removed from here when they are placed in the player's hand
@@ -927,17 +928,29 @@ public class BattleTurnSystem : MonoBehaviour
         playerUnit.GetComponent<Unit>().currentHP += totalPlayerHEALModifier;
         playerUnit.GetComponent<Unit>().currentHP = (playerUnit.GetComponent<Unit>().currentHP > playerUnit.GetComponent<Unit>().maxHP) ? playerUnit.GetComponent<Unit>().maxHP : playerUnit.GetComponent<Unit>().currentHP;
 
+        playerUnitClone.GetComponent<Unit>().currentHP += totalPlayerHEALModifier;
+        playerUnitClone.GetComponent<Unit>().currentHP = (playerUnitClone.GetComponent<Unit>().currentHP > playerUnitClone.GetComponent<Unit>().maxHP) ? playerUnitClone.GetComponent<Unit>().maxHP : playerUnitClone.GetComponent<Unit>().currentHP;
+
         // Resolve the damage taken for the player unit
         playerUnitClone.GetComponent<Unit>().currentHP -= totalPlayerDamageTaken;
+        //playerUnitClone.GetComponent<Unit>().currentHP = (playerUnitClone.GetComponent<Unit>().currentHP < 0) ? 0 : playerUnitClone.GetComponent<Unit>().currentHP;
+
         playerUnit.GetComponent<Unit>().currentHP -= totalPlayerDamageTaken;
+        //playerUnit.GetComponent<Unit>().currentHP = (playerUnit.GetComponent<Unit>().currentHP < 0) ? 0 : playerUnit.GetComponent<Unit>().currentHP;
 
         // Resolve the healing done and make sure the enemy unit cannot overheal themselves.
         enemyUnit.GetComponent<Unit>().currentHP += totalEnemyHEALModifier;
         enemyUnit.GetComponent<Unit>().currentHP = (enemyUnit.GetComponent<Unit>().currentHP > enemyUnit.GetComponent<Unit>().maxHP) ? enemyUnit.GetComponent<Unit>().maxHP : enemyUnit.GetComponent<Unit>().currentHP;
+        
+        enemyUnitClone.GetComponent<Unit>().currentHP += totalEnemyHEALModifier;
+        enemyUnitClone.GetComponent<Unit>().currentHP = (enemyUnitClone.GetComponent<Unit>().currentHP > enemyUnitClone.GetComponent<Unit>().maxHP) ? enemyUnitClone.GetComponent<Unit>().maxHP : enemyUnitClone.GetComponent<Unit>().currentHP;
 
         // Resolve the damage taken for the enemy unit
         enemyUnitClone.GetComponent<Unit>().currentHP -= totalEnemyDamageTaken;
+        //enemyUnitClone.GetComponent<Unit>().currentHP = (enemyUnitClone.GetComponent<Unit>().currentHP < 0) ? 0 : enemyUnitClone.GetComponent<Unit>().currentHP;
+
         enemyUnit.GetComponent<Unit>().currentHP -= totalEnemyDamageTaken;
+        //enemyUnit.GetComponent<Unit>().currentHP = (enemyUnit.GetComponent<Unit>().currentHP < 0) ? 0 : enemyUnit.GetComponent<Unit>().currentHP;
 
         yield return new WaitForSeconds(0.33f);
 
@@ -969,6 +982,7 @@ public class BattleTurnSystem : MonoBehaviour
         // Disable the battle results screen and reset values
         GameObject playerResults = uiManager.battleResultsPane.transform.Find("ResultsScreen_Player").gameObject;
         playerResults.transform.Find("Battle Initiator").gameObject.SetActive(false);
+        playerResults.transform.Find("Elemental Advantage").gameObject.SetActive(false);
 
         for (int i = 0; i < playerResults.transform.Find("Played Cards").childCount; i++)
         {
@@ -978,6 +992,7 @@ public class BattleTurnSystem : MonoBehaviour
 
         GameObject enemyResults = uiManager.battleResultsPane.transform.Find("ResultsScreen_Enemy").gameObject;
         enemyResults.transform.Find("Battle Initiator").gameObject.SetActive(false);
+        enemyResults.transform.Find("Elemental Advantage").gameObject.SetActive(false);
 
         for (int i = 0; i < enemyResults.transform.Find("Played Cards").childCount; i++)
         {
@@ -1106,6 +1121,8 @@ public class BattleTurnSystem : MonoBehaviour
         }
 
         resultsScreenContinuePressed = false;
+        sideWithElementalAdvantage = "";
+        battleInitiator = "";
 
         playerSelectedCards.Clear();
         enemySelectedCards.Clear();
@@ -1286,6 +1303,8 @@ public class BattleTurnSystem : MonoBehaviour
                 totalPlayerPHYSDEFModifier++;
                 totalPlayerMAGATKModifier++;
                 totalPlayerMAGDEFModifier++;
+
+                sideWithElementalAdvantage = "Player";
             }
             else
             {
@@ -1293,6 +1312,8 @@ public class BattleTurnSystem : MonoBehaviour
                 totalEnemyPHYSDEFModifier++;
                 totalEnemyMAGATKModifier++;
                 totalEnemyMAGDEFModifier++;
+
+                sideWithElementalAdvantage = "Enemy";
             }
         }
         else if (playerElement == "Electricity" && enemyElement == "Sand")
@@ -1314,6 +1335,8 @@ public class BattleTurnSystem : MonoBehaviour
                 totalPlayerPHYSDEFModifier += 2;
                 totalPlayerMAGATKModifier += 2;
                 totalPlayerMAGDEFModifier += 2;
+
+                sideWithElementalAdvantage = "Player";
             }
             else
             {
@@ -1345,6 +1368,8 @@ public class BattleTurnSystem : MonoBehaviour
                 totalPlayerPHYSDEFModifier++;
                 totalPlayerMAGATKModifier++;
                 totalPlayerMAGDEFModifier++;
+
+                sideWithElementalAdvantage = "Player";
             }
             else
             {
@@ -1352,6 +1377,8 @@ public class BattleTurnSystem : MonoBehaviour
                 totalEnemyPHYSDEFModifier++;
                 totalEnemyMAGATKModifier++;
                 totalEnemyMAGDEFModifier++;
+
+                sideWithElementalAdvantage = "Enemy";
             }
         }
         else if (playerElement == "Water" && enemyElement == "Water")
@@ -1373,6 +1400,8 @@ public class BattleTurnSystem : MonoBehaviour
                 totalPlayerPHYSDEFModifier += 2;
                 totalPlayerMAGATKModifier += 2;
                 totalPlayerMAGDEFModifier += 2;
+
+                sideWithElementalAdvantage = "Player";
             }
             else
             {
@@ -1448,6 +1477,8 @@ public class BattleTurnSystem : MonoBehaviour
                 totalEnemyPHYSDEFModifier += 2;
                 totalEnemyMAGATKModifier += 2;
                 totalEnemyMAGDEFModifier += 2;
+
+                sideWithElementalAdvantage = "Enemy";
             }
         }
         else if (playerElement == "Sand" && enemyElement == "Sand")
@@ -1469,6 +1500,8 @@ public class BattleTurnSystem : MonoBehaviour
                 totalPlayerPHYSDEFModifier++;
                 totalPlayerMAGATKModifier++;
                 totalPlayerMAGDEFModifier++;
+
+                sideWithElementalAdvantage = "Player";
             }
             else
             {
@@ -1476,6 +1509,8 @@ public class BattleTurnSystem : MonoBehaviour
                 totalEnemyPHYSDEFModifier++;
                 totalEnemyMAGATKModifier++;
                 totalEnemyMAGDEFModifier++;
+
+                sideWithElementalAdvantage = "Enemy";
             }
         }
         else if (playerElement == "Earth" && enemyElement == "Electricity")
@@ -1508,6 +1543,8 @@ public class BattleTurnSystem : MonoBehaviour
                 totalEnemyPHYSDEFModifier += 2;
                 totalEnemyMAGATKModifier += 2;
                 totalEnemyMAGDEFModifier += 2;
+
+                sideWithElementalAdvantage = "Enemy";
             }
         }
         else if (playerElement == "Earth" && enemyElement == "Water")
@@ -1529,6 +1566,8 @@ public class BattleTurnSystem : MonoBehaviour
                 totalPlayerPHYSDEFModifier++;
                 totalPlayerMAGATKModifier++;
                 totalPlayerMAGDEFModifier++;
+
+                sideWithElementalAdvantage = "Player";
             }
             else
             {
@@ -1536,6 +1575,8 @@ public class BattleTurnSystem : MonoBehaviour
                 totalEnemyPHYSDEFModifier++;
                 totalEnemyMAGATKModifier++;
                 totalEnemyMAGDEFModifier++;
+
+                sideWithElementalAdvantage = "Enemy";
             }
         }
         else if (playerElement == "Earth" && enemyElement == "Earth")
@@ -1556,6 +1597,8 @@ public class BattleTurnSystem : MonoBehaviour
             totalEnemyPHYSDEFModifier += 2;
             totalEnemyMAGATKModifier += 2;
             totalEnemyMAGDEFModifier += 2;
+
+            sideWithElementalAdvantage = "Enemy";
         }
     }
 }

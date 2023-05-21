@@ -7,13 +7,14 @@ public class Unit : MonoBehaviour
     public string unitName;             // The name of the unit
     public string className;
 
-    public int maxHP;                   // Maximum HP for the unit
-    public int currentHP;               // Current HP for the unit
+    public int maxHP;                   // Maximum HP for the unit (HP is called Grit in the game)
+    public int currentHP;               // Current HP for the unit (HP is called Grit in the game)
     public int basePhysicalAttack;      // The base attack value that is added to ATK modifier cards
     public int basePhysicalDefense;     // The base defense value that is added to DEF modifier cards
     public int baseMagicalAttack;       // The base magic value that is added to MAG modifier cards
     public int baseMagicalDefense;      // The base magic defense value that is added to MAG DEF modifier cards
     public List<GameObject> cards;      // The cards that this unit will choose from
+    public int numMaxCards;
     public string unitMoveID;           // The type of chess piece this unit moves as (Determines which moveset they use)
     public string unitAttackID;         // The type of chess piece this unit attack as (Determines which attackset they use)
     public string element;              // The unit's element that is used to calculate modifier bonuses when battle is initiated

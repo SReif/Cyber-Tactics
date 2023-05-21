@@ -1116,6 +1116,10 @@ PrefabInstance:
       value: Footpad
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: unitAttackID
       value: Footpad
       objectReference: {fileID: 0}
@@ -2270,7 +2274,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: maxHP
-      value: 7
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: element
@@ -2286,11 +2290,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: currentHP
-      value: 7
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: unitMoveID
       value: Wizard
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: numMaxCards
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: unitAttackID
@@ -3240,7 +3248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &390270817
 Transform:
   m_ObjectHideFlags: 0
@@ -3271,7 +3279,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 390270816}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3415,7 +3423,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: maxHP
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: unitName
@@ -3423,11 +3431,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: currentHP
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: unitMoveID
       value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: numMaxCards
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: unitAttackID
@@ -3759,7 +3771,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: maxHP
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: element
@@ -3771,11 +3783,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: currentHP
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: unitMoveID
       value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: numMaxCards
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: unitAttackID
@@ -4807,6 +4823,10 @@ PrefabInstance:
       propertyPath: doesPlayerLeaderExist
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1601419984687008763, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1992418915760045827, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -4903,6 +4923,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2306999445439960473, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2834298457261263550, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -4911,9 +4935,25 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2995473922777022769, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072205295441398184, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3877097904627627770, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4612993110611935674, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4770473885221115026, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: numMaxCards
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5268259394298362263, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4925,7 +4965,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6695820063018333857, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: panSpeed
-      value: 0.02
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 8468208249898346835, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8604222289123432865, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebf48956f8124fc45827d503a0b342b1, type: 2}
+    - target: {fileID: 8751734947285082605, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
+      propertyPath: numMaxCards
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9059776426520571282, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: m_text
@@ -6777,6 +6829,10 @@ PrefabInstance:
       value: Footpad
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: unitAttackID
       value: Footpad
       objectReference: {fileID: 0}
@@ -7848,6 +7904,10 @@ PrefabInstance:
       value: Footpad
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: unitAttackID
       value: Footpad
       objectReference: {fileID: 0}
@@ -8450,7 +8510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: maxHP
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: element
@@ -8462,11 +8522,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: currentHP
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: unitMoveID
       value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: numMaxCards
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: unitAttackID
@@ -8735,7 +8799,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 820c9f110b6e14d4399714c46472212a, type: 2}
+  - {fileID: 2100000, guid: ebf48956f8124fc45827d503a0b342b1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15002,6 +15066,10 @@ PrefabInstance:
       value: Footpad
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: unitAttackID
       value: Footpad
       objectReference: {fileID: 0}
@@ -16787,7 +16855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: maxHP
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: unitName
@@ -16795,11 +16863,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: currentHP
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: unitMoveID
       value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: numMaxCards
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: unitAttackID
