@@ -384,6 +384,7 @@ public class TurnSystem : MonoBehaviour
                                 gridSystem.resetValidAttackNodes();
 
                                 checkIfUnitDefeated(gridSystem.selectedUnit, hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject);
+                                break;
                             }
                             else
                             {
@@ -394,6 +395,7 @@ public class TurnSystem : MonoBehaviour
                                 gridSystem.resetValidAttackNodes();
 
                                 checkIfUnitDefeated(hit.transform.gameObject.transform.Find("Unit Slot").GetChild(0).gameObject, gridSystem.selectedUnit);
+                                break;
                             }
                         }
                     }

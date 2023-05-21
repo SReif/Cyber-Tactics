@@ -4220,6 +4220,10 @@ PrefabInstance:
       value: Footpad
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: unitAttackID
       value: Footpad
       objectReference: {fileID: 0}
@@ -4626,14 +4630,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 460023051216698383, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 940129855876684349, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1992418915909725075, guid: 523d03416e0427a4ebe6399a34f41cc9, type: 3}
       propertyPath: enemysUnits.Array.data[0]
       value: 
@@ -5333,6 +5329,10 @@ PrefabInstance:
       value: Footpad
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: unitAttackID
       value: Footpad
       objectReference: {fileID: 0}
@@ -5718,6 +5718,10 @@ PrefabInstance:
     - target: {fileID: 7163243478612991738, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
       propertyPath: unitMoveID
       value: Riot Officer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
+      propertyPath: numMaxCards
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
       propertyPath: unitAttackID
@@ -6316,7 +6320,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 729118254}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: -0.11, z: 5}
+  m_LocalPosition: {x: 5, y: -0.2, z: 6}
   m_LocalScale: {x: 26.644001, y: 1, z: 30.0025}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7388,6 +7392,10 @@ PrefabInstance:
       value: Footpad
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: unitAttackID
       value: Footpad
       objectReference: {fileID: 0}
@@ -7798,6 +7806,10 @@ PrefabInstance:
     - target: {fileID: 7163243478612991738, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
       propertyPath: unitMoveID
       value: Riot Officer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
+      propertyPath: numMaxCards
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
       propertyPath: unitAttackID
@@ -9884,6 +9896,10 @@ PrefabInstance:
       value: Footpad
       objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: unitAttackID
       value: Footpad
       objectReference: {fileID: 0}
@@ -11339,6 +11355,10 @@ PrefabInstance:
       value: Government Leader
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 2feaae8cd3300f54bbf8ed439a9d7a34, type: 3}
+      propertyPath: numMaxCards
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 2feaae8cd3300f54bbf8ed439a9d7a34, type: 3}
       propertyPath: unitAttackID
       value: Government Leader
       objectReference: {fileID: 0}
@@ -12510,6 +12530,10 @@ PrefabInstance:
     - target: {fileID: 7163243478612991738, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
       propertyPath: unitMoveID
       value: Riot Officer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163243478612991738, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
+      propertyPath: numMaxCards
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
       propertyPath: unitAttackID
