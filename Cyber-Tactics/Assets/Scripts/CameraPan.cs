@@ -6,8 +6,8 @@ using UnityEngine;
 //This script allows the player to pan the camera using keyboard or mouse controls.
 public class CameraPan : MonoBehaviour
 {
-    public float panSpeed = 0.5f, zBounds = 3f, xBounds = 2f;
-    private float zMin, zMax, xMin, xMax;
+    public float panSpeed = 0.5f, zBounds = 3f, xBounds = 2f, zoomMax = 7, zoomMin = 3, zoomSpeed = 0.25f;
+    private float zMin, zMax, xMin, xMax, newZoom;
 
     private Vector3 camOrigin, camPos;
     private Vector3 mousePosOrigin, mousePos, mousePosDiff;
@@ -18,6 +18,10 @@ public class CameraPan : MonoBehaviour
     void Start()
     {
         camOrigin = transform.localPosition;
+        /*zMin = -zBounds;
+        zMax = zBounds;
+        xMin = -xBounds;
+        xMax = xBounds;*/
         zMin = camOrigin.z - zBounds;
         zMax = camOrigin.z + zBounds;
         xMin = camOrigin.x - xBounds;
@@ -70,6 +74,22 @@ public class CameraPan : MonoBehaviour
         }
 
         //Mouse Input
+        //Zooms in by reducing ortho sceen size
+        if(Input.mouseScrollDelta.y > 0)
+        {
+            newZoom = transform.GetComponent<Camera>().orthographicSize;
+            newZoom -= zoomSpeed;
+            transform.GetComponent<Camera>().orthographicSize = Mathf.Clamp(newZoom, zoomMin, zoomMax);
+        }
+
+        //Zooms out by increasing ortho screen size
+        if(Input.mouseScrollDelta.y < 0)
+        {
+            newZoom = transform.GetComponent<Camera>().orthographicSize;
+            newZoom += zoomSpeed;
+            transform.GetComponent<Camera>().orthographicSize = Mathf.Clamp(newZoom, zoomMin, zoomMax);
+        }
+
         /*if (Input.GetKeyDown(KeyCode.Mouse1) && !kbPan)
         {
             mousePosOrigin = Camera.main.ScreenToViewportPoint(Input.mousePosition);
