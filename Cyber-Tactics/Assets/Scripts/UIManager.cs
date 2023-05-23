@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TurnSystem turnSystem;
     [SerializeField] private GridSystem gridSystem;
     [SerializeField] private BattleTurnSystem battleTurnSystem;
+    [SerializeField] private AudioManager audioManager;
 
     //private bool undoingMove;
     //private bool endingMove;
@@ -185,6 +186,8 @@ public class UIManager : MonoBehaviour
             gridSystem.GetComponent<GridSystem>().enabled = true;
             turnSystem.enabled = true;
             battleTurnSystem.enabled = true;
+
+            audioManager.ResumeAllAudio();
             pausePane.SetActive(false);
             paused = false;
         }
@@ -207,6 +210,7 @@ public class UIManager : MonoBehaviour
             turnSystem.enabled = false;
             battleTurnSystem.enabled = false;
 
+            audioManager.PauseAllAudio();
             pausePane.SetActive(true);
             paused = true;
             Time.timeScale = 0;
@@ -589,7 +593,7 @@ public class UIManager : MonoBehaviour
     }
 
     //Set color of the health stat based on the percent left
-    private void SetHealthColor(int currentHP, int maxHP, TextMeshProUGUI text)
+    public void SetHealthColor(int currentHP, int maxHP, TextMeshProUGUI text)
     {
         if (currentHP >= (maxHP * 0.75))
         {

@@ -21,13 +21,13 @@ public class AudioPlayer : MonoBehaviour
             audioManager.Play("Main Menu Theme");
         }
 
-        if(SceneManager.GetActiveScene().name == "Ambush" || SceneManager.GetActiveScene().name == "Prologue" || SceneManager.GetActiveScene().name == "City Square")
+        if(SceneManager.GetActiveScene().name == "Ambush" || SceneManager.GetActiveScene().name == "Prologue" || SceneManager.GetActiveScene().name == "City Square" || SceneManager.GetActiveScene().name == "Highway")
         {
             audioManager.StopAllAudio();
             audioManager.Play("Cutscene Theme");
         }
 
-        if (SceneManager.GetActiveScene().name == "Level0" || SceneManager.GetActiveScene().name == "Level0.5" || SceneManager.GetActiveScene().name == "Level1")
+        if (SceneManager.GetActiveScene().name == "Level0" || SceneManager.GetActiveScene().name == "Level0.5" || SceneManager.GetActiveScene().name == "Level1" || SceneManager.GetActiveScene().name == "Level2")
         {
             audioManager.StopAllAudio();
             audioManager.Play("Battle Theme");
