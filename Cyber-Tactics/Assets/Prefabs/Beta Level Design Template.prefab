@@ -21267,6 +21267,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4612993110611935674}
     - target: {fileID: 7366034263271955672, guid: f529fdda769cb494dbc9e405c9db4d36, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 229665430094973349}
+    - target: {fileID: 7366034263271955672, guid: f529fdda769cb494dbc9e405c9db4d36, type: 3}
       propertyPath: battleViewCam
       value: 
       objectReference: {fileID: 4612993111053097652}
