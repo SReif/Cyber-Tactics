@@ -2,38 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//The GameObject this script is attached to needs to be placed as a child of the GameObject with the Unit script
 public class SetHealthBar : MonoBehaviour
 {
-    [SerializeField] private Sprite divSpritePrefab;
     [SerializeField] private GameObject hpBar;
-    private int battleHP;
-    private bool resize = false;
-
     private Unit unit;
+
+    private Vector3 originalScale;
+    private int battleHP;
+
 
     // Start is called before the first frame update
     void Start()
     {
         unit = transform.parent.GetComponent<Unit>();
+        originalScale = hpBar.transform.localScale; 
         battleHP = unit.currentHP;
-        SetHealthColor(unit.currentHP, unit.maxHP, hpBar);
+
+        if (transform.parent.tag == "PlayerUnit")
+        {
+            SetHealthColor(unit.currentHP, unit.maxHP, hpBar);
+        }
+
+        if (transform.parent.tag == "EnemyUnit")
+        {
+            hpBar.GetComponent<SpriteRenderer>().color = new Color32(134, 13, 200, 255);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(battleHP > unit.currentHP)
+        if(battleHP != unit.currentHP)
         {
-            SetHealthColor(unit.currentHP, unit.maxHP, hpBar);
-            SetHealthLower(unit.currentHP, unit.maxHP, hpBar);
-            Debug.Log(battleHP + " / " + unit.currentHP);
-        }
-
-        if(battleHP < unit.currentHP)
-        {
-            SetHealthColor(unit.currentHP, unit.maxHP, hpBar);
-            SetHealthHigher(unit.currentHP, unit.maxHP, hpBar);
-            Debug.Log(battleHP + " / " + unit.currentHP);
+            if(transform.parent.tag == "PlayerUnit")
+            {
+                SetHealthColor(unit.currentHP, unit.maxHP, hpBar);
+            }
+                    
+            SetHealthSize(unit.currentHP, unit.maxHP, hpBar);
         }
 
         battleHP = unit.currentHP;
@@ -59,19 +66,10 @@ public class SetHealthBar : MonoBehaviour
     }
 
     //Changes the scale of the health bar
-    private void SetHealthLower(float currentHP, float maxHP, GameObject obj)
+    private void SetHealthSize(float currentHP, float maxHP, GameObject obj)
     {
-        Debug.Log("Setting Health Lower");
-        Vector3 temp = obj.transform.localScale;
+        Vector3 temp = originalScale;
         temp.x *= (currentHP / maxHP);
-        obj.transform.localScale = temp;
-    }
-
-    private void SetHealthHigher(float currentHP, float maxHP, GameObject obj)
-    {
-        Debug.Log("Setting Healther Higher");
-        Vector3 temp = obj.transform.localScale;
-        temp.x *= (maxHP / currentHP);
         obj.transform.localScale = temp;
     }
 }
