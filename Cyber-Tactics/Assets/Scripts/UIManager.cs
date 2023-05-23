@@ -15,7 +15,8 @@ public class UIManager : MonoBehaviour
     //UI Elements
     public GameObject pausePane, battleResultsPane;
     [System.NonSerialized] public GameObject turnPane, selectedUnitPane, winPane, losePane, viewedUnitPane;
-    [System.NonSerialized] public GameObject endMoveButton, undoMoveButton, endAttackButton;
+    [System.NonSerialized] public GameObject playerGadgetUI, enemyGadgetUI;
+    //[System.NonSerialized] public GameObject endMoveButton, undoMoveButton, endAttackButton;
     [System.NonSerialized] public GameObject playerStat, playerHealth, enemyStat, enemyHealth;
 
     //Elements of the Selected Unit Stat Panel
@@ -564,9 +565,27 @@ public class UIManager : MonoBehaviour
             playerHealth = battleUI.transform.GetChild(1).gameObject; //Player Battle Health
             enemyStat = battleUI.transform.GetChild(2).gameObject; //Enemy Battle Stats
             enemyHealth = battleUI.transform.GetChild(3).gameObject; //Enemy Battle Health
-            battleResultsPane = battleUI.transform.GetChild(6).gameObject; //Battle Results Pane
+            battleResultsPane = battleUI.transform.Find("BattleResults").gameObject; //Battle Results Pane
             SetBattleStats();
+            SetBattleGadgets();
         }
+    }
+
+    public void SetBattleGadgets()
+    {
+        //Player Gadget UI within Battle Scene
+        playerGadgetUI = GameObject.Find("Player Gadget UI");
+        playerGadgetUI.transform.Find("Unit Element").GetComponent<TextMeshProUGUI>().text = battleTurnSystem.playerUnitClone.GetComponent<Unit>().element;
+        playerGadgetUI.transform.Find("Gadget Background").Find("Cells Remaining").Find("Cells Remaining Num").GetComponent<TextMeshProUGUI>().text = "x" + battleTurnSystem.playerDeck.Count;
+        //playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Cell Type").GetComponent<TextMeshProUGUI>().text = "";
+        //playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Description Text").GetComponent<TextMeshProUGUI>().text = "";
+
+        //Enemy Gadget UI within Battle Scene
+        enemyGadgetUI = GameObject.Find("Enemy Gadget UI");
+        enemyGadgetUI.transform.Find("Unit Element").GetComponent<TextMeshProUGUI>().text = battleTurnSystem.enemyUnitClone.GetComponent<Unit>().element;
+        enemyGadgetUI.transform.Find("Gadget Background").Find("Cells Remaining").Find("Cells Remaining Num").GetComponent<TextMeshProUGUI>().text = "x" + battleTurnSystem.enemyDeck.Count;
+        //enemyGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Cell Type").GetComponent<TextMeshProUGUI>().text = "";
+        //enemyGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Description Text").GetComponent<TextMeshProUGUI>().text = "";
     }
 
     //Set color of the health stat based on the percent left
@@ -645,6 +664,18 @@ public class UIManager : MonoBehaviour
             mDText.color = new Color32(255, 255, 255, 255);
         }
     }
+
+    public void ToggleCardButton(GameObject card)
+    {
+        Debug.Log("Test");
+
+        battleTurnSystem = GameObject.Find("Battle Turn System").GetComponent<BattleTurnSystem>();
+        if (battleTurnSystem.state == BattleTurnSystem.State.PlayerTurn)
+        {
+            battleTurnSystem.toggleCard(card);
+        }
+    }
+
 
     public void displayBattleResults()
     {

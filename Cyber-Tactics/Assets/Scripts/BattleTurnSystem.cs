@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class BattleTurnSystem : MonoBehaviour
 {
-    //public State state;
+    public State state;
 
     private AudioManager audioManager;
     private UIManager uiManager;
@@ -40,8 +41,8 @@ public class BattleTurnSystem : MonoBehaviour
     [System.NonSerialized] public string sideWithElementalAdvantage;
     [System.NonSerialized] public GameObject playerUnitClone;       // A clone of the player unit in the battle for visual reference
     [System.NonSerialized] public GameObject enemyUnitClone;        // A clone of the enemy unit in the battle for visual reference
-    private List<GameObject> playerDeck;                            // A copy of the player's deck; cards are removed from here when they are placed in the player's hand
-    private List<GameObject> enemyDeck;                             // A copy of the enemy's deck; cards are removed from here when they are placed in the enemy's hand
+    [System.NonSerialized] public List<GameObject> playerDeck;                            // A copy of the player's deck; cards are removed from here when they are placed in the player's hand
+    [System.NonSerialized] public List<GameObject> enemyDeck;                             // A copy of the enemy's deck; cards are removed from here when they are placed in the enemy's hand
 
     private int playerNumBuffCards = 0;
     private int playerNumDebuffCards = 0;
@@ -50,6 +51,12 @@ public class BattleTurnSystem : MonoBehaviour
 
     [System.NonSerialized] public bool resultsScreenContinuePressed;
 
+    public enum State
+    {
+        PlayerTurn,
+        EnemyTurn,
+        ResolvingCards,
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -91,9 +98,6 @@ public class BattleTurnSystem : MonoBehaviour
         playerDeck = new List<GameObject>(playerUnit.GetComponent<Unit>().cards);
         enemyDeck = new List<GameObject>(enemyUnit.GetComponent<Unit>().cards);
 
-        //playerHand = new List<GameObject>();
-        //enemyHand = new List<GameObject>();
-
         // Iterate through the player unit's cards list and populate the card slots with them
         for (int i = 0; i < playerCardSlots.transform.childCount; i++)
         {
@@ -105,7 +109,7 @@ public class BattleTurnSystem : MonoBehaviour
             {
                 // Pick a random card from the player unit's deck
                 int index = Random.Range(0, playerDeck.Count);
-                GameObject card = GameObject.Instantiate(playerDeck[index].gameObject, playerCardSlots.transform.GetChild(i).Find("Card").transform);
+                GameObject card = GameObject.Instantiate(playerDeck[index].gameObject, playerCardSlots.transform.GetChild(i).transform);
 
                 card.SetActive(true);
 
@@ -126,7 +130,7 @@ public class BattleTurnSystem : MonoBehaviour
             {
                 // Pick a random card from the enemy unit's deck
                 int index = Random.Range(0, enemyDeck.Count);
-                GameObject card = GameObject.Instantiate(enemyDeck[index].gameObject, enemyCardSlots.transform.GetChild(i).Find("Card").transform);
+                GameObject card = GameObject.Instantiate(enemyDeck[index].gameObject, enemyCardSlots.transform.GetChild(i).transform);
 
                 // DO NOT SET THE ENEMY CARDS ACTIVE UNTIL YOU RESOLVE THE CARDS
                 card.SetActive(false);
@@ -157,21 +161,21 @@ public class BattleTurnSystem : MonoBehaviour
             /*
              *  Beginning of Player's turn
              */
-            //state = State.PlayerTurn;
+            state = State.PlayerTurn;
             Debug.Log("Player's turn!");
             yield return StartCoroutine(BeginPlayersTurn(playerUnit));
 
             /*
              *  Beginning of Enemy's turn
              */
-            //state = State.EnemyTurn;
+            state = State.EnemyTurn;
             Debug.Log("Enemy's turn!");
             yield return StartCoroutine(BeginEnemysTurn(enemyUnit));
 
             /*
              *  Preparing card calculations
              */
-            //state = State.ResolveCards;
+            state = State.ResolvingCards;
             Debug.Log("Preparing calculations!");
             yield return StartCoroutine(resolveCardModifiers(playerUnit, enemyUnit));
         }
@@ -180,14 +184,14 @@ public class BattleTurnSystem : MonoBehaviour
             /*
              *  Beginning of Enemy's turn
              */
-            //state = State.EnemyTurn;
+            state = State.EnemyTurn;
             Debug.Log("Enemy's turn!");
             yield return StartCoroutine(BeginEnemysTurn(enemyUnit));
 
             /*
              *  Beginning of Player's turn
              */
-            //state = State.PlayerTurn;
+            state = State.PlayerTurn;
             Debug.Log("Player's turn!");
 
 
@@ -196,7 +200,7 @@ public class BattleTurnSystem : MonoBehaviour
             /*
              *  Preparing card calculations
              */
-            //state = State.ResolveCards;
+            state = State.ResolvingCards;
             Debug.Log("Preparing calculations!");
             yield return StartCoroutine(resolveCardModifiers(playerUnit, enemyUnit));
         }
@@ -407,6 +411,7 @@ public class BattleTurnSystem : MonoBehaviour
 
         while (takingTurn)
         {
+            /*
             var ray = battleViewCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -414,6 +419,7 @@ public class BattleTurnSystem : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0) && hit.transform.tag == "Card")
                 {
+
                     string cardType = hit.transform.gameObject.GetComponent<Card>().cardType;
                     int cardModifier = hit.transform.gameObject.GetComponent<Card>().modifier;
                     string cardElement = hit.transform.gameObject.GetComponent<Card>().element;
@@ -490,7 +496,9 @@ public class BattleTurnSystem : MonoBehaviour
                         hit.transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(false);
                     }
                 }
+                
             }
+            */
 
             yield return null;
         }
@@ -510,11 +518,11 @@ public class BattleTurnSystem : MonoBehaviour
         for (int i = 0; i < enemyCardSlots.transform.childCount; i++)
         {
 
-            if (enemyCardSlots.transform.GetChild(i).Find("Card").childCount != 0)
+            if (enemyCardSlots.transform.GetChild(i).childCount != 0)
             {
-                string cardType = enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).GetComponent<Card>().cardType;
-                int cardModifier = enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).GetComponent<Card>().modifier;
-                string cardElement = enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).GetComponent<Card>().element;
+                string cardType = enemyCardSlots.transform.GetChild(i).GetChild(0).GetComponent<Card>().cardType;
+                int cardModifier = enemyCardSlots.transform.GetChild(i).GetChild(0).GetComponent<Card>().modifier;
+                string cardElement = enemyCardSlots.transform.GetChild(i).GetChild(0).GetComponent<Card>().element;
 
                 // Select up to one ATK card
                 if ((cardType == "PHYS ATK" || cardType == "MAG ATK") && !selectedATKCard)
@@ -528,7 +536,7 @@ public class BattleTurnSystem : MonoBehaviour
                     }
                     */
 
-                    enemySelectedCards.Add(enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject);
+                    enemySelectedCards.Add(enemyCardSlots.transform.GetChild(i).GetChild(0).gameObject);
                     updateStatsFromCard(cardType, cardModifier, cardElement, "Enemy", "Selecting");
                     selectedATKCard = true;
                 }
@@ -545,7 +553,7 @@ public class BattleTurnSystem : MonoBehaviour
                     }
                     */
 
-                    enemySelectedCards.Add(enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject);
+                    enemySelectedCards.Add(enemyCardSlots.transform.GetChild(i).GetChild(0).gameObject);
                     updateStatsFromCard(cardType, cardModifier, cardElement, "Enemy", "Selecting");
                     selectedDEFCard = true;
                 }
@@ -555,7 +563,7 @@ public class BattleTurnSystem : MonoBehaviour
                 {
                     Debug.Log("Enemy selects a heal card.");
 
-                    enemySelectedCards.Add(enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject);
+                    enemySelectedCards.Add(enemyCardSlots.transform.GetChild(i).GetChild(0).gameObject);
                     updateStatsFromCard(cardType, cardModifier, cardElement, "Enemy", "Selecting");
                     selectedHEALCard = true;
                 }
@@ -565,7 +573,7 @@ public class BattleTurnSystem : MonoBehaviour
                 {
                     Debug.Log("Enemy selects a buff card.");
 
-                    enemySelectedCards.Add(enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject);
+                    enemySelectedCards.Add(enemyCardSlots.transform.GetChild(i).GetChild(0).gameObject);
                     updateStatsFromCard(cardType, cardModifier, cardElement, "Enemy", "Selecting");
                 }
 
@@ -574,7 +582,7 @@ public class BattleTurnSystem : MonoBehaviour
                 {
                     Debug.Log("Enemy selects a debuff card.");
 
-                    enemySelectedCards.Add(enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject);
+                    enemySelectedCards.Add(enemyCardSlots.transform.GetChild(i).GetChild(0).gameObject);
                     updateStatsFromCard(cardType, cardModifier, cardElement, "Enemy", "Selecting");
                 }
             }
@@ -605,27 +613,28 @@ public class BattleTurnSystem : MonoBehaviour
         // Set all cards in the enemy slots to active
         for (int i = 0; i < enemyCardSlots.transform.childCount; i++)
         {
-            if (enemyCardSlots.transform.GetChild(i).Find("Card").childCount != 0)
+            if (enemyCardSlots.transform.GetChild(i).childCount != 0)
             {
-                enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject.SetActive(true);
+                enemyCardSlots.transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
             }
         }
 
         // Activate the selected card indicator for the cards that the enemy selected
         for (int i = 0; i < enemySelectedCards.Count; i++)
         {
-            enemySelectedCards[i].transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(true);
-
             string cardType = enemySelectedCards[i].GetComponent<Card>().cardType;
             string cardElement = enemySelectedCards[i].GetComponent<Card>().element;
 
-            Debug.Log("Enemy Card's Element: " + cardElement);
-            Debug.Log("Enemy Unit's Element: " + enemyUnitClone.GetComponent<Unit>().element);
-
             if (cardElement == enemyUnitClone.GetComponent<Unit>().element)
             {
-                toggleCardText(enemySelectedCards[i], "Enemy");
+                toggleCardText(enemySelectedCards[i]);
             }
+
+            //enemySelectedCards[i].transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(true);
+            enemySelectedCards[i].transform.Find("Selected Card Indicator").gameObject.SetActive(true);
+
+            Debug.Log("Enemy Card's Element: " + cardElement);
+            Debug.Log("Enemy Unit's Element: " + enemyUnitClone.GetComponent<Unit>().element);
 
             /*
             if (cardType == "MAG DEF" || cardType == "MAG ATK" || cardType == "PHYS DEF" || cardType == "PHYS ATK")
@@ -683,7 +692,7 @@ public class BattleTurnSystem : MonoBehaviour
 
                             if (card.GetComponent<Card>().element == playerUnitClone.GetComponent<Unit>().element)
                             {
-                                toggleCardText(card, "Player");
+                                toggleCardText(card);
                             }
 
                             Debug.Log("Playing " + card.GetComponent<Card>().cardType + " " + card.GetComponent<Card>().modifier + " " + card.GetComponent<Card>().element);
@@ -753,12 +762,13 @@ public class BattleTurnSystem : MonoBehaviour
                     updateStatsFromCard(enemySelectedCards[index].GetComponent<Card>().cardType, enemySelectedCards[index].GetComponent<Card>().modifier,
                         enemySelectedCards[index].GetComponent<Card>().element, "Enemy", "Deselecting");
 
-                    enemySelectedCards[index].transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(false);
-
                     if (enemySelectedCards[index].GetComponent<Card>().element == enemyUnitClone.GetComponent<Unit>().element)
                     {
-                        toggleCardText(enemySelectedCards[index], "Enemy");
+                        toggleCardText(enemySelectedCards[index]);
                     }
+
+                    //enemySelectedCards[index].transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(false);
+                    enemySelectedCards[index].transform.Find("Selected Card Indicator").gameObject.SetActive(false);
 
                     enemySelectedCards.Remove(enemySelectedCards[index]);
                     enemySelectedCards.TrimExcess();
@@ -806,7 +816,7 @@ public class BattleTurnSystem : MonoBehaviour
 
                             if (card.GetComponent<Card>().element == enemyUnitClone.GetComponent<Unit>().element)
                             {
-                                toggleCardText(card, "Enemy");
+                                toggleCardText(card);
                             }
 
                             Debug.Log("Playing " + card.GetComponent<Card>().cardType + " " + card.GetComponent<Card>().modifier + " " + card.GetComponent<Card>().element);
@@ -840,12 +850,13 @@ public class BattleTurnSystem : MonoBehaviour
                     updateStatsFromCard(playerSelectedCards[index].GetComponent<Card>().cardType, playerSelectedCards[index].GetComponent<Card>().modifier,
                         playerSelectedCards[index].GetComponent<Card>().element, "Player", "Deselecting");
 
-                    playerSelectedCards[index].transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(false);
-
                     if (playerSelectedCards[index].GetComponent<Card>().element == playerUnitClone.GetComponent<Unit>().element)
                     {
-                        toggleCardText(playerSelectedCards[index], "Player");
+                        toggleCardText(playerSelectedCards[index]);
                     }
+
+                    //playerSelectedCards[index].transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(false);
+                    playerSelectedCards[index].transform.Find("Selected Card Indicator").gameObject.SetActive(false);
 
                     playerSelectedCards.Remove(playerSelectedCards[index]);
                     playerSelectedCards.TrimExcess();
@@ -979,6 +990,12 @@ public class BattleTurnSystem : MonoBehaviour
 
     public void cleanUpBattleView(GameObject playerUnit, GameObject enemyUnit)
     {
+        uiManager.playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Cell Type").GetComponent<TextMeshProUGUI>().text = "";
+        uiManager.playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Description Text").GetComponent<TextMeshProUGUI>().text = "";
+
+        uiManager.enemyGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Cell Type").GetComponent<TextMeshProUGUI>().text = "";
+        uiManager.enemyGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Description Text").GetComponent<TextMeshProUGUI>().text = "";
+
         // Disable the battle results screen and reset values
         GameObject playerResults = uiManager.battleResultsPane.transform.Find("ResultsScreen_Player").gameObject;
         playerResults.transform.Find("Battle Initiator").gameObject.SetActive(false);
@@ -1005,22 +1022,22 @@ public class BattleTurnSystem : MonoBehaviour
         // Remove the players cards from the card slots
         for (int i = 0; i < playerCardSlots.transform.childCount; i++)
         {
-            if (playerCardSlots.transform.GetChild(i).Find("Card").transform.childCount > 0)
+            if (playerCardSlots.transform.GetChild(i).childCount > 0)
             {
-                Destroy(playerCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject);
+                Destroy(playerCardSlots.transform.GetChild(i).GetChild(0).gameObject);
 
-                playerCardSlots.transform.GetChild(i).Find("Selected Card Indicator").gameObject.SetActive(false);
+                playerCardSlots.transform.GetChild(i).GetChild(0).Find("Selected Card Indicator").gameObject.SetActive(false);
             }
         }
 
         // Remove the enemys cards from the card slots
         for (int i = 0; i < enemyCardSlots.transform.childCount; i++)
         {
-            if (enemyCardSlots.transform.GetChild(i).Find("Card").transform.childCount > 0)
+            if (enemyCardSlots.transform.GetChild(i).childCount > 0)
             {
-                Destroy(enemyCardSlots.transform.GetChild(i).Find("Card").GetChild(0).gameObject);
+                Destroy(enemyCardSlots.transform.GetChild(i).GetChild(0).gameObject);
 
-                enemyCardSlots.transform.GetChild(i).Find("Selected Card Indicator").gameObject.SetActive(false);
+                enemyCardSlots.transform.GetChild(i).GetChild(0).Find("Selected Card Indicator").gameObject.SetActive(false);
             }
         }
 
@@ -1099,11 +1116,11 @@ public class BattleTurnSystem : MonoBehaviour
         // Clear out any cards that were created by a player's buff card
         for (int i = 0; i < playerCardSlots.transform.childCount; i++)
         {
-            if (playerCardSlots.transform.GetChild(i).Find("Card").childCount != 0)
+            if (playerCardSlots.transform.GetChild(i).childCount != 0)
             {
-                for (int j = 0; j < playerCardSlots.transform.GetChild(i).Find("Card").transform.childCount; j++)
+                for (int j = 0; j < playerCardSlots.transform.GetChild(i).childCount; j++)
                 {
-                    Destroy(playerCardSlots.transform.GetChild(i).Find("Card").transform.GetChild(j).gameObject);
+                    Destroy(playerCardSlots.transform.GetChild(i).GetChild(j).gameObject);
                 }
             }
         }
@@ -1111,11 +1128,11 @@ public class BattleTurnSystem : MonoBehaviour
         // Clear out any cards that were created by a enemy's buff card
         for (int i = 0; i < enemyCardSlots.transform.childCount; i++)
         {
-            if (enemyCardSlots.transform.GetChild(i).Find("Card").childCount != 0)
+            if (enemyCardSlots.transform.GetChild(i).childCount != 0)
             {
-                for (int j = 0; j < enemyCardSlots.transform.GetChild(i).Find("Card").transform.childCount; j++)
+                for (int j = 0; j < enemyCardSlots.transform.GetChild(i).childCount; j++)
                 {
-                    Destroy(enemyCardSlots.transform.GetChild(i).Find("Card").transform.GetChild(j).gameObject);
+                    Destroy(enemyCardSlots.transform.GetChild(i).GetChild(j).gameObject);
                 }
             }
         }
@@ -1233,40 +1250,117 @@ public class BattleTurnSystem : MonoBehaviour
         yield return null;
     }
 
-    public void toggleCardText(GameObject card, string currentSide)
+    public void toggleCard(GameObject card)
     {
+        string cardType = card.GetComponent<Card>().cardType;
+        int cardModifier = card.GetComponent<Card>().modifier;
+        string cardElement = card.GetComponent<Card>().element;
+        string cardDescription = card.GetComponent<Card>().description;
+
+        // Check to see if the card has already been selected
+        // If index == -1, the card is not in the list
+        if (playerSelectedCards.IndexOf(card) == -1)
+        {
+            // Check to see if the player is trying to heal themselves at full HP
+            if (cardType == "HEAL" && (playerUnitClone.GetComponent<Unit>().maxHP > playerUnitClone.GetComponent<Unit>().currentHP))
+            {
+                Debug.Log("Player is not at full health!");
+                Debug.Log("Adding card to selected pool!");
+
+                updateStatsFromCard(cardType, cardModifier, cardElement, "Player", "Selecting");
+                playerSelectedCards.Add(card);
+
+                // Find the Selected Card Indicator of the Card Slot and activate it
+                card.transform.Find("Selected Card Indicator").gameObject.SetActive(true);
+
+                uiManager.playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Cell Type").GetComponent<TextMeshProUGUI>().text = cardType;
+                uiManager.playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Description Text").GetComponent<TextMeshProUGUI>().text = cardDescription;
+            }
+            else if (cardType == "HEAL" && (playerUnitClone.GetComponent<Unit>().maxHP == playerUnitClone.GetComponent<Unit>().currentHP))
+            {
+                Debug.Log("Player is at full health!");
+            }
+            else if (cardType == "BUFF")
+            {
+                Debug.Log("Player selected buff card. Adding it to selected pool.");
+
+                updateStatsFromCard(cardType, cardModifier, cardElement, "Player", "Selecting");
+                playerSelectedCards.Add(card);
+
+                // Find the Selected Card Indicator of the Card Slot and activate it
+                //card.transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(true);
+                card.transform.Find("Selected Card Indicator").gameObject.SetActive(true);
+
+                uiManager.playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Cell Type").GetComponent<TextMeshProUGUI>().text = cardType;
+                uiManager.playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Description Text").GetComponent<TextMeshProUGUI>().text = cardDescription;
+            }
+            else if (cardType == "DEBUFF")
+            {
+                Debug.Log("Player selected debuff card. Adding it to selected pool.");
+
+                updateStatsFromCard(cardType, cardModifier, cardElement, "Player", "Selecting");
+                playerSelectedCards.Add(card);
+
+                // Find the Selected Card Indicator of the Card Slot and activate it
+                //card.transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(true);
+                card.transform.Find("Selected Card Indicator").gameObject.SetActive(true);
+
+                uiManager.playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Cell Type").GetComponent<TextMeshProUGUI>().text = cardType;
+                uiManager.playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Description Text").GetComponent<TextMeshProUGUI>().text = cardDescription;
+            }
+            else if (card.transform.gameObject.GetComponent<Card>().cardType != "HEAL")
+            {
+                Debug.Log("Adding card to selected pool!");
+
+                if (cardElement == playerUnitClone.GetComponent<Unit>().element)
+                {
+                    toggleCardText(card.transform.gameObject);
+
+                    uiManager.playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Cell Type").GetComponent<TextMeshProUGUI>().text = cardType;
+                    uiManager.playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Description Text").GetComponent<TextMeshProUGUI>().text = cardDescription + " & +1 from elemental match";
+                }
+                else
+                {
+                    uiManager.playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Cell Type").GetComponent<TextMeshProUGUI>().text = cardType;
+                    uiManager.playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Description Text").GetComponent<TextMeshProUGUI>().text = cardDescription;
+                }
+
+                updateStatsFromCard(cardType, cardModifier, cardElement, "Player", "Selecting");
+                playerSelectedCards.Add(card.transform.gameObject);
+
+                // Find the Selected Card Indicator of the Card Slot and activate it
+                //card.transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(true);
+                card.transform.Find("Selected Card Indicator").gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            Debug.Log("Deselecting card!");
+
+            if (cardElement == playerUnitClone.GetComponent<Unit>().element)
+            {
+                toggleCardText(card.transform.gameObject);
+            }
+
+            updateStatsFromCard(cardType, cardModifier, cardElement, "Player", "Deselecting");
+            playerSelectedCards.Remove(card.transform.gameObject);
+
+            // Find the Selected Card Indicator of the Card Slot and activate it
+            //card.transform.parent.transform.parent.Find("Selected Card Indicator").gameObject.SetActive(false);
+            card.transform.Find("Selected Card Indicator").gameObject.SetActive(false);
+
+            uiManager.playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Cell Type").GetComponent<TextMeshProUGUI>().text = "";
+            uiManager.playerGadgetUI.transform.Find("Gadget Background").Find("Cell Description Box").Find("Description Text").GetComponent<TextMeshProUGUI>().text = "";
+        }
+    }
+
+    public void toggleCardText(GameObject card)
+    {
+        /*
         string cardType = card.GetComponent<Card>().cardType;
         int cardModifier = card.GetComponent<Card>().modifier;
 
         Debug.Log(card.transform.GetChild(0).Find("Card Text").gameObject.activeSelf);
-
-        /*
-        if (currentSide == "Player")
-        {
-            if (!card.transform.GetChild(0).Find("Card Text").gameObject.activeSelf)
-            {
-                card.transform.GetChild(0).Find("Card Text").Find("Card Type Text").GetComponent<TMPro.TMP_Text>().text = "+1 " + cardType;
-                card.transform.GetChild(0).Find("Card Text").gameObject.SetActive(true);
-            }
-            else
-            {
-                card.transform.GetChild(0).Find("Card Text").gameObject.SetActive(false);
-            }
-
-        }
-        else if (currentSide == "Enemy")
-        {
-            if (!card.transform.GetChild(0).Find("Card Text").gameObject.activeSelf)
-            {
-                card.transform.GetChild(0).Find("Card Text").Find("Card Type Text").GetComponent<TMPro.TMP_Text>().text = "+1 " + cardType;
-                card.transform.GetChild(0).Find("Card Text").gameObject.SetActive(true);
-            }
-            else
-            {
-                card.transform.GetChild(0).Find("Card Text").gameObject.SetActive(false);
-            }
-        }
-        */
 
         if (!card.transform.GetChild(0).Find("Card Text").gameObject.activeSelf)
         {
@@ -1276,6 +1370,18 @@ public class BattleTurnSystem : MonoBehaviour
         else
         {
             card.transform.GetChild(0).Find("Card Text").gameObject.SetActive(false);
+        }
+        */
+
+        if (!card.transform.Find("Selected Card Indicator").gameObject.activeSelf)
+        {
+            card.transform.Find("Damage Type Indicator").Find("Modifier Indicator").GetComponent<TextMeshProUGUI>().text = "+" + card.GetComponent<Card>().modifierInText;
+            card.transform.Find("Damage Type Indicator").Find("Modifier Indicator").GetComponent<TextMeshProUGUI>().color = Color.yellow;
+        }
+        else
+        {
+            card.transform.Find("Damage Type Indicator").Find("Modifier Indicator").GetComponent<TextMeshProUGUI>().text = card.GetComponent<Card>().modifierInText;
+            card.transform.Find("Damage Type Indicator").Find("Modifier Indicator").GetComponent<TextMeshProUGUI>().color = Color.white;
         }
     }
 
