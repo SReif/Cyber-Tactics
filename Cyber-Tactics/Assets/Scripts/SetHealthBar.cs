@@ -5,8 +5,11 @@ using UnityEngine;
 //The GameObject this script is attached to needs to be placed as a child of the GameObject with the Unit script
 public class SetHealthBar : MonoBehaviour
 {
-    [SerializeField] private GameObject hpBar;
+    [SerializeField] private GameObject hpBar, hpBarBG;
     private Unit unit;
+
+    [SerializeField] private Camera gridViewCamera;
+    [SerializeField] private Camera battleViewCamera;
 
     private Vector3 originalScale;
     private int battleHP;
@@ -33,17 +36,34 @@ public class SetHealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(battleHP != unit.currentHP)
+        //Disable health bar during battle scenes
+        if(battleViewCamera.isActiveAndEnabled && hpBar.activeInHierarchy)
         {
-            if(transform.parent.tag == "PlayerUnit")
-            {
-                SetHealthColor(unit.currentHP, unit.maxHP, hpBar);
-            }
-                    
-            SetHealthSize(unit.currentHP, unit.maxHP, hpBar);
+            hpBar.SetActive(false);
+            hpBarBG.SetActive(false);
         }
 
-        battleHP = unit.currentHP;
+        //Re-enable health bar when returning to grid scene
+        if(gridViewCamera.isActiveAndEnabled && !hpBar.activeInHierarchy)
+        {
+            hpBar.SetActive(true);
+            hpBarBG.SetActive(true);
+        }
+
+        if(hpBar.activeInHierarchy)
+        {
+            if(battleHP != unit.currentHP)
+            {
+                if(transform.parent.tag == "PlayerUnit")
+                {
+                    SetHealthColor(unit.currentHP, unit.maxHP, hpBar);
+                }
+                    
+                SetHealthSize(unit.currentHP, unit.maxHP, hpBar);
+            }
+
+            battleHP = unit.currentHP;
+        }
     }
 
     //Changes the color of the health bar

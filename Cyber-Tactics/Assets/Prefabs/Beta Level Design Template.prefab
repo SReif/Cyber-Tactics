@@ -19085,6 +19085,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 489708665081621744, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: gridViewCamera
+      value: 
+      objectReference: {fileID: 4612993110611935676}
+    - target: {fileID: 489708665081621744, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: battleViewCamera
+      value: 
+      objectReference: {fileID: 4612993111053097655}
+    - target: {fileID: 489708665081621751, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2474395819323743326, guid: 5430708ff818e2c40bb51363b1dc2b03, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.05
@@ -20118,6 +20130,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -55
       objectReference: {fileID: 0}
+    - target: {fileID: 5980163043571610248, guid: 2e4786efc5bc20848ab533369804144d, type: 3}
+      propertyPath: gridViewCamera
+      value: 
+      objectReference: {fileID: 4612993110611935676}
+    - target: {fileID: 5980163043571610248, guid: 2e4786efc5bc20848ab533369804144d, type: 3}
+      propertyPath: battleViewCamera
+      value: 
+      objectReference: {fileID: 4612993111053097655}
+    - target: {fileID: 5980163043571610255, guid: 2e4786efc5bc20848ab533369804144d, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7163243478612991738, guid: 2e4786efc5bc20848ab533369804144d, type: 3}
       propertyPath: maxHP
       value: 4
@@ -20477,6 +20501,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 322400f1d845e55468875a5429c14fd2, type: 2}
+    - target: {fileID: 8938224309971197795, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
+      propertyPath: gridViewCamera
+      value: 
+      objectReference: {fileID: 4612993110611935676}
+    - target: {fileID: 8938224309971197795, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
+      propertyPath: battleViewCamera
+      value: 
+      objectReference: {fileID: 4612993111053097655}
+    - target: {fileID: 8938224309971197796, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2852991005567976872, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f2b588dd02fa3db43b252364a14c0bf5, type: 3}
@@ -21391,6 +21427,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6678989881803420465}
     m_Modifications:
+    - target: {fileID: 1225874439122851667, guid: ef4cbf8b6e000904ebde5ce90f06310b, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1225874439122851668, guid: ef4cbf8b6e000904ebde5ce90f06310b, type: 3}
+      propertyPath: gridViewCamera
+      value: 
+      objectReference: {fileID: 4612993110611935676}
+    - target: {fileID: 1225874439122851668, guid: ef4cbf8b6e000904ebde5ce90f06310b, type: 3}
+      propertyPath: battleViewCamera
+      value: 
+      objectReference: {fileID: 4612993111053097655}
     - target: {fileID: 2524937425296299481, guid: ef4cbf8b6e000904ebde5ce90f06310b, type: 3}
       propertyPath: m_Name
       value: Dragoon (Player)
@@ -21632,6 +21680,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -55
       objectReference: {fileID: 0}
+    - target: {fileID: 6350055287487365186, guid: 2feaae8cd3300f54bbf8ed439a9d7a34, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6350055287487365189, guid: 2feaae8cd3300f54bbf8ed439a9d7a34, type: 3}
+      propertyPath: gridViewCamera
+      value: 
+      objectReference: {fileID: 4612993110611935676}
+    - target: {fileID: 6350055287487365189, guid: 2feaae8cd3300f54bbf8ed439a9d7a34, type: 3}
+      propertyPath: battleViewCamera
+      value: 
+      objectReference: {fileID: 4612993111053097655}
     - target: {fileID: 7163243478612991738, guid: 2feaae8cd3300f54bbf8ed439a9d7a34, type: 3}
       propertyPath: maxHP
       value: 7
@@ -21877,6 +21937,18 @@ PrefabInstance:
       propertyPath: cards.Array.data[9]
       value: 
       objectReference: {fileID: 2672762789662237235}
+    - target: {fileID: 7203707051208104305, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
+      propertyPath: gridViewCamera
+      value: 
+      objectReference: {fileID: 4612993110611935676}
+    - target: {fileID: 7203707051208104305, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
+      propertyPath: battleViewCamera
+      value: 
+      objectReference: {fileID: 4612993111053097655}
+    - target: {fileID: 7203707051208104310, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -3875259718690707651, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4369ae239e9315549a61b09c9901a3cf, type: 3}
@@ -21910,6 +21982,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6678989881803420465}
     m_Modifications:
+    - target: {fileID: 1070892155927584944, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: gridViewCamera
+      value: 
+      objectReference: {fileID: 4612993110611935676}
+    - target: {fileID: 1070892155927584944, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: battleViewCamera
+      value: 
+      objectReference: {fileID: 4612993111053097655}
+    - target: {fileID: 1070892155927584951, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2718324601301934227, guid: d21673fa8920d3146b7eb30e0905a786, type: 3}
       propertyPath: maxHP
       value: 5
